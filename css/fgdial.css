@@ -1,0 +1,31 @@
+            .fg-dial {
+                font-size: 100%;
+                font-weight: bold;
+                left: 0;
+                position: absolute;
+                text-align: center;
+                
+                width: 100%;
+		
+            }
+
+#example1 .fg-dial-label,#example2 .fg-dial-label  {
+                font-size: 80%;
+		color: #fff;
+                font-weight: bold;
+                left: 0;
+                position: relative;
+                text-align: center;
+                margin-top: -100px;
+                width: 100%;
+            }
+#example3 .fg-dial-label  {
+                font-size: 80%;
+		color: #fff;
+                font-weight: bold;
+                left: 0;
+                position: relative;
+                text-align: center;
+                margin-top: -110px;
+                width: 100%;
+            }
