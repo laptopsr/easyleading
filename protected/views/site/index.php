@@ -25,7 +25,7 @@
 
 
 <!-- tyontekija -->
-<?php if(Yii::app()->getModule('user')->user()->profile->getAttribute('tyyppi') == 2) : ?>
+<?php if(!Yii::app()->user->isGuest and Yii::app()->getModule('user')->user()->profile->getAttribute('tyyppi') == 2) : ?>
 	<div class="row">
 	 <!--laatiko alka-->
 	 <div class="col-sm-3">
