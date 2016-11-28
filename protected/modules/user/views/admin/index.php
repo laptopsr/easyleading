@@ -44,6 +44,7 @@ $('.search-form form').submit(function(){
 			'type'=>'raw',
 			'value' => 'CHtml::link(CHtml::encode($data->id),array("admin/update","id"=>$data->id))',
 		),
+			'profile.yid',
 		array(
 			'name' => 'username',
 			'type'=>'raw',
@@ -65,6 +66,11 @@ $('.search-form form').submit(function(){
 			'name'=>'status',
 			'value'=>'User::itemAlias("UserStatus",$data->status)',
 			'filter' => User::itemAlias("UserStatus"),
+		),
+		array(
+			'name' => 'profile.tyyppi',
+		    	'value'=>array($this,'tyyppiMuutos'),
+		    	'type' => 'raw',
 		),
 		array(
 			'class'=>'CButtonColumn',

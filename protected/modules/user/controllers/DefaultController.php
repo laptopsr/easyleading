@@ -8,10 +8,15 @@ class DefaultController extends Controller
 	 */
 	public function actionIndex()
 	{
+
+	        $criteria=new CDbCriteria;
+		$criteria->condition="
+			status > '".User::STATUS_BANNED."'
+			AND yid='".Yii::app()->user->id."'
+		";
+
 		$dataProvider=new CActiveDataProvider('User', array(
-			'criteria'=>array(
-		        'condition'=>'status>'.User::STATUS_BANNED,
-		    ),
+			'criteria'=>$criteria,
 			'pagination'=>array(
 				'pageSize'=>Yii::app()->controller->module->user_page_size,
 			),
@@ -22,4 +27,11 @@ class DefaultController extends Controller
 		));
 	}
 
+	protected function tyyppiMuutos($data)
+	{
+		if($data->profile->tyyppi == 1)
+			return 'Yrittäjä';
+		if($data->profile->tyyppi == 2)
+			return 'Työntekijä';
+	}
 }
