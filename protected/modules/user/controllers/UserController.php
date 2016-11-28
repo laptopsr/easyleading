@@ -67,7 +67,7 @@ class UserController extends Controller
 			$profile->attributes=$_POST['Profile'];
 			$profile->user_id=0;
 			if($model->validate()&&$profile->validate()) {
-				$model->password=Yii::app()->controller->module->encrypting($model->password);
+				$model->password=Yii::app()->controller->module->encrypting($_POST['User']['password']);
 				if($model->save()) {
 					$profile->user_id=$model->id;
 					$profile->yid=Yii::app()->getModule('user')->user()->profile->getAttribute('yid');
@@ -94,15 +94,14 @@ class UserController extends Controller
 			$model->attributes=$_POST['User'];
 			$model->username = $_POST['User']['username'];
 			$model->email = $_POST['User']['email'];
-			$model->password = $_POST['User']['password'];
 			$model->status = $_POST['User']['status'];
 
 			$profile->attributes=$_POST['Profile'];
 			if($model->validate()&&$profile->validate()) {
 				$old_password = User::model()->notsafe()->findByPk($model->id);
-				if ($old_password->password!=$model->password) {
-					$model->password=Yii::app()->controller->module->encrypting($model->password);
-					$model->activkey=Yii::app()->controller->module->encrypting(microtime().$model->password);
+				if (!empty($_POST['User']['password']) and $old_password->password!=$_POST['User']['password']) {
+					$model->password=Yii::app()->controller->module->encrypting($_POST['User']['password']);
+					$model->activkey=Yii::app()->controller->module->encrypting(microtime().$_POST['User']['password']);
 				}
 				$model->save();
 				$profile->save();
