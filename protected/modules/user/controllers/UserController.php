@@ -92,6 +92,7 @@ class UserController extends Controller
 			$model->attributes=$_POST['User'];
 			$model->username = $_POST['User']['username'];
 			$model->email = $_POST['User']['email'];
+			$model->password = $_POST['User']['password'];
 
 			$profile->attributes=$_POST['Profile'];
 			if($model->validate()&&$profile->validate()) {
