@@ -30,8 +30,12 @@
 		<?php echo $form->error($model,'email'); ?>
 	</div>
 
+	<div class="row">
+		<?php echo $form->labelEx($model,'status'); ?>
+		<?php echo $form->dropDownList($model,'status',User::itemAlias('UserStatus'),array('class'=>'form-control')); ?>
+		<?php echo $form->error($model,'status'); ?>
+	</div>
 
-		<?php echo $form->hiddenField($model,'status',array('value'=>1,'class'=>'form-control')); ?>
 		<?php echo $form->hiddenField($model,'superuser',array('value'=>0,'class'=>'form-control')); ?>
 
 <?php 

@@ -36,6 +36,7 @@ if(UserModule::isAdmin()) {
 		'profile.lastname',
 		'create_at',
 		'lastvisit_at',
+		'status',
 		array(
 			'name' => 'profile.tyyppi',
 		    	'value'=>array($this,'tyyppiMuutos'),

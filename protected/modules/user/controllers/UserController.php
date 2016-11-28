@@ -61,6 +61,7 @@ class UserController extends Controller
 			$model->username = $_POST['User']['username'];
 			$model->email = $_POST['User']['email'];
 			$model->password = $_POST['User']['password'];
+			$model->status = $_POST['User']['status'];
 
 			$model->activkey=Yii::app()->controller->module->encrypting(microtime().$model->password);
 			$profile->attributes=$_POST['Profile'];
@@ -94,6 +95,7 @@ class UserController extends Controller
 			$model->username = $_POST['User']['username'];
 			$model->email = $_POST['User']['email'];
 			$model->password = $_POST['User']['password'];
+			$model->status = $_POST['User']['status'];
 
 			$profile->attributes=$_POST['Profile'];
 			if($model->validate()&&$profile->validate()) {
