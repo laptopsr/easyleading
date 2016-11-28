@@ -1,9 +1,9 @@
 <?php
 /* @var $this SiteController */
 ?>
+<div id="etusivu">
 
-<?php if(!Yii::app()->user->isGuest) : ?>
- <div id="etusivu">
+<?php if(!Yii::app()->user->isGuest and Yii::app()->getModule('user')->user()->profile->getAttribute('tyyppi') != 2) : ?>
 
 	<div class="row">
 	 <!--laatiko alka-->
@@ -21,7 +21,23 @@
 	 <!--laatiko loppu-->
 	</div>
 
- </div>
-<?php else: ?>
-Kirjaudu sisaan
 <?php endif; ?>
+
+
+<!-- tyontekija -->
+<?php if(Yii::app()->getModule('user')->user()->profile->getAttribute('tyyppi') == 2) : ?>
+	<div class="row">
+	 <!--laatiko alka-->
+	 <div class="col-sm-3">
+	  <?php echo CHtml::link('Joko, työntekijän varten',Yii::app()->request->baseUrl.'/index.php/joko',
+			array('class'=>'painike btn btn-primary btn-block btn-lg')); 
+	  ?>
+	 </div>
+	 <!--laatiko loppu-->
+	</div>
+
+<?php endif; ?>
+<!-- tyontekija -->
+
+
+ </div>
