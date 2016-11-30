@@ -38,7 +38,7 @@ return array(
         'application.components.*',
         'application.modules.user.models.*',
         'application.modules.user.components.*',
-	'application.extensions.carouFredSel.*',
+        'application.extensions.yiichat.*',
 	//'application.extensions.EasySlider.*',
 
 	),

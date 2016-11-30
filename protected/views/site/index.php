@@ -40,4 +40,24 @@
 <!-- tyontekija -->
 
 
+
+<h1><?php echo Yii::app()->name; ?> chatti</h1>
+<div id='chat'></div>
+<?php 
+    $this->widget('YiiChatWidget',array(
+        'chat_id'=>Yii::app()->getModule('user')->user()->profile->getAttribute('yid'),// a chat identificator
+        'identity'=>1,                      // the user, Yii::app()->user->id ?
+        'selector'=>'#chat',                // were it will be inserted
+        'minPostLen'=>2,                    // min and
+        'maxPostLen'=>10,                   // max string size for post
+        'model'=>new ChatHandler(),    // the class handler. **** FOR DEMO, READ MORE LATER IN THIS DOC ****
+        'data'=>'any data',                 // data passed to the handler
+        // success and error handlers, both optionals.
+        'onSuccess'=>new CJavaScriptExpression(
+            "function(code, text, post_id){   }"),
+        'onError'=>new CJavaScriptExpression(
+            "function(errorcode, info){  }"),
+    ));
+?>
+
  </div>
