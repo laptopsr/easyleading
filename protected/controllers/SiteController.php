@@ -114,7 +114,11 @@ class SiteController extends Controller
 			";
 			$varastoViimeinen = VarastoRakenne::model()->find($criteria);
 
-			$tr_rivi = $varastoViimeinen->tr_rivi+1;
+			if(isset($varastoViimeinen->tr_rivi))
+				$tr_rivi = $varastoViimeinen->tr_rivi+1;
+			else
+				$tr_rivi = 1;
+
 			foreach($_POST['VarastoRakenne']['sarakkeen_nimi'] as $key=>$value)
 			{
 				if(empty($value)) $value = 0;
