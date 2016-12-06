@@ -15,6 +15,7 @@ if(UserModule::isAdmin()) {
 ?>
 
 
+
 <div class="row">
  <div class="col-sm-12">
    <div class="panel panel-primary">
@@ -31,6 +32,11 @@ if(UserModule::isAdmin()) {
 			'name' => 'username',
 			'type'=>'raw',
 			'value' => 'CHtml::link(CHtml::encode($data->username),array("user/update","id"=>$data->id))',
+		),
+		array(
+			'header' => 'Viesti',
+			'type'=>'raw',
+			'value' => 'CHtml::link("<i class=\"fa fa-envelope\" aria-hidden=\"true\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Lähetä uusi viesti\"></i>",array("//viestinta/create","saaja"=>$data->id))',
 		),
 		'profile.firstname',
 		'profile.lastname',

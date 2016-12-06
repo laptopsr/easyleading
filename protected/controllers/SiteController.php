@@ -29,8 +29,12 @@ class SiteController extends Controller
 				'actions'=>array('index'),
 				'users'=>array('*'),
 			),
+			array('allow', 
+				'actions'=>array('varasto', 'varaston_poisto'),
+                		'expression'=>"Yii::app()->controller->VarastonOmmistaja()",
+			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('henkilosto'),
+				'actions'=>array('chat', 'chat_ajax', 'chat_check'),
 				'users'=>array('@'),
 			),
 			array('deny',  // deny all users
@@ -40,6 +44,110 @@ class SiteController extends Controller
 	}
 
 
+	public function VarastonOmmistaja() 
+	{
+
+		$criteria = new CDbCriteria;
+		$criteria->condition = " 
+			yid='".Yii::app()->getModule('user')->user()->profile->getAttribute('yid')."' 
+		";
+		$v = VarastoRakenne::model()->find($criteria);
+	        if(isset($v->id))
+	            return true;
+		else
+	            return false;
+
+	}
+
+
+	public function actionVaraston_poisto()
+	{
+
+		if(isset($_POST['yid']))
+		{
+
+			$criteria = new CDbCriteria;
+			$criteria->order = " id DESC ";
+			$criteria->condition = " 
+				yid='".$_POST['yid']."'
+				AND varaston_nimike_id='".$_POST['varaston_nimike_id']."'
+				AND tr_rivi='".$_POST['tr_rivi']."'
+			";
+			VarastoRakenne::model()->deleteAll($criteria);
+			echo json_encode('dfd');
+		}
+
+		exit;
+	}
+
+
+	public function actionVarasto($id)
+	{
+
+
+		$fromModel=VarastoRakenne::model()->findbypk($id);
+		$model=new VarastoRakenne;
+		$model->yid = $fromModel->yid;
+		$model->is_otsikko = $fromModel->is_otsikko;
+		$model->varaston_nimike = $fromModel->varaston_nimike;
+		$model->sarakkeen_tyyppi = $fromModel->sarakkeen_tyyppi;
+		$model->varaston_nimike_id = $id;
+
+
+
+
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['VarastoRakenne']))
+		{
+
+			$taulu = VarastoRakenne::model()->findbypk($id);
+			$criteria = new CDbCriteria;
+			$criteria->order = " id DESC ";
+			$criteria->group = " varaston_nimike ";
+			$criteria->condition = " 
+				yid='".Yii::app()->getModule('user')->user()->profile->getAttribute('yid')."'
+				AND varaston_nimike='".$taulu->varaston_nimike."'
+				AND is_otsikko=0
+			";
+			$varastoViimeinen = VarastoRakenne::model()->find($criteria);
+
+			$tr_rivi = $varastoViimeinen->tr_rivi+1;
+			foreach($_POST['VarastoRakenne']['sarakkeen_nimi'] as $key=>$value)
+			{
+				if(empty($value)) $value = 0;
+				$arr = json_decode($_POST['VarastoRakenne']['arr'][$key], true);
+
+				$v = new VarastoRakenne;
+				$v->attributes=$arr;
+				$v->value=$value;
+				$v->tr_rivi=$tr_rivi;
+				if(!$v->save())
+				var_dump($v->getErrors());
+			}
+			$this->redirect(array('varasto', 'id'=>$id));
+		}
+
+		$taulu = VarastoRakenne::model()->findbypk($id);
+		$criteria = new CDbCriteria;
+		$criteria->order = " id ASC ";
+		$criteria->group = " varaston_nimike ";
+		$criteria->condition = " 
+			yid='".Yii::app()->getModule('user')->user()->profile->getAttribute('yid')."'
+			AND varaston_nimike='".$taulu->varaston_nimike."'
+			AND is_otsikko=1
+		";
+		$varasto = VarastoRakenne::model()->find($criteria);
+
+
+		$this->render('varasto',array(
+			'varasto'=>$varasto,
+			'model'=>$model,
+		));
+	}
+
 	/**
 	 * This is the default 'index' action that is invoked
 	 * when an action is not explicitly requested by users.
@@ -48,12 +156,71 @@ class SiteController extends Controller
 	{
 		// renders the view file 'protected/views/site/index.php'
 		// using the default layout 'protected/views/layouts/main.php'
-		$this->render('index');
+		
+		$isMessage = false;
+		$criteria = new CDbCriteria;
+		$criteria->condition = " 
+			saaja='".Yii::app()->user->id."' 
+			AND is_katsonut!=1
+		";
+		$viestinta = Viestinta::model()->findAll($criteria);
+		if(count($viestinta) > 0)
+		$isMessage = true;
+
+		$this->render('index', array(
+			'isMessage'=>$isMessage
+		));
 	}
 
-	public function actionHenkilosto($yritys)
+
+	public function actionChat_check()
 	{
-		$this->render('henkilosto');
+		if(Yii::app()->getModule('user')->user()->profile->getAttribute('yid') != 0)
+		$yid = Yii::app()->getModule('user')->user()->profile->getAttribute('yid');
+		else
+		$yid = Yii::app()->user->id;
+
+		$criteria = new CDbCriteria;
+		$criteria->condition = " 
+			chat_id='".$yid."' 
+		";
+		$model = YiichatPost::model()->findAll($criteria);
+		if(isset($model[0]))
+			echo json_encode(count($model));
+		else
+			echo json_encode(0);
+	}
+
+	public function actionChat_ajax()
+	{
+		if(Yii::app()->getModule('user')->user()->profile->getAttribute('yid') != 0)
+		$yid = Yii::app()->getModule('user')->user()->profile->getAttribute('yid');
+		else
+		$yid = Yii::app()->user->id;
+
+		if(isset($_POST['newMessage']))
+		{
+			$new = new YiichatPost;
+			$new->chat_id = $yid;
+			$new->text = $_POST['teksti'];
+			$new->owner = Yii::app()->getModule('user')->user()->profile->getAttribute('firstname').' '.Yii::app()->getModule('user')->user()->profile->getAttribute('lastname');
+			$new->save();
+		}
+
+
+		$criteria = new CDbCriteria;
+		$criteria->order = " id DESC";
+		$criteria->limit = 15;
+		$criteria->condition = " 
+			chat_id='".$yid."' 
+		";
+		$model = YiichatPost::model()->findAll($criteria);
+		$this->renderPartial('chat_ajax', array('chat'=>$model));
+	}
+
+	public function actionChat()
+	{
+		$this->render('chat');
 	}
 
 

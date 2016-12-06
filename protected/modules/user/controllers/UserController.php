@@ -70,7 +70,7 @@ class UserController extends Controller
 				$model->password=Yii::app()->controller->module->encrypting($_POST['User']['password']);
 				if($model->save()) {
 					$profile->user_id=$model->id;
-					$profile->yid=Yii::app()->getModule('user')->user()->profile->getAttribute('yid');
+					$profile->yid=Yii::app()->user->id;
 					$profile->save();
 				}
 				$this->redirect(array('//user'));

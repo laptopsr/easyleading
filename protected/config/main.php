@@ -23,6 +23,10 @@
   $user = 'vetelfi_vetel';
   $pass = 'KristinA1';
 */
+  $db = 'easyleading';
+  $host = 'localhost';
+  $user = 'root';
+  $pass = '';
   }
 
 
@@ -38,9 +42,7 @@ return array(
         'application.components.*',
         'application.modules.user.models.*',
         'application.modules.user.components.*',
-        'application.extensions.yiichat.*',
-	//'application.extensions.EasySlider.*',
-
+	'ext.YiiMailer.YiiMailer',
 	),
 
     'modules'=>array(
@@ -172,6 +174,7 @@ return array(
 		    'bootstrap-filestyle.min.js',
 		    'bootstrap-select.js',
 		    'bootstrap-switch.js',
+		    'jquery.pulse.js',
 		    //'bootstrap-datepicker.js',
 		    //'bootstrap-datepicker.fi.js',
 		    'asetukset.js',
@@ -184,7 +187,7 @@ return array(
                 'css'=>array(  
 		    'jquery-ui.css',
                     'bootstrap355.min.css',
-                    'bootstrap_custom_theme.min.css',
+                    //'bootstrap_custom_theme.min.css',
                     'bootstrap-switch.css',
                     'bootstrap-select.min.css',
                     'bootstrap-slider.css',
@@ -258,5 +261,6 @@ return array(
 	'params'=>array(
 		// this is used in contact page
 		'adminEmail'=>'webmaster@example.com',
+		'site_host'=>$_SERVER['HTTP_HOST'],
 	),
 );

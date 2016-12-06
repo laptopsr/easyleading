@@ -44,6 +44,11 @@ $('.search-form form').submit(function(){
 			'type'=>'raw',
 			'value' => 'CHtml::link(CHtml::encode($data->id),array("admin/update","id"=>$data->id))',
 		),
+		array(
+			'header' => 'Viesti',
+			'type'=>'raw',
+			'value' => 'CHtml::link("<i class=\"fa fa-envelope\" aria-hidden=\"true\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Lähetä uusi viesti\"></i>",array("//viestinta/create","saaja"=>$data->id))',
+		),
 			'profile.yid',
 		array(
 			'name' => 'username',
