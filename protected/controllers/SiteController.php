@@ -171,8 +171,9 @@ class SiteController extends Controller
 				$v->value=$value;
 				$v->tr_rivi=$tr_rivi;
 				if(!$v->save())
-				var_dump($v->getErrors());
+					var_dump($v->getErrors());
 			}
+
 			$this->redirect(array('varasto', 'id'=>$id));
 		}
 

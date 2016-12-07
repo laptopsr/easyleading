@@ -49,7 +49,7 @@
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'sarakkeen_nimi'); ?>
-		<?php echo $form->textField($model,'sarakkeen_nimi',array('size'=>60,'maxlength'=>255, 'class'=>'form-control')); ?>
+		<?php echo $form->textField($model,'sarakkeen_nimi',array('size'=>60,'maxlength'=>255, 'class'=>'form-control', 'data-toggle'=>'tooltip', 'data-placement'=>'top', 'title'=>Yii::t('main', "Mikäli haluat luoda alasvetovaliko \n Yksikkö:Kpl;Min;Kg"))); ?>
 		<?php echo $form->error($model,'sarakkeen_nimi'); ?>
 	</div>
   </div>

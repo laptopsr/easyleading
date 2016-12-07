@@ -1,6 +1,9 @@
 <?php
 /* @var $this VarastoRakenneController */
 /* @var $data VarastoRakenne */
+	$checkAlasveto = explode(":", $data->sarakkeen_nimi);
+	if (isset($checkAlasveto[0]))
+	$data->sarakkeen_nimi = $checkAlasveto[0];
 ?>
 
 <th>

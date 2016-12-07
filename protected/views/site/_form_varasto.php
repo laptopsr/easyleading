@@ -47,12 +47,36 @@
 				'sum'=>$data->sum,
 				'varaston_nimike_id'=>$model->varaston_nimike_id,
 		);
-		echo '
-		<div class="row">
-		<label>'.$data->sarakkeen_nimi.'</label>
-		<input type="'.$tyyppi.'" class="form-control" name="VarastoRakenne[sarakkeen_nimi][]">
-		<textarea class="form-control" name="VarastoRakenne[arr][]" style="display:none">'.json_encode($arr).'</textarea>
-		</div>';
+
+		$checkAlasveto = explode(":", $data->sarakkeen_nimi);
+		if (isset($checkAlasveto[1]))
+		{
+			$array = explode(";", $checkAlasveto[1]);
+			if(is_array($array))
+			{
+			echo '
+			<div class="row">
+				<label>'.$checkAlasveto[0].'</label>';
+
+				echo '<select class="form-control" name="VarastoRakenne[sarakkeen_nimi][]">';
+				foreach($array as $val)
+				echo '<option value="'.$val.'">'.$val.'</option>';
+				echo '</select>';
+
+			echo '</div>';
+			}
+
+		} else {
+
+			echo '
+			<div class="row">
+				<label>'.$data->sarakkeen_nimi.'</label>
+				<input type="'.$tyyppi.'" class="form-control" name="VarastoRakenne[sarakkeen_nimi][]">
+			</div>';
+		}
+
+		echo '<textarea class="form-control" name="VarastoRakenne[arr][]" style="display:none">'.json_encode($arr).'</textarea>';
+
 	}
 	?>
 

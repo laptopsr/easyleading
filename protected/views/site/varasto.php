@@ -106,7 +106,12 @@
 		$sarakkeen_nimi = array();
 		foreach($varastoOtsikkot as $data)
 		{	
+			$checkAlasveto = explode(":", $data->sarakkeen_nimi);
+			if (isset($checkAlasveto[0]))
+			$data->sarakkeen_nimi = $checkAlasveto[0];
+
 			$sarakkeen_nimi[$data->sarakkeen_nimi] = $data->sarakkeen_nimi;
+
 			echo '<th>'.$data->sarakkeen_nimi.'</th>';
 		}
 			echo '<th></th>';

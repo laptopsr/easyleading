@@ -38,8 +38,8 @@ class VarastoRakenne extends CActiveRecord
 		  `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 		  `yid` int(11) NOT NULL,
 		  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		  `varaston_nimike` varchar(255) NOT NULL,
-		  `sarakkeen_nimi` varchar(255) NOT NULL,
+		  `varaston_nimike` varchar(500) NOT NULL,
+		  `sarakkeen_nimi` varchar(500) NOT NULL,
 		  `sarakkeen_tyyppi` int(3) NOT NULL,
 		  `sum` int(1) NOT NULL,
 		  `value` varchar(500) NOT NULL,
@@ -65,7 +65,7 @@ class VarastoRakenne extends CActiveRecord
 		return array(
 			array('yid, varaston_nimike, sarakkeen_nimi, sarakkeen_tyyppi, sum, position', 'required'),
 			array('yid, sarakkeen_tyyppi, sum, position, is_otsikko, varaston_nimike_id, tr_rivi', 'numerical', 'integerOnly'=>true),
-			array('varaston_nimike, sarakkeen_nimi', 'length', 'max'=>255),
+			array('varaston_nimike, sarakkeen_nimi', 'length', 'max'=>500),
 			array('value', 'length', 'max'=>500),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
