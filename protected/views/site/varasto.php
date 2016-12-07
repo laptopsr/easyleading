@@ -3,18 +3,68 @@
 /* @var $dataProvider CActiveDataProvider */
 ?>
 
-<div class="row">
- <div class="col-sm-12">
+<div class="form-inline">
+<div class="form-group">
+	<button class="btn btn-primary btn-lg" data-toggle="collapse" data-target="#demo"><i class="fa fa-plus" aria-hidden="true"></i> Luo tuote <i class="caret"></i></button>
+</div>
+<div class="form-group">
+	 <?php
+		$criteria = new CDbCriteria;
+		$criteria->order = " id DESC ";
+		$criteria->group = " varaston_nimike ";
+		$criteria->condition = " 
+			yid='".Yii::app()->getModule('user')->user()->profile->getAttribute('yid')."' 
+			AND is_otsikko=1
+		";
+		$varastot = VarastoRakenne::model()->findAll($criteria);
+	 ?>
+
+	 <!--laatiko alka-->
+	 <?php if (count($varastot) > 0): ?>
+
+
+	 <select class="form-control input-lg valitseVarasto">
+	 <?php
+	 	echo '<option value="">'.Yii::t('main', 'Vaihda varasto').'</option>';
+		foreach($varastot as $data){
+	  		echo '<option value="'.Yii::app()->request->baseUrl.'/index.php/site/varasto?id='.$data->id.'">'.$data->varaston_nimike.'</option>';
+		}
+	 ?>
+	 </select>
+
+
+
+	<script>
+	$(document).ready(function(){
+	
+	  $('.valitseVarasto').change(function(){ 
+	      	var thisLink = $(this).val();
+		window.location.href=thisLink;
+	  });
+	
+	});
+	</script>
+	<?php endif; ?>
+	 <!--laatiko loppu-->
+
+</div>
+</div>
+
+
+ <div id="demo" class="row collapse">
+  <div class="col-sm-4">
+   <br>
    <div class="panel panel-primary">
-     <div class="panel-heading">Luo tuote</div>
+     <div class="panel-heading">Uusi tuote</div>
      <div class="panel-body">
 
 	<?php echo $this->renderPartial('_form_varasto', array('model'=>$model)); ?>
 
     </div>
+   </div>
   </div>
  </div>
-</div>
+
 
 <h1>Varasto</h1>
 
@@ -49,8 +99,8 @@
      <div class="panel-heading"><?php echo $varasto->varaston_nimike; ?></div>
      <div class="panel-body">
 
-      <table class="table">
-
+      <table id="varastoTaulu" class="display" cellspacing="0" width="100%">
+	<thead>
 	<tr>
 	<?php 
 		$sarakkeen_nimi = array();
@@ -61,8 +111,9 @@
 		}
 			echo '<th></th>';
 	?>
-       <tr>
-
+	</tr>
+	</thead>
+	<tbody>
 	<?php
 
 		echo '<tr>';
@@ -71,13 +122,13 @@
 
 			if(isset($firstSarake) and $firstSarake == $data->sarakkeen_nimi)
 			{
-			echo '<td><button class="btn btn-danger btn-sm poista" yid="'.$data->yid.'" varaston_nimike_id="'.$data->varaston_nimike_id.'" tr_rivi="'.$data->tr_rivi.'"><i class="fa fa-times" aria-hidden="true"></i></button></td>';
+				echo '<td><button class="pull-right btn btn-danger btn-sm poista" yid="'.$data->yid.'" varaston_nimike_id="'.$data->varaston_nimike_id.'" tr_rivi="'.$data->tr_rivi.'"><i class="fa fa-times" aria-hidden="true"></i></button></td>';
 				echo '</tr><tr>';
 				unset($firstSarake);
 			}
 
 
-			echo '<td>'.$data->value.' ('.$data->sarakkeen_nimi.')</td>';
+			echo '<td>'.$data->value.'</td>';
 
 
 			if(!isset($firstSarake))
@@ -89,11 +140,11 @@
 			$tr_rivi 		= $data->tr_rivi;
 			$yid 			= $data->yid;
 		}
-		if(isset($varaston_nimike_id))
-			echo '<td><button class="btn btn-danger btn-sm poista" yid="'.$yid.'" varaston_nimike_id="'.$varaston_nimike_id.'" tr_rivi="'.$tr_rivi.'"><i class="fa fa-times" aria-hidden="true"></i></button></td>';
+			if(isset($varaston_nimike_id))
+				echo '<td><button class="pull-right btn btn-danger btn-sm poista" yid="'.$yid.'" varaston_nimike_id="'.$varaston_nimike_id.'" tr_rivi="'.$tr_rivi.'"><i class="fa fa-times" aria-hidden="true"></i></button></td></tr>';
 
 	?>
-
+	</tbody>
       </table>
 
     </div>
@@ -102,6 +153,9 @@
 </div>
 
 
+
+<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/jquery.dataTables.min.css" />
+<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery.dataTables.min.js"></script>
 
 
 <script type="text/javascript">
@@ -128,6 +182,13 @@ $('.poista').click(function(){
         });
 
 });
+
+
+$('#varastoTaulu').DataTable({
+        //"scrollY": 200,
+        //"scrollX": true
+});
+
 
 
 });

@@ -22,6 +22,15 @@ class SiteController extends Controller
 		);
 	}
 
+
+	public function filters()
+	{
+		return array(
+			'accessControl', // perform access control for CRUD operations
+			'postOnly + delete', // we only allow deletion via POST request
+		);
+	}
+
 	public function accessRules()
 	{
 		return array(
@@ -30,8 +39,12 @@ class SiteController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', 
-				'actions'=>array('varasto', 'varaston_poisto'),
+				'actions'=>array('varasto'),
                 		'expression'=>"Yii::app()->controller->VarastonOmmistaja()",
+			),
+			array('allow', 
+				'actions'=>array('varaston_poisto'),
+                		'expression'=>"Yii::app()->controller->VarastonYid()",
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
 				'actions'=>array('chat', 'chat_ajax', 'chat_check'),
@@ -46,7 +59,29 @@ class SiteController extends Controller
 
 	public function VarastonOmmistaja() 
 	{
+	   if(!Yii::app()->user->isGuest)
+	   {
+		$criteria = new CDbCriteria;
+		$criteria->condition = " 
+			id='".$_GET['id']."'
+			AND yid='".Yii::app()->getModule('user')->user()->profile->getAttribute('yid')."' 
+		";
+		$v = VarastoRakenne::model()->find($criteria);
+	        if(isset($v->id))
+	            return true;
+		else
+	            die('Error: Varaston omistus');
+	   } else {
+	            return false;
+	   }
 
+	}
+
+
+	public function VarastonYid() 
+	{
+	   if(!Yii::app()->user->isGuest)
+	   {
 		$criteria = new CDbCriteria;
 		$criteria->condition = " 
 			yid='".Yii::app()->getModule('user')->user()->profile->getAttribute('yid')."' 
@@ -56,9 +91,11 @@ class SiteController extends Controller
 	            return true;
 		else
 	            return false;
+	   } else {
+	            return false;
+	   }
 
 	}
-
 
 	public function actionVaraston_poisto()
 	{
@@ -86,6 +123,11 @@ class SiteController extends Controller
 
 
 		$fromModel=VarastoRakenne::model()->findbypk($id);
+		if(!isset($fromModel->yid))
+		{
+			die('Error');
+			exit;
+		}
 		$model=new VarastoRakenne;
 		$model->yid = $fromModel->yid;
 		$model->is_otsikko = $fromModel->is_otsikko;

@@ -7,7 +7,7 @@
 
 
 <div class="form row">
-  <div class="col-sm-4">
+  <div class="col-sm-12">
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'varasto-rakenne-form',
 	'enableAjaxValidation'=>false,

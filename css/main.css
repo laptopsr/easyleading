@@ -4,6 +4,7 @@ height: 100%;
 
 }
 
+/*
 #etusivu .painike{
 	text-align: center;
 	border-radius: 25px;
@@ -17,7 +18,7 @@ height: 100%;
 .btn-warning{
 	border:3px rgba(92,184,92) solid;
 }
-
+*/
 
 @media screen and (max-width:480px){
 

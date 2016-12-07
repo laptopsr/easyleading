@@ -35,7 +35,7 @@ return array(
 	'name'=>'Easy Leading',
 	//'defaultController'=>'konetietokanta/index',
 	// preloading 'log' component
-	'language' => 'fi',
+	'language' => 'en',
 	// autoloading model and component classes
 	'import'=>array(
         'application.models.*',

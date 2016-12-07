@@ -29,7 +29,30 @@ class VarastoRakenne extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'varasto_rakenne';
+
+		$table = Yii::app()->db->schema->getTable('varasto_yid_'.Yii::app()->getModule('user')->user()->profile->getAttribute('yid'));
+		if(!isset($table->columns['id'])) {
+
+		Yii::app()->db->createCommand("
+		CREATE TABLE IF NOT EXISTS `varasto_yid_".Yii::app()->getModule('user')->user()->profile->getAttribute('yid')."` (
+		  `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+		  `yid` int(11) NOT NULL,
+		  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  `varaston_nimike` varchar(255) NOT NULL,
+		  `sarakkeen_nimi` varchar(255) NOT NULL,
+		  `sarakkeen_tyyppi` int(3) NOT NULL,
+		  `sum` int(1) NOT NULL,
+		  `value` varchar(500) NOT NULL,
+		  `position` int(10) NOT NULL,
+		  `is_otsikko` int(1) NOT NULL,
+		  `varaston_nimike_id` int(11) NOT NULL,
+		  `tr_rivi` int(11) NOT NULL
+		) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=latin1;
+		")->execute();
+
+		}
+
+		return "varasto_yid_".Yii::app()->getModule('user')->user()->profile->getAttribute('yid');
 	}
 
 	/**
