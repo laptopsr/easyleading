@@ -1,6 +1,6 @@
 <?php
 
-class VarastoRakenneController extends Controller
+class VarastoOtsikkotController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -78,14 +78,14 @@ class VarastoRakenneController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new VarastoRakenne;
+		$model=new VarastoOtsikkot;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['VarastoRakenne']))
+		if(isset($_POST['VarastoOtsikkot']))
 		{
-			$model->attributes=$_POST['VarastoRakenne'];
+			$model->attributes=$_POST['VarastoOtsikkot'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
 		}
@@ -107,9 +107,9 @@ class VarastoRakenneController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['VarastoRakenne']))
+		if(isset($_POST['VarastoOtsikkot']))
 		{
-			$model->attributes=$_POST['VarastoRakenne'];
+			$model->attributes=$_POST['VarastoOtsikkot'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
 		}
@@ -148,17 +148,25 @@ class VarastoRakenneController extends Controller
 
 		if(isset($_POST['VarastoOtsikkot']))
 		{
+
+			$old_sarakkeen_nimi 	= $model->sarakkeen_nimi;
+
 			$model->attributes=$_POST['VarastoOtsikkot'];
 			if($model->save()){
 
 				$criteria = new CDbCriteria;
 				$criteria->condition = " 
 					yid='".Yii::app()->getModule('user')->user()->profile->getAttribute('yid')."' 
-					AND is_otsikko=0
 					AND varaston_nimike='".$model->varaston_nimike."'
-					AND sarakkeen_nimi='".$model->sarakkeen_nimi."'
+					AND sarakkeen_nimi='".$old_sarakkeen_nimi."'
 				";
-				VarastoRakenne::model()->updateAll(array('position'=>$model->position), $criteria);
+
+				VarastoRakenne::model()->updateAll(array(
+					'position'=>$model->position,
+					'sarakkeen_nimi'=>$model->sarakkeen_nimi,
+					'sarakkeen_tyyppi'=>$model->sarakkeen_tyyppi,
+					'sum'=>$model->sum,
+				), $criteria);
 
 				$this->redirect(array('index'));
 			}
@@ -170,7 +178,6 @@ class VarastoRakenneController extends Controller
 		$criteria->group = " varaston_nimike ";
 		$criteria->condition = " 
 			yid='".Yii::app()->getModule('user')->user()->profile->getAttribute('yid')."' 
-			AND is_otsikko=1
 		";
 		$varastot = VarastoOtsikkot::model()->findAll($criteria);
 
@@ -180,15 +187,16 @@ class VarastoRakenneController extends Controller
 		));
 	}
 
+
 	/**
 	 * Manages all models.
 	 */
 	public function actionAdmin()
 	{
-		$model=new VarastoRakenne('search');
+		$model=new VarastoOtsikkot('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['VarastoRakenne']))
-			$model->attributes=$_GET['VarastoRakenne'];
+		if(isset($_GET['VarastoOtsikkot']))
+			$model->attributes=$_GET['VarastoOtsikkot'];
 
 		$this->render('admin',array(
 			'model'=>$model,
@@ -199,12 +207,12 @@ class VarastoRakenneController extends Controller
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
 	 * @param integer $id the ID of the model to be loaded
-	 * @return VarastoRakenne the loaded model
+	 * @return VarastoOtsikkot the loaded model
 	 * @throws CHttpException
 	 */
 	public function loadModel($id)
 	{
-		$model=VarastoRakenne::model()->findByPk($id);
+		$model=VarastoOtsikkot::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -212,11 +220,11 @@ class VarastoRakenneController extends Controller
 
 	/**
 	 * Performs the AJAX validation.
-	 * @param VarastoRakenne $model the model to be validated
+	 * @param VarastoOtsikkot $model the model to be validated
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='varasto-rakenne-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='varasto-otsikkot-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();

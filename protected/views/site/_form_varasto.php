@@ -9,14 +9,13 @@
 <div class="form row">
   <div class="col-sm-12">
 <?php $form=$this->beginWidget('CActiveForm', array(
-	'id'=>'varasto-rakenne-form',
+	'id'=>'varasto-otsikkot-form',
 	'enableAjaxValidation'=>false,
 )); ?>
 
 
 	<?php echo $form->errorSummary($model); ?>
 	<?php echo $form->hiddenField($model,'yid'); ?>
-	<?php echo $form->hiddenField($model,'is_otsikko', array('value'=>0)); ?>
 	<?php echo $form->hiddenField($model,'varaston_nimike'); ?>
 	<?php echo $form->hiddenField($model,'sarakkeen_tyyppi'); ?>
 
@@ -27,10 +26,9 @@
 	$criteria->order = " position ASC ";
 	$criteria->condition = " 
 		yid='".Yii::app()->getModule('user')->user()->profile->getAttribute('yid')."' 
-		AND is_otsikko=1
 		AND varaston_nimike='".$model->varaston_nimike."'
 	";
-	$varastot = VarastoRakenne::model()->findAll($criteria);
+	$varastot = VarastoOtsikkot::model()->findAll($criteria);
 	foreach($varastot as $data)
 	{
 		if($data->sarakkeen_tyyppi == 1)
@@ -71,11 +69,11 @@
 			echo '
 			<div class="row">
 				<label>'.$data->sarakkeen_nimi.'</label>
-				<input type="'.$tyyppi.'" class="form-control" name="VarastoRakenne[sarakkeen_nimi][]">
+				<input type="'.$tyyppi.'" class="form-control" name="VarastoOtsikkot[sarakkeen_nimi][]">
 			</div>';
 		}
 
-		echo '<textarea class="form-control" name="VarastoRakenne[arr][]" style="display:none">'.json_encode($arr).'</textarea>';
+		echo '<textarea class="form-control" name="VarastoOtsikkot[arr][]" style="display:none">'.json_encode($arr).'</textarea>';
 
 	}
 	?>

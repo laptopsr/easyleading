@@ -1,9 +1,9 @@
 <?php
 
 /**
- * This is the model class for table "varasto_rakenne".
+ * This is the model class for table "varasto_otsikkot".
  *
- * The followings are the available columns in table 'varasto_rakenne':
+ * The followings are the available columns in table 'varasto_otsikkot':
  * @property integer $id
  * @property integer $yid
  * @property string $time
@@ -11,13 +11,17 @@
  * @property string $sarakkeen_nimi
  * @property integer $sarakkeen_tyyppi
  * @property integer $sum
+ * @property string $value
+ * @property integer $position
+ * @property integer $varaston_nimike_id
+ * @property integer $tr_rivi
  */
-class VarastoRakenne extends CActiveRecord
+class VarastoOtsikkot extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return VarastoRakenne the static model class
+	 * @return VarastoOtsikkot the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -29,12 +33,11 @@ class VarastoRakenne extends CActiveRecord
 	 */
 	public function tableName()
 	{
-
-		$table = Yii::app()->db->schema->getTable('varasto_yid_'.Yii::app()->getModule('user')->user()->profile->getAttribute('yid'));
+		$table = Yii::app()->db->schema->getTable('varasto_otsikkot_yid_'.Yii::app()->getModule('user')->user()->profile->getAttribute('yid'));
 		if(!isset($table->columns['id'])) {
 
 		Yii::app()->db->createCommand("
-		CREATE TABLE IF NOT EXISTS `varasto_yid_".Yii::app()->getModule('user')->user()->profile->getAttribute('yid')."` (
+		CREATE TABLE IF NOT EXISTS `varasto_otsikkot_yid_".Yii::app()->getModule('user')->user()->profile->getAttribute('yid')."` (
 		  `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 		  `yid` int(11) NOT NULL,
 		  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -51,7 +54,7 @@ class VarastoRakenne extends CActiveRecord
 
 		}
 
-		return "varasto_yid_".Yii::app()->getModule('user')->user()->profile->getAttribute('yid');
+		return "varasto_otsikkot_yid_".Yii::app()->getModule('user')->user()->profile->getAttribute('yid');
 	}
 
 	/**
@@ -95,8 +98,11 @@ class VarastoRakenne extends CActiveRecord
 			'varaston_nimike' => 'Varaston Nimike',
 			'sarakkeen_nimi' => 'Sarakkeen Nimi',
 			'sarakkeen_tyyppi' => 'Sarakkeen Tyyppi',
-			'sum' => Yii::t('main', 'Yhteensä raportissa'),
-			'position'=>Yii::t('main', 'Järjestysnumero'),
+			'sum' => 'Sum',
+			'value' => 'Value',
+			'position' => 'Position',
+			'varaston_nimike_id' => 'Varaston Nimike',
+			'tr_rivi' => 'Tr Rivi',
 		);
 	}
 
@@ -118,6 +124,10 @@ class VarastoRakenne extends CActiveRecord
 		$criteria->compare('sarakkeen_nimi',$this->sarakkeen_nimi,true);
 		$criteria->compare('sarakkeen_tyyppi',$this->sarakkeen_tyyppi);
 		$criteria->compare('sum',$this->sum);
+		$criteria->compare('value',$this->value,true);
+		$criteria->compare('position',$this->position);
+		$criteria->compare('varaston_nimike_id',$this->varaston_nimike_id);
+		$criteria->compare('tr_rivi',$this->tr_rivi);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

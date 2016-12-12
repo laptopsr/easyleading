@@ -66,7 +66,7 @@ class SiteController extends Controller
 			id='".$_GET['id']."'
 			AND yid='".Yii::app()->getModule('user')->user()->profile->getAttribute('yid')."' 
 		";
-		$v = VarastoRakenne::model()->find($criteria);
+		$v = VarastoOtsikkot::model()->find($criteria);
 	        if(isset($v->id))
 	            return true;
 		else
@@ -107,7 +107,7 @@ class SiteController extends Controller
 			$criteria->order = " id DESC ";
 			$criteria->condition = " 
 				yid='".$_POST['yid']."'
-				AND varaston_nimike_id='".$_POST['varaston_nimike_id']."'
+				AND varaston_nimike='".$_POST['varaston_nimike']."'
 				AND tr_rivi='".$_POST['tr_rivi']."'
 			";
 			VarastoRakenne::model()->deleteAll($criteria);
@@ -122,7 +122,7 @@ class SiteController extends Controller
 	{
 
 
-		$fromModel=VarastoRakenne::model()->findbypk($id);
+		$fromModel=VarastoOtsikkot::model()->findbypk($id);
 		if(!isset($fromModel->yid))
 		{
 			die('Error');
@@ -130,7 +130,6 @@ class SiteController extends Controller
 		}
 		$model=new VarastoRakenne;
 		$model->yid = $fromModel->yid;
-		$model->is_otsikko = $fromModel->is_otsikko;
 		$model->varaston_nimike = $fromModel->varaston_nimike;
 		$model->sarakkeen_tyyppi = $fromModel->sarakkeen_tyyppi;
 		$model->varaston_nimike_id = $id;
@@ -142,29 +141,25 @@ class SiteController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['VarastoRakenne']))
+		if(isset($_POST['VarastoOtsikkot']))
 		{
 
-			$taulu = VarastoRakenne::model()->findbypk($id);
+			$taulu = VarastoOtsikkot::model()->findbypk($id);
 			$criteria = new CDbCriteria;
 			$criteria->order = " id DESC ";
 			$criteria->group = " varaston_nimike ";
 			$criteria->condition = " 
 				yid='".Yii::app()->getModule('user')->user()->profile->getAttribute('yid')."'
 				AND varaston_nimike='".$taulu->varaston_nimike."'
-				AND is_otsikko=0
 			";
 			$varastoViimeinen = VarastoRakenne::model()->find($criteria);
 
-			if(isset($varastoViimeinen->tr_rivi))
-				$tr_rivi = $varastoViimeinen->tr_rivi+1;
-			else
-				$tr_rivi = 1;
+			$tr_rivi = md5(strtotime(date("Y-m-d H:i:s")));
 
-			foreach($_POST['VarastoRakenne']['sarakkeen_nimi'] as $key=>$value)
+			foreach($_POST['VarastoOtsikkot']['sarakkeen_nimi'] as $key=>$value)
 			{
 				if(empty($value)) $value = 0;
-				$arr = json_decode($_POST['VarastoRakenne']['arr'][$key], true);
+				$arr = json_decode($_POST['VarastoOtsikkot']['arr'][$key], true);
 
 				$v = new VarastoRakenne;
 				$v->attributes=$arr;
@@ -177,16 +172,15 @@ class SiteController extends Controller
 			$this->redirect(array('varasto', 'id'=>$id));
 		}
 
-		$taulu = VarastoRakenne::model()->findbypk($id);
+		$taulu = VarastoOtsikkot::model()->findbypk($id);
 		$criteria = new CDbCriteria;
 		$criteria->order = " id ASC ";
 		$criteria->group = " varaston_nimike ";
 		$criteria->condition = " 
 			yid='".Yii::app()->getModule('user')->user()->profile->getAttribute('yid')."'
 			AND varaston_nimike='".$taulu->varaston_nimike."'
-			AND is_otsikko=1
 		";
-		$varasto = VarastoRakenne::model()->find($criteria);
+		$varasto = VarastoOtsikkot::model()->find($criteria);
 
 
 		$this->render('varasto',array(
@@ -320,6 +314,7 @@ class SiteController extends Controller
 
 		// if it is ajax validation request
 		if(isset($_POST['ajax']) && $_POST['ajax']==='login-form')
+
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();

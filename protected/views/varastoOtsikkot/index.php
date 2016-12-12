@@ -1,7 +1,6 @@
 <?php
 /* @var $this VarastoRakenneController */
 /* @var $dataProvider CActiveDataProvider */
-/*
 ?>
 
 <div class="row">
@@ -25,7 +24,6 @@
 	$criteria->order = " position ASC ";
 	$criteria->condition = " 
 		yid='".Yii::app()->getModule('user')->user()->profile->getAttribute('yid')."' 
-		AND is_otsikko=1
 		AND varaston_nimike='".$data->varaston_nimike."'
 	";
 	$varasto = VarastoOtsikkot::model()->findAll($criteria);

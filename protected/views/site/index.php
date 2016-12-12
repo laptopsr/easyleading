@@ -32,7 +32,7 @@
 
 	 <!--laatiko alka-->
 	 <div class="col-sm-3">
-	  <?php echo CHtml::link('Varasto rakenne',Yii::app()->request->baseUrl.'/index.php/varastoRakenne/index',
+	  <?php echo CHtml::link('Varasto rakenne',Yii::app()->request->baseUrl.'/index.php/varastoOtsikkot/index',
 			array('class'=>'painike btn btn-primary btn-block btn-lg')); 
 	  ?>
 	 </div>
@@ -45,9 +45,8 @@
 		$criteria->group = " varaston_nimike ";
 		$criteria->condition = " 
 			yid='".Yii::app()->getModule('user')->user()->profile->getAttribute('yid')."' 
-			AND is_otsikko=1
 		";
-		$varastot = VarastoRakenne::model()->findAll($criteria);
+		$varastot = VarastoOtsikkot::model()->findAll($criteria);
 	 ?>
 
 	 <!--laatiko alka-->
