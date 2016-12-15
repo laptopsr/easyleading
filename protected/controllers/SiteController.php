@@ -135,7 +135,35 @@ class SiteController extends Controller
 		$model->varaston_nimike_id = $id;
 
 
+		// <-- Category
+		$criteria = new CDbCriteria;
+		$criteria->condition = " 
+			yid='".Yii::app()->getModule('user')->user()->profile->getAttribute('yid')."'
+			AND varaston_nimike='".$model->varaston_nimike."'
+		";
+		$checkCat = VarastoCategory::model()->find($criteria);
 
+		if(!isset($checkCat->id))
+			$varastoCategory = new VarastoCategory;
+		else
+			$varastoCategory = $checkCat;
+
+
+		if(isset($_POST['VarastoCategory']))
+		{
+			/*
+			echo '<pre>';
+			print_r($_POST['VarastoCategory']);
+			echo '</pre>';
+			exit;
+			*/
+
+			$varastoCategory->attributes=$_POST['VarastoCategory'];
+			$varastoCategory->ryhmarakenne = json_encode($_POST['VarastoCategory']['rakenne']);
+			if($varastoCategory->save())
+			$this->redirect(array('varasto', 'id'=>$id));
+		}
+		//     Category -->
 
 
 		// Uncomment the following line if AJAX validation is needed
@@ -148,10 +176,7 @@ class SiteController extends Controller
 			$criteria = new CDbCriteria;
 			$criteria->order = " id DESC ";
 			$criteria->group = " varaston_nimike ";
-			$criteria->condition = " 
-				yid='".Yii::app()->getModule('user')->user()->profile->getAttribute('yid')."'
-				AND varaston_nimike='".$taulu->varaston_nimike."'
-			";
+			$criteria->condition = " varaston_nimike='".$taulu->varaston_nimike."'	";
 			$varastoViimeinen = VarastoRakenne::model()->find($criteria);
 
 			$tr_rivi = md5(strtotime(date("Y-m-d H:i:s")));
@@ -186,6 +211,8 @@ class SiteController extends Controller
 		$this->render('varasto',array(
 			'varasto'=>$varasto,
 			'model'=>$model,
+			'id'=>$id,
+			'varastoCategory'=>$varastoCategory,
 		));
 	}
 
@@ -340,4 +367,26 @@ class SiteController extends Controller
 		Yii::app()->user->logout();
 		$this->redirect(Yii::app()->homeUrl);
 	}
+
+
+	public function handle($arr, $deepness=1) {
+		  if ($deepness == 3) {
+		    exit('Not allowed');
+		  }
+
+		  foreach ($arr as $key => $value) {
+		    if (is_array($value)) {
+		      $this->handle($value, ++$deepness);
+		    }
+		
+		    else {
+			$countKey = count(explode("_",$key)); //$key
+			echo '
+			<div class="row" style="margin-left:'.(5*$countKey).'px">
+				'.$value.'
+			</div>';
+		    }
+		  }
+	}
+
 }
