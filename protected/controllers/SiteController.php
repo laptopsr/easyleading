@@ -43,7 +43,7 @@ class SiteController extends Controller
                 		'expression'=>"Yii::app()->controller->VarastonOmmistaja()",
 			),
 			array('allow', 
-				'actions'=>array('varaston_poisto'),
+				'actions'=>array('varaston_poisto', 'keyup_updater'),
                 		'expression'=>"Yii::app()->controller->VarastonYid()",
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -100,23 +100,63 @@ class SiteController extends Controller
 	public function actionVaraston_poisto()
 	{
 
-		if(isset($_POST['yid']))
+		if(isset($_POST['tr_rivi']))
 		{
 
 			$criteria = new CDbCriteria;
 			$criteria->order = " id DESC ";
 			$criteria->condition = " 
-				yid='".$_POST['yid']."'
 				AND varaston_nimike='".$_POST['varaston_nimike']."'
 				AND tr_rivi='".$_POST['tr_rivi']."'
 			";
 			VarastoRakenne::model()->deleteAll($criteria);
-			echo json_encode('dfd');
 		}
 
 		exit;
 	}
 
+	public function actionKeyup_updater()
+	{
+
+		if(isset($_POST['tr_rivi']))
+		{
+
+			$criteria = new CDbCriteria;
+			$criteria->order = " id DESC ";
+			$criteria->condition = " 
+				varaston_nimike='".$_POST['varaston_nimike']."'
+				AND tr_rivi='".$_POST['tr_rivi']."'
+				AND sarakkeen_nimi='".$_POST['sarakkeen_nimi']."'				
+			";
+			$model = VarastoRakenne::model()->find($criteria);
+			if(isset($model->id))
+			{
+				VarastoRakenne::model()->updateByPk($model->id, 
+				array(
+					'value'=>$_POST['thisNewValue'],
+					'tuotteen_ryhman_nimike'=>$_POST['tuotteen_ryhman_nimike']
+				));
+				echo json_encode($model->id);
+			} else {
+				$model = new VarastoRakenne;
+				$model->varaston_nimike 	= $_POST['varaston_nimike'];
+				$model->tr_rivi 		= $_POST['tr_rivi'];
+				$model->sarakkeen_nimi	 	= $_POST['sarakkeen_nimi'];
+				$model->value 			= $_POST['thisNewValue'];
+				$model->sarakkeen_tyyppi	= $_POST['sarakkeen_tyyppi'];
+				$model->sum 			= $_POST['sum'];
+				$model->position		= $_POST['position'];
+				$model->varaston_nimike_id	= $_POST['varaston_nimike_id'];
+				$model->tuotteen_ryhman_nimike	= $_POST['tuotteen_ryhman_nimike'];
+				if($model->save())
+					echo json_encode(array('newId'=>$model->id));
+				else
+					var_dump($model->getErrors());
+			}
+		}
+
+		exit;
+	}
 
 	public function actionVarasto($id)
 	{
@@ -159,7 +199,10 @@ class SiteController extends Controller
 			*/
 
 			$varastoCategory->attributes=$_POST['VarastoCategory'];
-			$varastoCategory->ryhmarakenne = json_encode($_POST['VarastoCategory']['rakenne']);
+
+			$_POST['VarastoCategory']['ryhmarakenne'] = preg_replace('!\s+!smi', ' ', $_POST['VarastoCategory']['ryhmarakenne']);
+
+			$varastoCategory->ryhmarakenne = json_encode($_POST['VarastoCategory']['ryhmarakenne']);
 			if($varastoCategory->save())
 			$this->redirect(array('varasto', 'id'=>$id));
 		}
@@ -171,6 +214,13 @@ class SiteController extends Controller
 
 		if(isset($_POST['VarastoOtsikkot']))
 		{
+
+			/*
+			echo '<pre>';
+			print_r($_POST['VarastoRakenne']);
+			echo '</pre>';
+			exit;
+			*/
 
 			$taulu = VarastoOtsikkot::model()->findbypk($id);
 			$criteria = new CDbCriteria;
@@ -189,6 +239,7 @@ class SiteController extends Controller
 				$v = new VarastoRakenne;
 				$v->attributes=$arr;
 				$v->value=$value;
+				$v->tuotteen_ryhman_nimike=$_POST['VarastoOtsikkot']['tuotteen_ryhman_nimike'];
 				$v->tr_rivi=$tr_rivi;
 				if(!$v->save())
 					var_dump($v->getErrors());
@@ -370,23 +421,38 @@ class SiteController extends Controller
 
 
 	public function handle($arr, $deepness=1) {
-		  if ($deepness == 3) {
-		    exit('Not allowed');
-		  }
+	
+/*
+		$i = 0;
+		$ryhmaNimikkeet = array();
+		foreach ($arr as $key => $value) {
 
-		  foreach ($arr as $key => $value) {
-		    if (is_array($value)) {
-		      $this->handle($value, ++$deepness);
-		    }
-		
-		    else {
-			$countKey = count(explode("_",$key)); //$key
-			echo '
-			<div class="row" style="margin-left:'.(5*$countKey).'px">
-				'.$value.'
-			</div>';
-		    }
-		  }
+		  	$left 		= 0;
+		  	$countKey 	= 0;
+			$countKey 	= count(explode("_",$key)); //$key
+			if($countKey != '2')
+			$left		= 5*$countKey;
+	 	  	$i++;
+
+			if($countKey == 2){
+				$ryhmaNimikkeet[$key] = $value;
+			}
+
+				echo '
+				<div class="row" style="margin-left:'.$left.'px">
+					 '.$key.'
+				</div>';
+
+		}
+	
+		echo '<pre>';
+		print_r($ryhmaNimikkeet);
+		echo '</pre>';
+*/
+
+
+
+
 	}
 
 }

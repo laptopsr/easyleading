@@ -2,6 +2,13 @@
 /* @var $this VarastoRakenneController */
 /* @var $dataProvider CActiveDataProvider */
 ?>
+<link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/easyTree.css">
+<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/easyTree.js"></script>
+<style>
+#varastoTaulu td{ white-space: nowrap; }
+.ryhmanVaihto { cursor: pointer }
+.ryhmanVaihto:hover { color: red }
+</style>
 
 <div class="form-inline">
   <div class="form-group">
@@ -58,7 +65,7 @@
 
 
  <div id="demo" class="row collapse">
-  <div class="col-sm-6">
+  <div class="col-sm-12">
    <br>
    <div class="panel panel-primary">
      <div class="panel-heading">Uusi tuote</div>
@@ -118,6 +125,10 @@
 	$criteria->condition = " 
 		varaston_nimike='".$varasto->varaston_nimike."'
 	";
+	if(isset($_GET['etsi'])){
+	$criteria->addCondition (" tuotteen_ryhman_nimike LIKE '%".$_GET['etsi']."%' ");	
+	}
+
 	$varastoRivit=new CActiveDataProvider('VarastoRakenne', array(
 		'criteria'=>$criteria,
 		//'pagination'=>false
@@ -131,9 +142,12 @@
 		AND varaston_nimike='".$varasto->varaston_nimike."' 
 	";
 	$tyoteryhmat = VarastoCategory::model()->find($criteria);
-	$ryhmat = json_decode($tyoteryhmat->ryhmarakenne, true);
+	$thisTree = json_decode($tyoteryhmat->ryhmarakenne);
+	//$thisTree = preg_replace('!\s+!smi', ' ', $thisTree);
 	//  Tyoteryhmat -->
 ?>
+
+
 <div class="row">
 
  <div class="col-sm-3">
@@ -141,29 +155,66 @@
      <div class="panel-heading">Valitse Tuoteryhmä</div>
      <div class="panel-body">
 	<div class="list-group">
-	<?php
-	if(is_array($ryhmat))
-	{
-		$this->handle($ryhmat);
-		echo '<br>';
-	}
-	?>
+		<?php echo CHtml::link('Näytä kaikki','varasto?id='.$id); ?>
+    	  <div class="easy-tree" id="varastonNakyma">
+		<?php echo $thisTree; ?>
+	  </div>
 	</div>
      </div>
   </div>
  </div>
+
+<input type="hidden" value="<?php echo $id; ?>" id="varastoId">
+<script>
+    (function ($) {
+        function init() {
+            $('#varastonNakyma').EasyTree({
+                addable: false,
+                editable: false,
+                deletable: false
+            });
+        }
+        function init2() {
+            $('#thisTree').EasyTree({
+                addable: true,
+                editable: true,
+                deletable: true
+            });
+        }
+        window.onload = init();
+        window.onload = init2();
+    })(jQuery)
+
+$(document).ready(function(){
+
+	var arr = $('#varastonNakyma').find("a").map(function() { 
+		$('#VarastoOtsikkot_tuotteen_ryhman_nimike').append("<option value='"+$(this).text().trim()+"'>"+$(this).text().trim()+"</option>");
+	}).get();
+	console.log( arr );
+
+
+  $('#varastonNakyma').find("a").click(function(){
+	var thisId = $('#varastoId').val();
+	var thisText = $(this).text().trim();
+	window.location.href='varasto?id='+thisId+'&etsi='+thisText
+  });
+
+});
+</script>
 
  <div class="col-sm-9">
    <div class="panel panel-primary">
      <div class="panel-heading"><?php echo $varasto->varaston_nimike; ?></div>
      <div class="panel-body">
 
+      <div class="table-responsive">
       <table id="varastoTaulu" class="display table table-striped" cellspacing="0" width="100%">
 	<thead>
 
 	<?php 
 		$sarakkeen_nimi = array();
 		echo '<tr>';
+		echo '<th></th>';
 		foreach($varastoOtsikkot as $data)
 		{	
 			$checkAlasveto = explode(":", $data->sarakkeen_nimi);
@@ -174,7 +225,7 @@
 
 			echo '<th>'.CHtml::link($data->sarakkeen_nimi,'varasto?id='.$id.'&sort='.$data->sarakkeen_nimi).'</th>';
 		}
-			echo '<th></th>';
+			echo '<th>Ryhmä</th>';
 		echo '</tr>';
 	?>
 
@@ -201,6 +252,7 @@
 	)); ?>
 	</tbody>
       </table>
+      </div>
 
     </div>
   </div>
@@ -222,7 +274,91 @@
 <script type="text/javascript">
 $(document).ready(function(){
 
-$('.poista').click(function(){
+
+ jQuery.fn.clickToggle = function(a,b) {
+  function cb(){ [b,a][this._tog^=1].call(this); }
+  return this.on("click", cb);
+ };
+
+ $('.Muokkaaminen').clickToggle(
+  function() {
+    $(this).closest("tr").find('span').each(function(){
+      var t = $(this).text();
+      $(this).html($('<input >',{'value' : t, 'class' : 'form-control'}));
+    });
+  },
+  function() {
+    $(this).closest("tr").find('span').each(function(){
+      var inp = $(this).find('input');
+      if (inp.length){
+        $(this).text(inp.val());
+      }
+    });
+  });
+
+
+
+ $(document).delegate(".ryhmanVaihto","click",function(){
+
+	var alasveto = $('#alasvetoRyhmat select').html();
+	$(this).replaceWith('<select class="form-control">'+alasveto+'</select>');
+
+	var varaston_nimike 	= $(this).closest('span').attr('varaston_nimike');
+	var tr_rivi		= $(this).closest('span').attr('tr_rivi');
+
+/*
+        $.ajax({
+           url: 'keyup_updater',
+	   type: 'POST',
+	   data: { riviID : riviID, varaston_nimike : varaston_nimike, sarakkeen_nimi : sarakkeen_nimi, tr_rivi : tr_rivi, thisNewValue : thisNewValue, sarakkeen_tyyppi : sarakkeen_tyyppi, sum : sum, position : position, varaston_nimike_id: varaston_nimike_id, tuotteen_ryhman_nimike : tuotteen_ryhman_nimike },
+           success: function(data){
+		data=JSON.parse(data);
+		console.log(data);
+		//if(data['newId'])
+		//joko
+              },
+	   error:function(data){
+		console.log(data);
+	   }
+        });
+*/
+
+ });
+
+
+ $(document).delegate(".values input","keyup",function(){
+	$(this).closest("tr").find('.Muokkaaminen').html('<i class="fa fa-floppy-o" aria-hidden="true"></i>').removeClass('btn-warning').addClass('btn-success');
+	var riviID	 	= $(this).closest('span').attr('riviID');
+	var varaston_nimike 	= $(this).closest('span').attr('varaston_nimike');
+	var tr_rivi		= $(this).closest('span').attr('tr_rivi');
+	var sarakkeen_nimi	= $(this).closest('span').attr('sarakkeen_nimi');
+	var sarakkeen_tyyppi	= $(this).closest('span').attr('sarakkeen_tyyppi');
+	var sum			= $(this).closest('span').attr('sum');
+	var position		= $(this).closest('span').attr('position');
+	var varaston_nimike_id	= $(this).closest('span').attr('varaston_nimike_id');
+	var tuotteen_ryhman_nimike= $(this).closest('span').attr('tuotteen_ryhman_nimike');
+	var thisNewValue	= $(this).val();
+
+	if(thisNewValue.length > 1)
+	{
+        $.ajax({
+           url: 'keyup_updater',
+	   type: 'POST',
+	   data: { riviID : riviID, varaston_nimike : varaston_nimike, sarakkeen_nimi : sarakkeen_nimi, tr_rivi : tr_rivi, thisNewValue : thisNewValue, sarakkeen_tyyppi : sarakkeen_tyyppi, sum : sum, position : position, varaston_nimike_id: varaston_nimike_id, tuotteen_ryhman_nimike : tuotteen_ryhman_nimike },
+           success: function(data){
+		data=JSON.parse(data);
+		console.log(data);
+		//if(data['newId'])
+		//joko
+              },
+	   error:function(data){
+		console.log(data);
+	   }
+        });
+	}
+ });
+
+ $('.poista').click(function(){
 
 	var yid = $(this).attr('yid');
 	var varaston_nimike = $(this).attr('varaston_nimike');
@@ -231,7 +367,7 @@ $('.poista').click(function(){
         $.ajax({
            url: 'varaston_poisto',
 	   type: 'POST',
-	   data: { yid : yid, varaston_nimike : varaston_nimike, tr_rivi : tr_rivi },
+	   data: { varaston_nimike : varaston_nimike, tr_rivi : tr_rivi },
            success: function(data){
 		data=JSON.parse(data);
 		console.log(data);
@@ -242,7 +378,7 @@ $('.poista').click(function(){
 	   }
         });
 
-});
+ });
 
 /*
 $('#varastoTaulu').DataTable({

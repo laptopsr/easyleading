@@ -6,8 +6,7 @@
 
 
 
-<div class="form row">
-  <div class="col-sm-12">
+
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'varasto-otsikkot-form',
 	'enableAjaxValidation'=>false,
@@ -19,6 +18,19 @@
 	<?php echo $form->hiddenField($model,'varaston_nimike'); ?>
 	<?php echo $form->hiddenField($model,'sarakkeen_tyyppi'); ?>
 
+<div class="form row">
+  <div class="col-sm-4">
+
+
+	<div class="row">
+		<?php echo $form->labelEx($model,'tuotteen_ryhman_nimike'); ?>
+		<div id="alasvetoRyhmat">
+		 <select id="VarastoOtsikkot_tuotteen_ryhman_nimike" name="VarastoOtsikkot[tuotteen_ryhman_nimike]" class="form-control">
+		  <option>Valitse</option>
+		 </select>
+		</div>
+		<?php echo $form->error($model,'tuotteen_ryhman_nimike'); ?>
+	</div>
 
 
 	<?php
@@ -77,7 +89,6 @@
 
 	}
 	?>
-
 
  </div>
 </div><!-- form -->

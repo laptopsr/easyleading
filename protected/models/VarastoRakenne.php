@@ -36,9 +36,9 @@ class VarastoRakenne extends CActiveRecord
 		Yii::app()->db->createCommand("
 		CREATE TABLE IF NOT EXISTS `varasto_yid_".Yii::app()->getModule('user')->user()->profile->getAttribute('yid')."` (
 		  `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-		  `yid` int(11) NOT NULL,
 		  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 		  `varaston_nimike` varchar(500) NOT NULL,
+		  `tuotteen_ryhman_nimike` varchar(255) NOT NULL,
 		  `sarakkeen_nimi` varchar(500) NOT NULL,
 		  `sarakkeen_tyyppi` int(3) NOT NULL,
 		  `sum` int(1) NOT NULL,
@@ -62,13 +62,14 @@ class VarastoRakenne extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('yid, varaston_nimike, sarakkeen_nimi, sarakkeen_tyyppi, sum, position', 'required'),
-			array('yid, sarakkeen_tyyppi, sum, position, varaston_nimike_id', 'numerical', 'integerOnly'=>true),
+			array('varaston_nimike, sarakkeen_nimi, sarakkeen_tyyppi, sum, position', 'required'),
+			array('sarakkeen_tyyppi, sum, position, varaston_nimike_id', 'numerical', 'integerOnly'=>true),
 			array('varaston_nimike, sarakkeen_nimi', 'length', 'max'=>500),
 			array('value, tr_rivi', 'length', 'max'=>500),
+			array('tuotteen_ryhman_nimike', 'length', 'max'=>500),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, yid, time, varaston_nimike, sarakkeen_nimi, sarakkeen_tyyppi, sum', 'safe', 'on'=>'search'),
+			array('id, time, varaston_nimike, sarakkeen_nimi, sarakkeen_tyyppi, sum', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -90,13 +91,13 @@ class VarastoRakenne extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'yid' => 'Yid',
 			'time' => 'Time',
 			'varaston_nimike' => 'Varaston Nimike',
 			'sarakkeen_nimi' => 'Sarakkeen Nimi',
 			'sarakkeen_tyyppi' => 'Sarakkeen Tyyppi',
 			'sum' => Yii::t('main', 'Yhteensä raportissa'),
 			'position'=>Yii::t('main', 'Järjestysnumero'),
+			'tuotteen_ryhman_nimike'=>Yii::t('main', 'Ryhmä'),
 		);
 	}
 
@@ -112,7 +113,6 @@ class VarastoRakenne extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('yid',$this->yid);
 		$criteria->compare('time',$this->time,true);
 		$criteria->compare('varaston_nimike',$this->varaston_nimike,true);
 		$criteria->compare('sarakkeen_nimi',$this->sarakkeen_nimi,true);
