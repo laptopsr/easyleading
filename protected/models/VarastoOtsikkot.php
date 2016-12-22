@@ -48,7 +48,8 @@ class VarastoOtsikkot extends CActiveRecord
 		  `value` varchar(500) NOT NULL,
 		  `position` int(10) NOT NULL,
 		  `varaston_nimike_id` int(11) NOT NULL,
-		  `tr_rivi` varchar(500) NOT NULL
+		  `tr_rivi` varchar(500) NOT NULL,
+		  `naytetaan_taulussa` int(1) NOT NULL DEFAULT 1
 		) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=latin1;
 		")->execute();
 
@@ -66,7 +67,7 @@ class VarastoOtsikkot extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('yid, varaston_nimike, sarakkeen_nimi, sarakkeen_tyyppi, sum, position', 'required'),
-			array('yid, sarakkeen_tyyppi, sum, position, varaston_nimike_id', 'numerical', 'integerOnly'=>true),
+			array('yid, sarakkeen_tyyppi, sum, position, varaston_nimike_id, naytetaan_taulussa', 'numerical', 'integerOnly'=>true),
 			array('varaston_nimike, sarakkeen_nimi', 'length', 'max'=>500),
 			array('value, tr_rivi', 'length', 'max'=>500),
 			// The following rule is used by search().
@@ -103,6 +104,7 @@ class VarastoOtsikkot extends CActiveRecord
 			'position' => 'Position',
 			'varaston_nimike_id' => 'Varaston Nimike',
 			'tr_rivi' => 'Tr Rivi',
+			'naytetaan_taulussa'=> 'Näytetään taulussa',
 		);
 	}
 

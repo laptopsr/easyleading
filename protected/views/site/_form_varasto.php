@@ -14,7 +14,6 @@
 
 
 	<?php echo $form->errorSummary($model); ?>
-	<?php echo $form->hiddenField($model,'yid'); ?>
 	<?php echo $form->hiddenField($model,'varaston_nimike'); ?>
 	<?php echo $form->hiddenField($model,'sarakkeen_tyyppi'); ?>
 

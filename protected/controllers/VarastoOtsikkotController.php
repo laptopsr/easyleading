@@ -156,8 +156,7 @@ class VarastoOtsikkotController extends Controller
 
 				$criteria = new CDbCriteria;
 				$criteria->condition = " 
-					yid='".Yii::app()->getModule('user')->user()->profile->getAttribute('yid')."' 
-					AND varaston_nimike='".$model->varaston_nimike."'
+					varaston_nimike='".$model->varaston_nimike."'
 					AND sarakkeen_nimi='".$old_sarakkeen_nimi."'
 				";
 

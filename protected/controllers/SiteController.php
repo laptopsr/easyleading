@@ -43,8 +43,8 @@ class SiteController extends Controller
                 		'expression'=>"Yii::app()->controller->VarastonOmmistaja()",
 			),
 			array('allow', 
-				'actions'=>array('varaston_poisto', 'keyup_updater'),
-                		'expression'=>"Yii::app()->controller->VarastonYid()",
+				'actions'=>array('varaston_poisto', 'keyup_updater', 'getModal', 'saveModal'),
+				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
 				'actions'=>array('chat', 'chat_ajax', 'chat_check'),
@@ -78,24 +78,6 @@ class SiteController extends Controller
 	}
 
 
-	public function VarastonYid() 
-	{
-	   if(!Yii::app()->user->isGuest)
-	   {
-		$criteria = new CDbCriteria;
-		$criteria->condition = " 
-			yid='".Yii::app()->getModule('user')->user()->profile->getAttribute('yid')."' 
-		";
-		$v = VarastoRakenne::model()->find($criteria);
-	        if(isset($v->id))
-	            return true;
-		else
-	            return false;
-	   } else {
-	            return false;
-	   }
-
-	}
 
 	public function actionVaraston_poisto()
 	{
@@ -106,12 +88,12 @@ class SiteController extends Controller
 			$criteria = new CDbCriteria;
 			$criteria->order = " id DESC ";
 			$criteria->condition = " 
-				AND varaston_nimike='".$_POST['varaston_nimike']."'
+				varaston_nimike='".$_POST['varaston_nimike']."'
 				AND tr_rivi='".$_POST['tr_rivi']."'
 			";
 			VarastoRakenne::model()->deleteAll($criteria);
 		}
-
+		echo json_encode('ok');
 		exit;
 	}
 
@@ -169,7 +151,6 @@ class SiteController extends Controller
 			exit;
 		}
 		$model=new VarastoRakenne;
-		$model->yid = $fromModel->yid;
 		$model->varaston_nimike = $fromModel->varaston_nimike;
 		$model->sarakkeen_tyyppi = $fromModel->sarakkeen_tyyppi;
 		$model->varaston_nimike_id = $id;
@@ -271,6 +252,63 @@ class SiteController extends Controller
 	 * This is the default 'index' action that is invoked
 	 * when an action is not explicitly requested by users.
 	 */
+
+	public function actionGetModal()
+	{
+
+		$criteria = new CDbCriteria;
+		$criteria->condition = " 
+			varaston_nimike='".$_POST['varaston_nimike']."' 
+		";
+		$varastoOtsikkot = VarastoOtsikkot::model()->findAll($criteria);
+
+		$modal = $this->renderPartial('get_modal', array(
+			'varastoOtsikkot'=>$varastoOtsikkot,
+			'tr_rivi'=>$_POST['tr_rivi'],
+			'tuotteen_ryhman_nimike'=>$_POST['tuotteen_ryhman_nimike']
+		), true);
+		echo json_encode($modal);
+	}
+
+
+	public function actionSaveModal()
+	{
+
+
+			foreach($_POST['VarastoRakenne']['sarakkeen_nimi'] as $key=>$value)
+			{
+				if(empty($value)) $value = 0;
+				$arr = json_decode($_POST['VarastoOtsikkot']['arr'][$key], true);
+
+				$model = VarastoRakenne::model()->findByPk($arr['id']);
+				if(isset($model->id)) {
+					$v = $model;
+				} else {
+					$v = new VarastoRakenne;
+				}
+				/*
+				echo '<pre>';
+				print_r($arr);
+				echo '</pre>';
+				*/
+				$checkAlasveto = explode(":", $arr['sarakkeen_nimi']);
+				if(isset($checkAlasveto[0]))
+					$sarakkeen_nimi = $checkAlasveto[0];
+				else
+					$sarakkeen_nimi = $arr['sarakkeen_nimi'];
+
+				$v->attributes=$arr;
+				$v->sarakkeen_nimi=$sarakkeen_nimi;
+				$v->value=$value;
+				if(!$v->save())
+					var_dump($v->getErrors());
+
+			}
+				
+				//echo json_encode('ok');
+	}
+
+
 	public function actionIndex()
 	{
 		// renders the view file 'protected/views/site/index.php'

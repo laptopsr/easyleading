@@ -80,6 +80,21 @@
 		<?php echo $form->error($model,'position'); ?>
 	</div>
  </div>
+
+  <div class="col-sm-4">
+
+	<div class="row">
+		<?php echo $form->labelEx($model,'naytetaan_taulussa'); ?>
+		<?php
+		$list = array(1=>Yii::t('main', 'Kyllä'), 0=>Yii::t('main', 'Ei'));
+        	echo $form->dropDownList($model, 'naytetaan_taulussa', $list,
+		array('class'=>'form-control'));	
+        	?>
+		<?php echo $form->error($model,'naytetaan_taulussa'); ?>
+	</div>
+
+ </div>
+
 </div><!-- form -->
 
 	<div class="buttons">

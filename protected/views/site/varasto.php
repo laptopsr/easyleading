@@ -63,6 +63,7 @@
   </div>
 </div>
 
+ <div id="ilmoitus"></div>
 
  <div id="demo" class="row collapse">
   <div class="col-sm-12">
@@ -102,9 +103,8 @@
 <?php
 	$criteria = new CDbCriteria;
 	$criteria->order = " position ASC ";
-	$criteria->condition = " varaston_nimike='".$varasto->varaston_nimike."' ";
+	$criteria->condition = " varaston_nimike='".$varasto->varaston_nimike."' AND naytetaan_taulussa=1 ";
 	$varastoOtsikkot = VarastoOtsikkot::model()->findAll($criteria);
-
 
 	$criteria = new CDbCriteria;
 /*
@@ -271,6 +271,9 @@ $(document).ready(function(){
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery.dataTables.min.js"></script>
 */?>
 
+<div id="showres" class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+
 <script type="text/javascript">
 $(document).ready(function(){
 
@@ -297,33 +300,6 @@ $(document).ready(function(){
   });
 
 
-
- $(document).delegate(".ryhmanVaihto","click",function(){
-
-	var alasveto = $('#alasvetoRyhmat select').html();
-	$(this).replaceWith('<select class="form-control">'+alasveto+'</select>');
-
-	var varaston_nimike 	= $(this).closest('span').attr('varaston_nimike');
-	var tr_rivi		= $(this).closest('span').attr('tr_rivi');
-
-/*
-        $.ajax({
-           url: 'keyup_updater',
-	   type: 'POST',
-	   data: { riviID : riviID, varaston_nimike : varaston_nimike, sarakkeen_nimi : sarakkeen_nimi, tr_rivi : tr_rivi, thisNewValue : thisNewValue, sarakkeen_tyyppi : sarakkeen_tyyppi, sum : sum, position : position, varaston_nimike_id: varaston_nimike_id, tuotteen_ryhman_nimike : tuotteen_ryhman_nimike },
-           success: function(data){
-		data=JSON.parse(data);
-		console.log(data);
-		//if(data['newId'])
-		//joko
-              },
-	   error:function(data){
-		console.log(data);
-	   }
-        });
-*/
-
- });
 
 
  $(document).delegate(".values input","keyup",function(){
@@ -360,7 +336,6 @@ $(document).ready(function(){
 
  $('.poista').click(function(){
 
-	var yid = $(this).attr('yid');
 	var varaston_nimike = $(this).attr('varaston_nimike');
 	var tr_rivi = $(this).attr('tr_rivi');
 
@@ -380,12 +355,49 @@ $(document).ready(function(){
 
  });
 
-/*
-$('#varastoTaulu').DataTable({
-        //"scrollY": 200,
-        //"scrollX": true
-});
-*/
+
+
+ $('.getModal').click(function(){
+
+	var varaston_nimike = $(this).attr('varaston_nimike');
+	var tr_rivi = $(this).attr('tr_rivi');
+	var tuotteen_ryhman_nimike = $(this).attr('tuotteen_ryhman_nimike');
+
+
+        $.ajax({
+           url: 'getModal',
+	   type: 'POST',
+	   data: { varaston_nimike : varaston_nimike, tr_rivi : tr_rivi, tuotteen_ryhman_nimike : tuotteen_ryhman_nimike },
+           success: function(data){
+		data=JSON.parse(data);
+		//console.log(data);
+		$('#showres').modal().html(data);
+              },
+	   error:function(data){
+		console.log(data);
+	   }
+        });
+
+ });
+
+
+ $(document).delegate(".saveModalForm","click",function(){
+
+ 	var msg   = $('#modalForm').serialize();
+        $.ajax({
+          type: 'POST',
+          url: 'saveModal',
+          data: msg,
+          success: function(data) {
+		//$('#ilmoitus').html(data);
+		window.location.reload();
+          },
+          error:  function(xhr, str){
+	    alert('error: ' + xhr.responseCode);
+          }
+        });
+
+ });
 
 
 });

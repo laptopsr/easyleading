@@ -169,7 +169,7 @@ return array(
             'bootstrapJS'=>array(                       //set others js libraries
                 'baseUrl'=>'js/',
                 'js'=>array(
-		    'bootstrap355.min.js',
+		    'bootstrap.min.js',
 		    'bootstrap-slider.js',
 		    'bootstrap-filestyle.min.js',
 		    'bootstrap-select.js',
@@ -186,7 +186,7 @@ return array(
                 'baseUrl'=>'css/',
                 'css'=>array(  
 		    'jquery-ui.css',
-                    'bootstrap355.min.css',
+                    'bootstrap.min.css',
                     //'bootstrap_custom_theme.min.css',
                     'bootstrap-switch.css',
                     'bootstrap-select.min.css',
