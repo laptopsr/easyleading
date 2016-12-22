@@ -458,39 +458,24 @@ class SiteController extends Controller
 	}
 
 
-	public function handle($arr, $deepness=1) {
+	public function malli() {
 	
-/*
-		$i = 0;
-		$ryhmaNimikkeet = array();
-		foreach ($arr as $key => $value) {
-
-		  	$left 		= 0;
-		  	$countKey 	= 0;
-			$countKey 	= count(explode("_",$key)); //$key
-			if($countKey != '2')
-			$left		= 5*$countKey;
-	 	  	$i++;
-
-			if($countKey == 2){
-				$ryhmaNimikkeet[$key] = $value;
-			}
-
-				echo '
-				<div class="row" style="margin-left:'.$left.'px">
-					 '.$key.'
-				</div>';
-
-		}
-	
-		echo '<pre>';
-		print_r($ryhmaNimikkeet);
-		echo '</pre>';
-*/
-
-
-
-
+		$malli = '
+	        <ul>
+	            <li>Pääryhmä 1
+	                <ul>
+	                    <li>R 1</li>
+	                    <li>R 2</li>
+	                </ul>
+		    </li>
+	            <li>Pääryhmä 2
+	                <ul>
+	                    <li>L 1</li>
+	                    <li>L 2</li>
+	                </ul>
+	            </li>
+	        </ul>';
+		return $malli;
 	}
 
 }

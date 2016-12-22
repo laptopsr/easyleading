@@ -2,21 +2,10 @@
 /* @var $this VarastoCategoryController */
 /* @var $model VarastoCategory */
 /* @var $form CActiveForm */
-$malli = '
-        <ul>
-            <li>Pääryhmä 1
-                <ul>
-                    <li>R 1</li>
-                    <li>R 2</li>
-                </ul>
-	    </li>
-            <li>Pääryhmä 2
-                <ul>
-                    <li>L 1</li>
-                    <li>L 2</li>
-                </ul>
-            </li>
-        </ul>';
+$site = Yii::app()->createController('Site');
+
+$malli = $site[0]->malli();
+
 echo '<textarea id="malli" style="display:none">'.$malli.'</textarea>';
 
 $model->ryhmarakenne = json_decode($model->ryhmarakenne);

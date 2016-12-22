@@ -142,8 +142,10 @@
 		AND varaston_nimike='".$varasto->varaston_nimike."' 
 	";
 	$tyoteryhmat = VarastoCategory::model()->find($criteria);
-	$thisTree = json_decode($tyoteryhmat->ryhmarakenne);
-	//$thisTree = preg_replace('!\s+!smi', ' ', $thisTree);
+	if(isset($tyoteryhmat->ryhmarakenne) and !empty($tyoteryhmat->ryhmarakenne))
+		$thisTree = json_decode($tyoteryhmat->ryhmarakenne);
+	else
+		$thisTree = $this->malli();
 	//  Tyoteryhmat -->
 ?>
 
