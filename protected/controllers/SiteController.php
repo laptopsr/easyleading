@@ -43,7 +43,7 @@ class SiteController extends Controller
                 		'expression'=>"Yii::app()->controller->VarastonOmmistaja()",
 			),
 			array('allow', 
-				'actions'=>array('varaston_poisto', 'keyup_updater', 'getModal', 'saveModal'),
+				'actions'=>array('varaston_poisto', 'keyup_updater', 'getModal', 'saveModal', 'annaKaikkiKuvat'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -78,12 +78,63 @@ class SiteController extends Controller
 	}
 
 
+	public function actionAnnaKaikkiKuvat()
+	{
+		$nextPath = "uploaded/varasto/yritys_".Yii::app()->getModule('user')->user()->profile->getAttribute('yid');
+		$result = '';
+		if(isset($_POST['id']))
+		{
+			$model = VarastoRakenne::model()->findByPk($_POST['id']);
+			if(is_array(json_decode($model->value, true)))
+			{
+				$kuvat = json_decode($model->value, true);
+				foreach($kuvat as $item)
+				{
+					$result .= '
+					<div class="row">
+					 <div class="col-sm-12">
+						<img src="../../'.$nextPath.'/'.$item.'" class="img-thumbnail">
+					 </div>
+					</div>
+					';
+				}
+			}
+		}
+		echo json_encode($result);
+		exit;
+	}
 
 	public function actionVaraston_poisto()
 	{
 
 		if(isset($_POST['tr_rivi']))
 		{
+
+			// <-- Etsitaan kuvaa
+			$criteria = new CDbCriteria;
+			$criteria->order = " id DESC ";
+			$criteria->condition = " 
+				varaston_nimike='".$_POST['varaston_nimike']."'
+				AND tr_rivi='".$_POST['tr_rivi']."'
+				AND sarakkeen_tyyppi=3 AND value!=''
+			";
+			$model = VarastoRakenne::model()->find($criteria);
+			if(is_array(json_decode($model->value, true)))
+			{
+
+				$path = Yii::app()->basePath."/../";
+				$nextPath = "uploaded/varasto/yritys_".Yii::app()->getModule('user')->user()->profile->getAttribute('yid');
+
+				$kuvat = json_decode($model->value, true);
+				foreach($kuvat as $item)
+				{
+					if(file_exists($path . $nextPath.'/'.$item))
+					unlink($path . $nextPath.'/'.$item);
+				}
+			}
+			// <-- Etsitaan kuvaa -->
+
+
 
 			$criteria = new CDbCriteria;
 			$criteria->order = " id DESC ";
@@ -212,8 +263,56 @@ class SiteController extends Controller
 
 			$tr_rivi = md5(strtotime(date("Y-m-d H:i:s")));
 
+			/*
+			echo '<pre>';
+			print_r($_FILES);
+			echo '</pre>';
+			*/
+
+			// <-- Onko kuva
+			if(isset($_FILES['fileToUpload']) and !empty($_FILES['fileToUpload']))
+			{
+				$img_desc = $this->reArrayFiles($_FILES['fileToUpload']);
+
+				$path = Yii::app()->basePath."/../";
+				$nextPath = "uploaded/varasto/yritys_".Yii::app()->getModule('user')->user()->profile->getAttribute('yid');
+				if (!file_exists($path . $nextPath)) {
+					mkdir($path . $nextPath, 0777, true);
+				}
+    				$files = array();
+				$onkokuva = false;
+    				foreach($img_desc as $val)
+    				{
+					$uploaddir = $path . $nextPath. '/';
+					$uploadfile = basename($val['name']);	
+					if (move_uploaded_file($val['tmp_name'], $uploaddir . $uploadfile)) {
+						array_push($files, $uploadfile);
+						$onkokuva = true;
+					}
+    				}
+
+				if($onkokuva == true)
+				{
+
+						$v = new VarastoRakenne;
+						$v->attributes=$_POST['fileLomake'];
+						$v->value=json_encode($files);
+						$v->tuotteen_ryhman_nimike=$_POST['VarastoOtsikkot']['tuotteen_ryhman_nimike'];
+						$v->tr_rivi=$tr_rivi;
+						if(!$v->save()){
+							var_dump($v->getErrors());
+							exit;
+						}
+				}
+
+			}
+			//  Onko kuva -->
+
+
+
 			foreach($_POST['VarastoOtsikkot']['sarakkeen_nimi'] as $key=>$value)
 			{
+
 				if(empty($value)) $value = 0;
 				$arr = json_decode($_POST['VarastoOtsikkot']['arr'][$key], true);
 
@@ -248,6 +347,25 @@ class SiteController extends Controller
 		));
 	}
 
+
+
+	protected function reArrayFiles($file)
+	{
+	    $file_ary = array();
+	    $file_count = count($file['name']);
+	    $file_key = array_keys($file);
+	    
+	    for($i=0;$i<$file_count;$i++)
+	    {
+	        foreach($file_key as $val)
+	        {
+	            $file_ary[$i][$val] = $file[$val][$i];
+	        }
+	    }
+	    return $file_ary;
+	}
+
+
 	/**
 	 * This is the default 'index' action that is invoked
 	 * when an action is not explicitly requested by users.
@@ -275,22 +393,70 @@ class SiteController extends Controller
 	{
 
 
-			foreach($_POST['VarastoRakenne']['sarakkeen_nimi'] as $key=>$value)
+		
+		echo '<pre>';
+		print_r($_POST);
+		echo '</pre>';
+		//exit;
+		
+
+			// <-- Onko kuva
+			if(isset($_FILES['fileToUpload']) and !empty($_FILES['fileToUpload']))
 			{
+				$img_desc = $this->reArrayFiles($_FILES['fileToUpload']);
+
+				$path = Yii::app()->basePath."/../";
+				$nextPath = "uploaded/varasto/yritys_".Yii::app()->getModule('user')->user()->profile->getAttribute('yid');
+				if (!file_exists($path . $nextPath)) {
+					mkdir($path . $nextPath, 0777, true);
+				}
+    				$files = array();
+				$onkokuva = false;
+    				foreach($img_desc as $val)
+    				{
+					$uploaddir = $path . $nextPath. '/';
+					$uploadfile = basename($val['name']);	
+					if (move_uploaded_file($val['tmp_name'], $uploaddir . $uploadfile)) {
+						array_push($files, $uploadfile);
+						$onkokuva = true;
+					}
+    				}
+
+				if($onkokuva == true)
+				{
+
+						if(isset($_POST['fileLomake']['thisId'])) {
+							$v = VarastoRakenne::model()->findbypk($_POST['fileLomake']['thisId']);
+						} else {
+							$v = new VarastoRakenne;
+						}
+
+						$v->attributes=$_POST['fileLomake'];
+						$v->value=json_encode($files);
+						if(!$v->save()){
+							var_dump($v->getErrors());
+							exit;
+						}
+				}
+
+			}
+			//  Onko kuva -->
+
+			
+			if(isset($_POST['VarastoRakenne']['sarakkeen_nimi']))
+			{
+			  foreach($_POST['VarastoRakenne']['sarakkeen_nimi'] as $key=>$value)
+			  {
 				if(empty($value)) $value = 0;
 				$arr = json_decode($_POST['VarastoOtsikkot']['arr'][$key], true);
-
 				$model = VarastoRakenne::model()->findByPk($arr['id']);
 				if(isset($model->id)) {
 					$v = $model;
 				} else {
 					$v = new VarastoRakenne;
 				}
-				/*
-				echo '<pre>';
-				print_r($arr);
-				echo '</pre>';
-				*/
+
+
 				$checkAlasveto = explode(":", $arr['sarakkeen_nimi']);
 				if(isset($checkAlasveto[0]))
 					$sarakkeen_nimi = $checkAlasveto[0];
@@ -300,11 +466,14 @@ class SiteController extends Controller
 				$v->attributes=$arr;
 				$v->sarakkeen_nimi=$sarakkeen_nimi;
 				$v->value=$value;
-				if(!$v->save())
+				if(!$v->save()){
 					var_dump($v->getErrors());
+					exit;
+				}
 
+			  }
 			}
-				
+				$this->redirect(array('varasto', 'id'=>$_POST['backLinkID']));
 				//echo json_encode('ok');
 	}
 

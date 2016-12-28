@@ -82,11 +82,25 @@
 
 		} else {
 
+			if($data->sarakkeen_tyyppi == 3)
+			{
+			echo '
+			<div class="row">
+				<label>'.$data->sarakkeen_nimi.'</label>
+				<input type="file" class="form-control" name="fileToUpload[]" multiple id="fileToUpload" data-toggle="tooltip" data-placement="top" title="Kun haluat valita monta kuvaa käytä CTRL ja hiiri. Ensimmäinen kuva tule tauluun">
+				<input type="hidden" class="form-control" name="fileLomake[varaston_nimike]" value="'.$data->varaston_nimike.'">
+				<input type="hidden" class="form-control" name="fileLomake[sarakkeen_nimi]" value="'.$data->sarakkeen_nimi.'">
+				<input type="hidden" class="form-control" name="fileLomake[sarakkeen_tyyppi]" value="'.$data->sarakkeen_tyyppi.'">
+				<input type="hidden" class="form-control" name="fileLomake[position]" value="'.$data->position.'">
+				<input type="hidden" class="form-control" name="fileLomake[sum]" value="'.$data->sum.'">
+			</div>';
+			} else {
 			echo '
 			<div class="row">
 				<label>'.$data->sarakkeen_nimi.'</label>
 				<input type="'.$tyyppi.'" class="form-control" name="VarastoOtsikkot[sarakkeen_nimi][]">
 			</div>';
+			}
 		}
 
 		echo '<textarea class="form-control" name="VarastoOtsikkot[arr][]" style="display:none">'.json_encode($arr).'</textarea>';

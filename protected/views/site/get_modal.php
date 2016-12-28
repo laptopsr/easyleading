@@ -11,7 +11,9 @@
           <h4 class="modal-title" id="exampleModalLabel">New message</h4>
         </div>
         <div class="modal-body">
-          <form id="modalForm">
+          <form id="modalForm" action="saveModal" enctype="multipart/form-data" method="POST">
+	
+		<input type="hidden" class="form-control" name="backLinkID" value="<?php echo $_POST['backLinkID']; ?>">
 
 		<?php 
 		$sarakkeen_nimi = array();
@@ -66,10 +68,30 @@
 
 			} else {
 
+
+			if($data->sarakkeen_tyyppi == 3)
+			{
+			echo '
+			<div class="form-group">
+				<label>'.$data->sarakkeen_nimi.'</label>
+				<input type="file" class="form-control" name="fileToUpload[]" multiple id="fileToUpload" data-toggle="tooltip" data-placement="top" title="Kun haluat valita monta kuvaa käytä CTRL ja hiiri. Ensimmäinen kuva tule tauluun">
+				<input type="hidden" class="form-control" name="fileLomake[varaston_nimike]" value="'.$data->varaston_nimike.'">
+				<input type="hidden" class="form-control" name="fileLomake[tuotteen_ryhman_nimike]" value="'.$tuotteen_ryhman_nimike.'">
+				<input type="hidden" class="form-control" name="fileLomake[sarakkeen_nimi]" value="'.$data->sarakkeen_nimi.'">
+				<input type="hidden" class="form-control" name="fileLomake[sarakkeen_tyyppi]" value="'.$data->sarakkeen_tyyppi.'">
+				<input type="hidden" class="form-control" name="fileLomake[position]" value="'.$data->position.'">
+				<input type="hidden" class="form-control" name="fileLomake[sum]" value="'.$data->sum.'">
+				<input type="hidden" class="form-control" name="fileLomake[thisId]" value="'.$valueId.'">
+				<input type="hidden" class="form-control" name="fileLomake[tr_rivi]" value="'.$tr_rivi.'">
+			</div>';
+			} else {
 				echo '<div class="form-group">';
 				echo '<label for="recipient-name" class="form-control-label">'.$data->sarakkeen_nimi.':</label>';
 				echo '<input type="text" class="form-control" name="VarastoRakenne[sarakkeen_nimi][]" value="'.$value.'">';
 				echo '</div>';
+			}
+
+
 			}
 
 				echo '<textarea class="form-control" name="VarastoOtsikkot[arr][]" style="display:none">'.json_encode($arr).'</textarea>';

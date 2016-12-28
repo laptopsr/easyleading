@@ -34,6 +34,7 @@
      <div class="panel-heading"><?php echo $data->varaston_nimike; ?></div>
      <div class="panel-body">
 
+     <div class="table-responsive">
       <table class="table table-bordered">
        <tr>
 	<?php foreach($varasto as $data): ?>
@@ -41,6 +42,7 @@
 	<?php endforeach; ?>
        </tr>
       </table>
+    </div>
 
     </div>
   </div>

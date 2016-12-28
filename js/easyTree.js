@@ -44,14 +44,14 @@
                 if($(this).is('li:has(ul)')) {
                     var children = $(this).find(' > ul');
                     $(children).remove();
-                    text = $(this).text();
+                    text = $(this).text().trim();
                     $(this).html('<span><span class="glyphicon"></span><a href="javascript: void(0);"></a> </span>');
                     $(this).find(' > span > span').addClass('glyphicon-folder-open');
                     $(this).find(' > span > a').text(text);
                     $(this).append(children);
                 }
                 else {
-                    text = $(this).text();
+                    text = $(this).text().trim();
                     $(this).html('<span><span class="glyphicon"></span><a href="javascript: void(0);"></a> </span>');
                     $(this).find(' > span > span').addClass('glyphicon-file');
                     $(this).find(' > span > a').text(text);

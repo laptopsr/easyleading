@@ -42,7 +42,7 @@ class VarastoRakenne extends CActiveRecord
 		  `sarakkeen_nimi` varchar(500) NOT NULL,
 		  `sarakkeen_tyyppi` int(3) NOT NULL,
 		  `sum` int(1) NOT NULL,
-		  `value` varchar(500) NOT NULL,
+		  `value` TEXT NOT NULL,
 		  `position` int(10) NOT NULL,
 		  `varaston_nimike_id` int(11) NOT NULL,
 		  `tr_rivi` varchar(500) NOT NULL

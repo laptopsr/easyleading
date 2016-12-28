@@ -10,6 +10,8 @@
 .ryhmanVaihto:hover { color: red }
 </style>
 
+<input type="hidden" class="form-control" id="backLinkID" value="<?php echo $_GET['id']; ?>">
+
 <div class="form-inline">
   <div class="form-group">
 	<button class="btn btn-primary btn-lg" data-toggle="collapse" data-target="#demo">
@@ -234,10 +236,12 @@ $(document).ready(function(){
 	</thead>
 	<tbody>
 
-	<?php $this->widget('zii.widgets.CListView', array(
+	<?php 
+	$nextPath = "uploaded/varasto/yritys_".Yii::app()->getModule('user')->user()->profile->getAttribute('yid');
+	$this->widget('zii.widgets.CListView', array(
 		'dataProvider'=>$varastoRivit,
 		'itemView'=>'_view_varasto_taulu',
-		'viewData' => array( 'varastoOtsikkot' => $varastoOtsikkot, 'varasto' => $varasto ),
+		'viewData' => array( 'varastoOtsikkot' => $varastoOtsikkot, 'varasto' => $varasto, 'nextPath' => $nextPath ),
 	  	'template'=>'{items}<table class="table table-striped table-condensed"></table><br/>{pager}',
 	
 
@@ -364,12 +368,12 @@ $(document).ready(function(){
 	var varaston_nimike = $(this).attr('varaston_nimike');
 	var tr_rivi = $(this).attr('tr_rivi');
 	var tuotteen_ryhman_nimike = $(this).attr('tuotteen_ryhman_nimike');
-
+	var backLinkID = $('#backLinkID').val();
 
         $.ajax({
            url: 'getModal',
 	   type: 'POST',
-	   data: { varaston_nimike : varaston_nimike, tr_rivi : tr_rivi, tuotteen_ryhman_nimike : tuotteen_ryhman_nimike },
+	   data: { backLinkID : backLinkID, varaston_nimike : varaston_nimike, tr_rivi : tr_rivi, tuotteen_ryhman_nimike : tuotteen_ryhman_nimike },
            success: function(data){
 		data=JSON.parse(data);
 		//console.log(data);
@@ -385,6 +389,8 @@ $(document).ready(function(){
 
  $(document).delegate(".saveModalForm","click",function(){
 
+$('#modalForm').submit();
+/*
  	var msg   = $('#modalForm').serialize();
         $.ajax({
           type: 'POST',
@@ -392,15 +398,58 @@ $(document).ready(function(){
           data: msg,
           success: function(data) {
 		//$('#ilmoitus').html(data);
-		window.location.reload();
+		console.log(data);
+		//window.location.reload();
+          },
+          error:  function(xhr, str){
+	    alert('error: ' + xhr.responseCode);
+          }
+        });
+*/
+
+ });
+
+
+
+ $('.openModalImage').click(function(){
+
+   var kuvat = '';
+   var riviId = $(this).attr('riviId');
+
+        $.ajax({
+          type: 'POST',
+          url: 'annaKaikkiKuvat',
+          data: { id : riviId },
+	  async : false,
+          success: function(data) {
+		data=JSON.parse(data);
+		console.log(data);
+		kuvat = data;
           },
           error:  function(xhr, str){
 	    alert('error: ' + xhr.responseCode);
           }
         });
 
- });
 
+   $('#showres').modal().html(''+
+  '<div class="modal-dialog">' +
+    '<div class="modal-content">' +
+      '<div class="modal-header">' +
+        '<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>' +
+        '<h4 class="modal-title" id="myModalLabel">Image preview</h4>' +
+      '</div>' +
+      '<div class="modal-body">' 
+         + kuvat +
+      '</div>' +
+      '<div class="modal-footer">' +
+        '<button type="button" class="btn btn-default" data-dismiss="modal">Sulje</button>' +
+      '</div>' +
+    '</div>' +
+  '</div>'
+   );
+
+ });
 
 });
 </script>
