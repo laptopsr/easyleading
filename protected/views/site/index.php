@@ -78,6 +78,14 @@
 	 <!--laatiko loppu-->
 
 
+	 <!--laatiko alka-->
+	 <div class="col-sm-3">
+	  <?php echo CHtml::link('Liikekirjeet',Yii::app()->request->baseUrl.'/index.php/site/oma_kansio',
+			array('class'=>'painike btn btn-primary btn-block btn-lg')); 
+	  ?>
+	 </div>
+	 <!--laatiko loppu-->
+
 
 <?php endif; ?>
 <!-- Yrittaja -->

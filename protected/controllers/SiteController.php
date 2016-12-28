@@ -43,7 +43,7 @@ class SiteController extends Controller
                 		'expression'=>"Yii::app()->controller->VarastonOmmistaja()",
 			),
 			array('allow', 
-				'actions'=>array('varaston_poisto', 'keyup_updater', 'getModal', 'saveModal', 'annaKaikkiKuvat'),
+				'actions'=>array('varaston_poisto', 'keyup_updater', 'getModal', 'saveModal', 'annaKaikkiKuvat', 'oma_kansio'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -365,6 +365,29 @@ class SiteController extends Controller
 	    return $file_ary;
 	}
 
+
+	public function actionOma_kansio()
+	{
+		
+		if(!Yii::app()->getModule('user')->user()->profile->getAttribute('yid'))
+			die('Error yid');
+		else
+			$yid = Yii::app()->getModule('user')->user()->profile->getAttribute('yid');
+
+		if(isset($_POST['ajax']))
+		{
+			$response = $this->renderPartial('oma_kansio_ajax', array(
+				'yid'=>$yid,
+			), true);
+			echo json_encode($response);
+			exit;
+		}
+
+
+		$this->render('oma_kansio', array(
+			'yid'=>$yid,
+		));
+	}
 
 	/**
 	 * This is the default 'index' action that is invoked
