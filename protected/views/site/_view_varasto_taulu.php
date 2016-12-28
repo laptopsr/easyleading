@@ -1,14 +1,7 @@
 <?php
 
 		echo '<tr>';
-		echo '
-		<td>
-		  <div class="pull-left btn-group">
-			  <button class="getModal" tuotteen_ryhman_nimike="'.$data->tuotteen_ryhman_nimike.'" varaston_nimike="'.$varasto->varaston_nimike.'" tr_rivi="'.$data->tr_rivi.'"><i class="fa fa-list-alt" aria-hidden="true"></i></button>
-			  <button class="Muokkaaminen"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
-			  <button class="poista" varaston_nimike="'.$varasto->varaston_nimike.'" tr_rivi="'.$data->tr_rivi.'"><i class="fa fa-times" aria-hidden="true"></i></button>
-		  </div>
-		</td>';
+
 		foreach($varastoOtsikkot as $dataOtsikko)
 		{	
 			$value 		= '';
@@ -36,8 +29,18 @@
 				position="'.$dataOtsikko->position.'"
 				tuotteen_ryhman_nimike="'.$data->tuotteen_ryhman_nimike.'"
 				>'.$value.'</span></td>';
+
 		}
 			echo '<td>'.$data->tuotteen_ryhman_nimike.'</td>';
-		echo '</tr>';
+		
+		echo '
+		<td>
+		  <div class="pull-right btn-group">
+			  <button class="getModal" tuotteen_ryhman_nimike="'.$data->tuotteen_ryhman_nimike.'" varaston_nimike="'.$varasto->varaston_nimike.'" tr_rivi="'.$data->tr_rivi.'"><i class="fa fa-list-alt" aria-hidden="true"></i></button>
+			  <button class="Muokkaaminen"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+			  <button class="poista" varaston_nimike="'.$varasto->varaston_nimike.'" tr_rivi="'.$data->tr_rivi.'"><i class="fa fa-times" aria-hidden="true"></i></button>
+		  </div>
+		</td>';
+echo '</tr>';
 
 ?>

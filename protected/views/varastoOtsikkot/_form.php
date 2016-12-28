@@ -57,7 +57,11 @@
 	<div class="row">
 		<?php echo $form->labelEx($model,'sarakkeen_tyyppi'); ?>
 		<?php
-		$list = array(1=>Yii::t('main', 'Tekstinä'), 2=>Yii::t('main', 'Numerona'));
+		$list = array(
+			1=>Yii::t('main', 'Tekstinä'), 
+			2=>Yii::t('main', 'Numerona'), 
+			3=>Yii::t('main', 'Valokuva')
+		);
         	echo $form->dropDownList($model, 'sarakkeen_tyyppi', $list,
 		array('class'=>'form-control'));	
         	?>

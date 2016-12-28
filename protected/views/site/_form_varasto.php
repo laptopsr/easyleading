@@ -10,6 +10,9 @@
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'varasto-otsikkot-form',
 	'enableAjaxValidation'=>false,
+    	'htmlOptions'=>array(
+        	'enctype' => 'multipart/form-data',
+    	),
 )); ?>
 
 
@@ -46,6 +49,8 @@
 			$tyyppi = 'text';
 		if($data->sarakkeen_tyyppi == 2)
 			$tyyppi = 'number';
+		if($data->sarakkeen_tyyppi == 3)
+			$tyyppi = 'file';
 
 		$arr = array(
 				'yid'=>$data->yid,

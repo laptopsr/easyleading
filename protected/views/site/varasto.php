@@ -216,7 +216,6 @@ $(document).ready(function(){
 	<?php 
 		$sarakkeen_nimi = array();
 		echo '<tr>';
-		echo '<th></th>';
 		foreach($varastoOtsikkot as $data)
 		{	
 			$checkAlasveto = explode(":", $data->sarakkeen_nimi);
@@ -228,6 +227,7 @@ $(document).ready(function(){
 			echo '<th>'.CHtml::link($data->sarakkeen_nimi,'varasto?id='.$id.'&sort='.$data->sarakkeen_nimi).'</th>';
 		}
 			echo '<th>Ryhmä</th>';
+			echo '<th></th>';
 		echo '</tr>';
 	?>
 

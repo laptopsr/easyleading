@@ -23,8 +23,15 @@ if (preg_match('/<ul.*>/', $model->ryhmarakenne)) {
 
 
 <!-- Puurakenne -->
-	<h2>Uusi puu</h2>
-	<span class="btn btn-primary palaaMallin">Palaa mallin</span>
+	<h2>
+		Uusi puu 
+		<!-- Neuvon painike -->
+		<span class="btn btn-default" data-toggle="tooltip" data-placement="top" title="blaa">
+			<i class="fa fa-taxi" aria-hidden="true"></i>
+		</span>
+		<!-- Neuvon painike -->
+	</h2>
+	<span class="btn btn-primary palaaMallin" data-toggle="tooltip" data-placement="top" title="Keskeyta rakenne">Palaa mallin</span>
 
 
 
