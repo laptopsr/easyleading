@@ -177,7 +177,7 @@ echo '<pre>';
       if (($file == '.') || ($file == '..')) continue;
       $f0 = $folder.'/'.$file;
       if (is_dir($f0)) {
-        echo $space.'<i class="fa fa-times link poistaKansio" pois="'.$folder.'/'.$file.'" aria-hidden="true" style="font-size:120%;color: red;"></i> <i class="fa fa-folder-open" aria-hidden="true" style="font-size:120%;color: #ffa31a;"></i> '.$file."<br />";
+        echo $space.'<i class="fa fa-times link poistaKansio" pois="'.$folder.'/'.$file.'" aria-hidden="true" style="font-size:130%;color: red;"></i> <i class="fa fa-folder-open" aria-hidden="true" style="font-size:120%;color: #ffa31a;"></i> '.$file."<br />";
         showTree($f0, $space.'&nbsp;&nbsp;');
       } else {
 	echo $space.'<i class="fa fa-times link poista" pois="'.$folder.'/'.$file.'" aria-hidden="true" style="font-size:120%;color: red;"></i> <i class="fa fa-file" aria-hidden="true" style="font-size:120%;color: #ccc;"></i> <a href="../../'.$folder.'/'.$file.'">'.$file.'</a><br />';
