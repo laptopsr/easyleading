@@ -13,7 +13,7 @@
 </style>
 
 
-<!--Back-->
+<!--Back--><!--
 <p>
 	<?php echo CHtml::link('<i class="fa fa-backward" aria-hidden="true"></i>',Yii::app()->request->urlReferrer, 
 		array(
@@ -22,7 +22,10 @@
 			'data-placement'=>'top', 
 			'title'=>Yii::t('main', 'Takaisin')
 		)); 
-	?>
+	?>-->
+<span class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Chatissä voit lähettää ja vastaanottaa viestejä oman yrityksesi muilta käyttäjiltä.">
+			<i class="fa fa-info" aria-hidden="true"></i>
+		</span>
 </p>
 <!--Back-->
 
@@ -38,7 +41,7 @@
 	<div class="row">
 	  <div class="col-lg-6">
 	    <div class="input-group">
-	      <input type="text" id="teksti" class="form-control" placeholder="Kirjoita tähään...">
+	      <input type="text" id="teksti" class="form-control" placeholder="Kirjoita tähän...">
 	      <span class="input-group-btn">
 	        <button class="btn btn-primary laheta" type="button">Lähetä</button>
 	      </span>

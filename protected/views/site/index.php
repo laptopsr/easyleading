@@ -32,7 +32,7 @@
 
 	 <!--laatiko alka-->
 	 <div class="col-sm-3">
-	  <?php echo CHtml::link('Varasto rakenne',Yii::app()->request->baseUrl.'/index.php/varastoOtsikkot/index',
+	  <?php echo CHtml::link('Varaston rakenne',Yii::app()->request->baseUrl.'/index.php/varastoOtsikkot/index',
 			array('class'=>'painike btn btn-primary btn-block btn-lg')); 
 	  ?>
 	 </div>

@@ -24,14 +24,14 @@ if (preg_match('/<ul.*>/', $model->ryhmarakenne)) {
 
 <!-- Puurakenne -->
 	<h2>
-		Uusi puu 
+		Kustannuspaikkojen luonti 
 		<!-- Neuvon painike -->
-		<span class="btn btn-default" data-toggle="tooltip" data-placement="top" title="blaa">
-			<i class="fa fa-taxi" aria-hidden="true"></i>
+		<span class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Tällä sivulla voit järjestää valitsemasi varaston. Luo järjestys ja sen jälkeen lajittele tuottet oikeisiin kustannuspaikkoihin. Näin löydät paremmin tuotteesi varastosta. <br><br> Kustannuspaikkarakenne jää näkymään siinä oletuksena, jossa se on tallennusvaiheessa jätetty. <br><br> Kun muokkaat kustannusppaikan nimeä, valitse muutettava kustannuspaikka-->klikkaa muokkaa-->muuta nimi ja paina ENTER-->paina tallenna.">
+			<i class="fa fa-info" aria-hidden="true"></i>
 		</span>
 		<!-- Neuvon painike -->
 	</h2>
-	<span class="btn btn-primary palaaMallin" data-toggle="tooltip" data-placement="top" title="Keskeyta rakenne">Palaa mallin</span>
+	<span class="btn btn-primary palaaMallin" data-toggle="tooltip" data-placement="top" title="Palauttaa oletusjärjestyksen ja poistaa vanhan.">Palauta oletusrakenne</span>
 
 
 

@@ -97,7 +97,7 @@ class VarastoRakenne extends CActiveRecord
 			'sarakkeen_tyyppi' => 'Sarakkeen Tyyppi',
 			'sum' => Yii::t('main', 'Yhteensä raportissa'),
 			'position'=>Yii::t('main', 'Järjestysnumero'),
-			'tuotteen_ryhman_nimike'=>Yii::t('main', 'Ryhmä'),
+			'tuotteen_ryhman_nimike'=>Yii::t('main', 'Kustannuspaikka'),
 		);
 	}
 

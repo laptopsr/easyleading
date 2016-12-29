@@ -6,7 +6,7 @@
 <div class="row">
  <div class="col-sm-12">
    <div class="panel panel-primary">
-     <div class="panel-heading">Varasto rakenne</div>
+     <div class="panel-heading">Varastoitavan tuotteen lomakkeen luonti</div>
      <div class="panel-body">
 
 	<?php echo $this->renderPartial('//varastoOtsikkot/_form', array('model'=>$model)); ?>
@@ -16,7 +16,7 @@
  </div>
 </div>
 
-<h1>Varastot</h1>
+<h1>Varastoitavan tuotteen lomakesarakkeet</h1>
 
 <?php foreach($varastot as $data): ?>
 <?php

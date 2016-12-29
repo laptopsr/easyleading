@@ -14,12 +14,12 @@
 
 <div class="form-inline">
   <div class="form-group">
-	<button class="btn btn-primary btn-lg" data-toggle="collapse" data-target="#demo">
+	<button class="btn btn-primary btn-lg" data-toggle="collapse" data-target="#demo" title="Luo täällä uusi tuote varastoon.">
 		<i class="fa fa-plus" aria-hidden="true"></i> Luo tuote <i class="caret"></i>
 	</button>
   </div>
   <div class="form-group">
-	<button class="btn btn-primary btn-lg" data-toggle="collapse" data-target="#varastonRyhmittely">
+	<button class="btn btn-primary btn-lg" data-toggle="collapse" data-target="#varastonRyhmittely" title="Luo täällä kustannuspaikkajärjestys ennen tuotteiden luomista, jotta tuotteiden löytyminen varastosta on helpompaa.">
 		Varaston ryhmittely <i class="caret"></i>
 	</button>
   </div>
@@ -85,7 +85,7 @@
   <div class="col-sm-12">
    <br>
    <div class="panel panel-primary">
-     <div class="panel-heading">Varaston ryhmät</div>
+     <div class="panel-heading">Varaston ryhmittely</div>
      <div class="panel-body">
 
 	<?php echo $this->renderPartial('//varastoCategory/_form', array('model'=>$varastoCategory, 'varaston_nimike'=>$varasto->varaston_nimike)); ?>
@@ -156,10 +156,10 @@
 
  <div class="col-sm-3">
    <div class="panel panel-default">
-     <div class="panel-heading">Valitse Tuoteryhmä</div>
+     <div class="panel-heading">Valitse tuoteryhmä</div>
      <div class="panel-body">
 	<div class="list-group">
-		<?php echo CHtml::link('Näytä kaikki','varasto?id='.$id); ?>
+		<?php echo CHtml::link('Näytä kaikki tuotteet','varasto?id='.$id); ?>
     	  <div class="easy-tree" id="varastonNakyma">
 		<?php echo $thisTree; ?>
 	  </div>
