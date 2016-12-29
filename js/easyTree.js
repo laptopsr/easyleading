@@ -19,13 +19,13 @@
                 editNull: 'muoka',
                 editMultiple: 'muoka multi',
                 addMultiple: 'lisaa multi',
-                collapseTip: 'collapseTip',
+                collapseTip: 'Avaa kustannuspaikka(jos se on kansio)',
                 expandTip: 'expandTip',
-                selectTip: 'selectTip',
+                selectTip: 'Valitse kustannuspaikka',
                 unselectTip: 'unselectTip',
-                editTip: 'editTip',
-                addTip: 'addTip',
-                deleteTip: 'deleteTip',
+                editTip: 'Muokkaa kustannuspaikkaa',
+                addTip: 'Lisää uusi kustannuspaikka',
+                deleteTip: 'Poista kustannuspaikka',
                 cancelButtonLabel: 'unohda'
             }
         };

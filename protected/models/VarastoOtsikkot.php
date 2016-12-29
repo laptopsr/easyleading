@@ -96,15 +96,15 @@ class VarastoOtsikkot extends CActiveRecord
 			'id' => 'ID',
 			'yid' => 'Yid',
 			'time' => 'Time',
-			'varaston_nimike' => 'Varaston Nimike',
-			'sarakkeen_nimi' => 'Sarakkeen Nimi',
-			'sarakkeen_tyyppi' => 'Sarakkeen Tyyppi',
-			'sum' => 'Sum',
+			'varaston_nimike' => 'Varaston nimi',
+			'sarakkeen_nimi' => 'Sarakkeen nimi',
+			'sarakkeen_tyyppi' => 'Sarakkeen tyyppi',
+			'sum' => 'Summaus',
 			'value' => 'Value',
-			'position' => 'Position',
-			'varaston_nimike_id' => 'Varaston Nimike',
+			'position' => 'Sarakkeen järjestynumero',
+			'varaston_nimike_id' => 'Varaston nimi',
 			'tr_rivi' => 'Tr Rivi',
-			'naytetaan_taulussa'=> 'Näytetään taulussa',
+			'naytetaan_taulussa'=> 'Sarake näytetään varaston etusivulla',
 		);
 	}
 

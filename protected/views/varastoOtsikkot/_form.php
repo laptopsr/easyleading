@@ -17,7 +17,11 @@
 
 ?>
 
-	<p class="note"><?php echo Yii::t('main', 'Tähdellä<span class="required">*</span> merkityt kentät ovat pakollisia.'); ?></p>
+	<p class="note"><?php echo Yii::t('main', 'Tähdellä<span class="required">*</span> merkityt kentät ovat pakollisia.'); ?> 		<span class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Tällä sivulla voit luoda uuden varaston tai muokata vanhaa varastoa. Jos olet luomassa uutta varastoa tee näin; 1. Kirjoita varaston nimi 'varaston nimi'-sarakkeeseen. 2. Kirjoita ensimmäisen sarakkeen nimi, joka tulee tuotelomakkeeseen. 3. Valitse sarakkeen tyyppi (jos tuotteeseen tulee tulevaisuudessa VAIN numeerisia arvoja niin valitse 'numerona'. Jos valokuvia, vaitse 'valokuvana'. Jos pelkkiä kirjaimia TAI kirjaimia JA numeroita, valitse 'tekstinä'. 4. Valitse summaus valikosta lasketaan yhteensä vaihtoehto JOS haluat arvojen laskettavan yhteen. 5. Anna sarakkeelle järjestynumero. Tämä tarkoittaa sitä monentena sarake on täytettävänä uutta tuotetta lisätessä (esimerkiski 'malli' tai 'merkki' sarakkeet ovat yleensä ennen 'korkeus' tai 'leveys' arvoja. 6. Sarake näytetään varaston etusivulla valikosta voit valita haluatko tuotteen näkymään varason etusivulla. 7. TALLENNA 8. Tämän jälkeen kun haluat lisätä uusia sarakkeita varastolle, niin valitse varasto 'Valitse muokattava varasto' valikosta ja lisää uusi sarake samoin kuin ensimmäinen sarake.">
+			<i class="fa fa-info" aria-hidden="true"></i>
+		</span> </p>
+
+
 
 <div class="form row">
   <div class="col-sm-4">
@@ -32,11 +36,12 @@
 
 	<?php if(count($varastot) > 0): ?>
 	<div class="row">
-		<label><?php echo Yii::t('main', 'Olevat varastot'); ?></label>
+		<label><?php echo Yii::t('main', 'Valitse muokattava varasto'); ?>    <i class="fa fa-question-circle form-group text-success" data-toggle="tooltip" title="Valitse muokattava varasto. Jos olet luomassa uutta varastoa, niin laita varaston nimi seuraavaan sarakkeeseen 'Varaston nimi'-sarake)."></i>   </label>
 		<?php
         	echo CHtml::dropDownList('olemassa', 'varaston_olemassa', CHtml::listData(VarastoOtsikkot::model()->findAll($criteria), 'varaston_nimike', 'varaston_nimike'),
 		array('empty'=>Yii::t('main', 'Valitse varasto'),'class'=>'form-control'));	
         	?>
+
 	</div>
 	<?php endif; ?>
 
