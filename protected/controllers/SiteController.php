@@ -43,7 +43,7 @@ class SiteController extends Controller
                 		'expression'=>"Yii::app()->controller->VarastonOmmistaja()",
 			),
 			array('allow', 
-				'actions'=>array('varaston_poisto', 'keyup_updater', 'getModal', 'saveModal', 'annaKaikkiKuvat', 'oma_kansio'),
+				'actions'=>array('varaston_poisto', 'keyup_updater', 'getModal', 'saveModal', 'annaKaikkiKuvat', 'oma_kansio', 'foldertree'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -75,6 +75,12 @@ class SiteController extends Controller
 	            return false;
 	   }
 
+	}
+
+
+	public function actionFoldertree()
+	{
+		$this->renderPartial('foldertree');
 	}
 
 
@@ -346,7 +352,6 @@ class SiteController extends Controller
 			'varastoCategory'=>$varastoCategory,
 		));
 	}
-
 
 
 	protected function reArrayFiles($file)

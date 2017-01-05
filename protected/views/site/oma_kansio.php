@@ -27,47 +27,9 @@
 
 
 ?>
- 
+  <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/filetree.css" /> 
 
- <h2>Liikekirjeet</h2>
-
-
-  <div class="row">
-
-	 <!--laatiko alka-->
-	 <div class="col-sm-3">
-	  <?php echo CHtml::link('Tarjouspyynnöt',Yii::app()->request->baseUrl.'/index.php/user',
-			array('class'=>'painike btn btn-primary btn-block btn-lg')); 
-	  ?>
-	 </div>
-	 <!--laatiko loppu-->
-
-	 <!--laatiko alka-->
-	 <div class="col-sm-3">
-	  <?php echo CHtml::link('Tarjoukset',Yii::app()->request->baseUrl.'/index.php/varastoOtsikkot/index',
-			array('class'=>'painike btn btn-primary btn-block btn-lg')); 
-	  ?>
-	 </div>
-	 <!--laatiko loppu-->
-
-	 <!--laatiko alka-->
-	 <div class="col-sm-3">
-	  <?php echo CHtml::link('Tilaukset',Yii::app()->request->baseUrl.'/index.php/varastoOtsikkot/index',
-			array('class'=>'painike btn btn-primary btn-block btn-lg')); 
-	  ?>
-	 </div>
-	 <!--laatiko loppu-->
-
-	 <!--laatiko alka-->
-	 <div class="col-sm-3">
-	  <?php echo CHtml::link('Tilausvahvistukset',Yii::app()->request->baseUrl.'/index.php/varastoOtsikkot/index',
-			array('class'=>'painike btn btn-primary btn-block btn-lg')); 
-	  ?>
-	 </div>
-	 <!--laatiko loppu-->
-
-  </div>
-
+  <h2>Liikekirjeet</h2>
   <br>
 
 
