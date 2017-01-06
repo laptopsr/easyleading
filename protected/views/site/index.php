@@ -85,6 +85,15 @@
 	  ?>
 	 </div>
 	 <!--laatiko loppu-->
+<br><br><br>
+	 <!--laatiko alka-->
+	 <div class="col-sm-3">
+	  <?php echo CHtml::link('Tuotanto',Yii::app()->request->baseUrl.'/index.php/tuotanto',
+			array('class'=>'painike btn btn-primary btn-block btn-lg')); 
+	  ?>
+	 </div>
+	 <!--laatiko loppu-->
+
 
 
 <?php endif; ?>
