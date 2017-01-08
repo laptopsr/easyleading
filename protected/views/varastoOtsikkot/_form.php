@@ -36,7 +36,8 @@
 
 	<?php if(count($varastot) > 0): ?>
 	<div class="row">
-		<label><?php echo Yii::t('main', 'Valitse muokattava varasto'); ?>    <i class="fa fa-question-circle form-group text-success" data-toggle="tooltip" title="Valitse muokattava varasto. Jos olet luomassa uutta varastoa, niin laita varaston nimi seuraavaan sarakkeeseen 'Varaston nimi'-sarake)."></i>   </label>
+		<i class="fa fa-question-circle pull-right" data-toggle="tooltip" title="Valitse muokattava varasto. Jos olet luomassa uutta varastoa, niin laita varaston nimi seuraavaan sarakkeeseen Varaston nimi'-sarake."></i>
+		<label><?php echo Yii::t('main', 'Valitse muokattava varasto'); ?></label>
 		<?php
         	echo CHtml::dropDownList('olemassa', 'varaston_olemassa', CHtml::listData(VarastoOtsikkot::model()->findAll($criteria), 'varaston_nimike', 'varaston_nimike'),
 		array('empty'=>Yii::t('main', 'Valitse varasto'),'class'=>'form-control'));	

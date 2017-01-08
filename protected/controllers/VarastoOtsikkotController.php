@@ -15,7 +15,7 @@ class VarastoOtsikkotController extends Controller
 	{
 		return array(
 			'accessControl', // perform access control for CRUD operations
-			'postOnly + delete', // we only allow deletion via POST request
+			//'postOnly + delete', // we only allow deletion via POST request
 		);
 	}
 
@@ -45,16 +45,25 @@ class VarastoOtsikkotController extends Controller
 		);
 	}
 
+
+	// <-- Teematus
+        public function init()
+        {
+
+		if(Yii::app()->user->isGuest){
+                        Yii::app()->theme = 'classic';
+                } elseif(!Yii::app()->user->isGuest) {
+                        Yii::app()->theme = 'sisainen';
+                }
+                parent::init();
+        }
+	//     Teematus -->
+
+
 	public function isYrittaja() 
 	{
 		if(Yii::app()->getModule('user')->user()->profile->getAttribute('tyyppi') == 1)
 		{
-		$criteria = new CDbCriteria;
-		$criteria->condition = " 
-			yid='".Yii::app()->getModule('user')->user()->profile->getAttribute('yid')."' 
-		";
-		$v = VarastoOtsikkot::model()->find($criteria);
-	        if(isset($v->id))
 	            return true;
 		} else {
 	            return false;

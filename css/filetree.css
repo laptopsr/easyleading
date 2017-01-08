@@ -49,7 +49,7 @@ UL.filetree A
 }
 UL.filetree A:hover
 {
-	background: #BDF;
+	color: #BDF;
 }
 /*folder styles*/
 .filetree LI.folder
@@ -300,6 +300,10 @@ UL.filetree A:hover
 .filetree LI.ext_zip
 {
 	background: url(images/zip.png) no-repeat left top;
+}
+.filetree LI.ext_rar
+{
+	background: url(images/rar.png) no-repeat left top;
 }
 .filetree UL
 {

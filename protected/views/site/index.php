@@ -4,14 +4,14 @@
 <br>
 <div id="etusivu">
 
- <div class="row"><!-- row-->
+ <div class="row">
 <!-- Admin -->
 <?php if(!Yii::app()->user->isGuest and Yii::app()->user->isAdmin()) : ?>
 
 	 <!--laatiko alka-->
 	 <div class="col-sm-3">
 	  <?php echo CHtml::link('Henkilöstö',Yii::app()->request->baseUrl.'/index.php/user/admin',
-			array('class'=>'painike btn btn-primary btn-block btn-lg')); 
+			array('class'=>'painike btn btn-info btn-block btn-lg')); 
 	  ?>
 	 </div>
 	 <!--laatiko loppu-->
@@ -25,7 +25,7 @@
 	 <!--laatiko alka-->
 	 <div class="col-sm-3">
 	  <?php echo CHtml::link('Henkilöstö',Yii::app()->request->baseUrl.'/index.php/user',
-			array('class'=>'painike btn btn-primary btn-block btn-lg')); 
+			array('class'=>'painike btn btn-info btn-block btn-lg')); 
 	  ?>
 	 </div>
 	 <!--laatiko loppu-->
@@ -33,7 +33,7 @@
 	 <!--laatiko alka-->
 	 <div class="col-sm-3">
 	  <?php echo CHtml::link('Varaston rakenne',Yii::app()->request->baseUrl.'/index.php/varastoOtsikkot/index',
-			array('class'=>'painike btn btn-primary btn-block btn-lg')); 
+			array('class'=>'painike btn btn-info btn-block btn-lg')); 
 	  ?>
 	 </div>
 	 <!--laatiko loppu-->
@@ -53,7 +53,7 @@
 	 <?php if (count($varastot) > 0): ?>
 	 <div class="col-sm-3">
 
-	   <select class="painike btn btn-primary btn-block btn-lg valitseVarasto">
+	   <select class="painike input-lg btn-block valitseVarasto">
 	   <?php
 	  		echo '<option value="">'.Yii::t('main', 'Valitse varasto').'</option>';
 		foreach($varastot as $data){
@@ -81,7 +81,7 @@
 	 <!--laatiko alka-->
 	 <div class="col-sm-3">
 	  <?php echo CHtml::link('Liikekirjeet',Yii::app()->request->baseUrl.'/index.php/site/oma_kansio',
-			array('class'=>'painike btn btn-primary btn-block btn-lg')); 
+			array('class'=>'painike btn btn-info btn-block btn-lg')); 
 	  ?>
 	 </div>
 	 <!--laatiko loppu-->
@@ -89,7 +89,15 @@
 	 <!--laatiko alka-->
 	 <div class="col-sm-3">
 	  <?php echo CHtml::link('Tuotanto',Yii::app()->request->baseUrl.'/index.php/tuotanto',
-			array('class'=>'painike btn btn-primary btn-block btn-lg')); 
+			array('class'=>'painike btn btn-info btn-block btn-lg')); 
+	  ?>
+	 </div>
+	 <!--laatiko loppu-->
+
+	 <!--laatiko alka-->
+	 <div class="col-sm-3">
+	  <?php echo CHtml::link('Asiakkaat',Yii::app()->request->baseUrl.'/index.php/asiakkaat',
+			array('class'=>'painike btn btn-info btn-block btn-lg')); 
 	  ?>
 	 </div>
 	 <!--laatiko loppu-->
@@ -105,7 +113,7 @@
 	 <!--laatiko alka-->
 	 <div class="col-sm-3">
 	  <?php echo CHtml::link('Joko, työntekijän varten',Yii::app()->request->baseUrl.'/index.php/joko',
-			array('class'=>'painike btn btn-primary btn-block btn-lg')); 
+			array('class'=>'painike btn btn-info btn-block btn-lg')); 
 	  ?>
 	 </div>
 	 <!--laatiko loppu-->

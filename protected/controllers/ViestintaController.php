@@ -45,6 +45,19 @@ class ViestintaController extends Controller
 		);
 	}
 
+	// <-- Teematus
+        public function init()
+        {
+
+		if(Yii::app()->user->isGuest){
+                        Yii::app()->theme = 'classic';
+                } elseif(!Yii::app()->user->isGuest) {
+                        Yii::app()->theme = 'sisainen';
+                }
+                parent::init();
+        }
+	//     Teematus -->
+
 	/**
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed

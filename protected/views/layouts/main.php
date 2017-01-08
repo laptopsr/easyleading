@@ -152,10 +152,7 @@ $(document).ready(function(){
         <a href="#" class="dropdown-toggle " data-toggle="dropdown" title="Asetukset"><?php echo $tila; ?> <i class="caret"></i></a>
         <ul class="dropdown-menu">
            <li class="menu-item dropdown dropdown-submenu">
-          	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Asetukset </a>
-          	<ul class="dropdown-menu">
-            	<li><?php echo CHtml::link('Test2',Yii::app()->request->baseUrl.'/index.php/site/test2'); ?></li>
-          	</ul>
+          	<?php echo CHtml::link('Asiakkaat',Yii::app()->request->baseUrl.'/index.php/asiakkaat/index'); ?>
            </li>
         </ul>
       </li>

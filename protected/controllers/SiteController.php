@@ -56,6 +56,19 @@ class SiteController extends Controller
 		);
 	}
 
+	// <-- Teematus
+        public function init()
+        {
+
+		if(Yii::app()->user->isGuest){
+                        Yii::app()->theme = 'classic';
+                } elseif(!Yii::app()->user->isGuest) {
+                        Yii::app()->theme = 'sisainen';
+                }
+                parent::init();
+        }
+	//     Teematus -->
+
 
 	public function VarastonOmmistaja() 
 	{
@@ -511,18 +524,8 @@ class SiteController extends Controller
 		// renders the view file 'protected/views/site/index.php'
 		// using the default layout 'protected/views/layouts/main.php'
 		
-		$isMessage = false;
-		$criteria = new CDbCriteria;
-		$criteria->condition = " 
-			saaja='".Yii::app()->user->id."' 
-			AND is_katsonut!=1
-		";
-		$viestinta = Viestinta::model()->findAll($criteria);
-		if(count($viestinta) > 0)
-		$isMessage = true;
-
 		$this->render('index', array(
-			'isMessage'=>$isMessage
+			//'isMessage'=>$isMessage
 		));
 	}
 
@@ -673,6 +676,20 @@ class SiteController extends Controller
 	            </li>
 	        </ul>';
 		return $malli;
+	}
+
+	public function yidArrayList($var1, $var2)
+	{
+		$list = array();
+
+		$criteria = new CDbCriteria();
+		$criteria->condition = " yid='".Yii::app()->getModule('user')->user()->profile->getAttribute('yid')."' ";
+
+		$tt = Profile::model()->findAll($criteria);
+		foreach($tt as $t)
+		$list[$t->user_id] = $t->firstname.' '.$t->lastname;
+
+		return $list;
 	}
 
 }

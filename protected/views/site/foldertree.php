@@ -30,14 +30,22 @@ class treeview {
 			// Group folders first
 			foreach( $this->files as $file ) {
 				if( file_exists( $this->folder . $file ) && $file != '.' && $file != '..' && is_dir( $this->folder . $file )) {
-					$list .= '<li class="folder collapsed"><a href="#" rel="' . htmlentities( $this->folder . $file ) . '/">' . htmlentities( $file ) . '</a></li>';
+					$list .= '
+					<li class="folder collapsed">
+					 <i class="fa fa-trash-o link poistaKansio pull-right" pois="'. htmlentities( $this->folder . $file ) .'" aria-hidden="true" style="font-size:180%; color: red; z-index: 999999"></i>
+					 <a href="#" rel="' . htmlentities( $this->folder . $file ) . '/">' . htmlentities( $file ) . '</a>
+					</li>';
 				}
 			}
 			// Group all files
 			foreach( $this->files as $file ) {
 				if( file_exists( $this->folder . $file ) && $file != '.' && $file != '..' && !is_dir( $this->folder . $file )) {
 					$ext = preg_replace('/^.*\./', '', $file);
-					$list .= '<li class="file ext_' . $ext . '"><a href="#" rel="' . htmlentities( $this->folder . $file ) . '">' . htmlentities( $file ) . '</a></li>';
+					$list .= '
+					<li class="file ext_' . $ext . '">
+					 <i class="fa fa-trash-o link poista pull-right" pois="' . htmlentities( $this->folder . $file ) . '" aria-hidden="true" style="font-size:180%; color: red; z-index: 999999"></i>
+					 <a href="#" rel="' . htmlentities( $this->folder . $file ) . '">' . htmlentities( $file ) . '</a>
+					</li>';
 				}
 			}
 			$list .= '</ul>';	

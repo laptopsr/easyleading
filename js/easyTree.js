@@ -46,14 +46,14 @@
                     $(children).remove();
                     text = $(this).text().trim();
                     $(this).html('<span><span class="glyphicon"></span><a href="javascript: void(0);"></a> </span>');
-                    $(this).find(' > span > span').addClass('glyphicon-folder-open');
+                    $(this).find(' > span > span').addClass('fa fa-folder-open');
                     $(this).find(' > span > a').text(text);
                     $(this).append(children);
                 }
                 else {
                     text = $(this).text().trim();
                     $(this).html('<span><span class="glyphicon"></span><a href="javascript: void(0);"></a> </span>');
-                    $(this).find(' > span > span').addClass('glyphicon-file');
+                    $(this).find(' > span > span').addClass('fa fa-file');
                     $(this).find(' > span > a').text(text);
                 }
             });
@@ -77,7 +77,7 @@
                         if ($(createInput).find('input').val() === '')
                             return;
                         var selected = getSelectedItems();
-                        var item = $('<li><span><span class="glyphicon glyphicon-file"></span><a href="javascript: void(0);">' + $(createInput).find('input').val() + '</a> </span></li>');
+                        var item = $('<li><span><span class="glyphicon fa fa-file"></span><a href="javascript: void(0);">' + $(createInput).find('input').val() + '</a> </span></li>');
                         $(item).find(' > span > span').attr('title', options.i18n.collapseTip);
                         $(item).find(' > span > a').attr('title', options.i18n.selectTip);
                         if (selected.length <= 0) {
@@ -89,7 +89,7 @@
                             if ($(selected).hasClass('parent_li')) {
                                 $(selected).find(' > ul').append(item);
                             } else {
-                                $(selected).addClass('parent_li').find(' > span > span').addClass('glyphicon-folder-open').removeClass('glyphicon-file');
+                                $(selected).addClass('parent_li').find(' > span > span').addClass('fa fa-folder-open').removeClass('fa fa-file');
                                 $(selected).append($('<ul></ul>')).find(' > ul').append(item);
                             }
                         }
@@ -190,7 +190,7 @@
                         $(easyTree).find('.alert .alert-content .confirm').on('click', function () {
                             $(selected).find(' ul ').remove();
                             if($(selected).parent('ul').find(' > li').length <= 1) {
-                                $(selected).parents('li').removeClass('parent_li').find(' > span > span').removeClass('glyphicon-folder-open').addClass('glyphicon-file');
+                                $(selected).parents('li').removeClass('parent_li').find(' > span > span').removeClass('fa fa-folder-open').addClass('fa fa-file');
                                 $(selected).parent('ul').remove();
                             }
                             $(selected).remove();
@@ -207,14 +207,14 @@
                     children.hide('fast');
                     $(this).attr('title', options.i18n.expandTip)
                         .find(' > span.glyphicon')
-                        .addClass('glyphicon-folder-close')
-                        .removeClass('glyphicon-folder-open');
+                        .addClass('fa fa-folder')
+                        .removeClass('fa fa-folder-open');
                 } else {
                     children.show('fast');
                     $(this).attr('title', options.i18n.collapseTip)
                         .find(' > span.glyphicon')
-                        .addClass('glyphicon-folder-open')
-                        .removeClass('glyphicon-folder-close');
+                        .addClass('fa fa-folder-open')
+                        .removeClass('fa fa-folder');
                 }
                 e.stopPropagation();
             });
