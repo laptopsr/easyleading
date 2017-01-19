@@ -98,7 +98,7 @@ $curpage .= '/'.Yii::app()->getController()->getAction()->controller->action->id
                 <!-- begin LEFT SIDE WIDGETS -->
                 <ul class="nav navbar-left">
                     <li class="tooltip-sidebar-toggle">
-                        <a href="#" id="sidebar-toggle" data-toggle="tooltip" data-placement="right" title="Sidebar Toggle">
+                        <a href="#" id="sidebar-toggle" data-toggle="tooltip" data-placement="right" title="Piilota valikko">
                             <i class="fa fa-bars"></i>
                         </a>
                     </li>
@@ -296,6 +296,7 @@ $curpage .= '/'.Yii::app()->getController()->getAction()->controller->action->id
                                     <li>
                                         <a href="#">
                                             <div class="alert-icon red pull-left">
+
                                                 <i class="fa fa-bolt"></i>
                                             </div>
                                             Server #8 Crashed
@@ -499,6 +500,11 @@ $curpage .= '/'.Yii::app()->getController()->getAction()->controller->action->id
                         </a>
                         <ul class="dropdown-menu dropdown-user">
                             <li>
+                                <a href="<?php echo Yii::app()->request->baseUrl; ?>/index.php/user/profile/edit">
+                                    <i class="fa fa-user"></i> Profiili
+                                </a>
+                            </li>
+                            <li>
                                 <a href="<?php echo Yii::app()->request->baseUrl; ?>/index.php/viestinta/index">
                                     <i class="fa fa-envelope"></i> Viestit
                                     <span class="badge green pull-right"><?php echo count($viestinta); ?></span>
@@ -534,11 +540,11 @@ $curpage .= '/'.Yii::app()->getController()->getAction()->controller->action->id
                     <li class="side-user hidden-xs">
                         <!--<img class="img-circle" src="img/profile-pic.jpg" alt="">-->
                         <p class="welcome">
-                            <i class="fa fa-key"></i> Logged in as
+                            <i class="fa fa-key"></i> Kirjauduttu tunnuksella
                         </p>
                         <p class="name tooltip-sidebar-logout">
                             <?php echo Yii::app()->user->firstname; ?>
-                            <span class="last-name"><?php echo Yii::app()->user->lastname; ?></span> <a style="color: inherit" class="logout_open" href="logout" data-toggle="tooltip" data-placement="top" title="Logout"><i class="fa fa-sign-out"></i></a>
+                            <span class="last-name"><?php echo Yii::app()->user->lastname; ?></span> <a style="color: inherit" class="logout_open" href="logout" data-toggle="tooltip" data-placement="top" title="Kirjaudu ulos"><i class="fa fa-sign-out"></i></a>
                         </p>
                         <div class="clearfix"></div>
                     </li>
@@ -591,18 +597,18 @@ $curpage .= '/'.Yii::app()->getController()->getAction()->controller->action->id
 	                 </li>
                     	 <li>
 	                        <a class="<?php if($curpage == 'asiakkaat/index') echo 'active'; ?>" href="<?php echo Yii::app()->request->baseUrl.'/index.php/asiakkaat'; ?>">
-	                            <i class="fa fa-users"></i> Asiakkaat lista
+	                            <i class="fa fa-users"></i> Hallinta
 	                        </a>
 	                 </li>
                         </ul>
                     </li>
-
+<!--
                     <li>
                         <a class="<?php if($curpage == 'varastoOtsikkot/index') echo 'active'; ?>" href="<?php echo Yii::app()->request->baseUrl.'/index.php/varastoOtsikkot/index'; ?>">
                             <i class="fa fa-newspaper-o"></i> Varaston rakenne
                         </a>
                     </li>
-
+-->
 		    <?php
 			$criteria = new CDbCriteria;
 			$criteria->order = " id DESC ";
@@ -614,14 +620,26 @@ $curpage .= '/'.Yii::app()->getController()->getAction()->controller->action->id
 		    ?>
 
 
-		    <?php if (count($varastot) > 0): ?>
+
                     <!-- begin CHARTS DROPDOWN -->
                     <li class="panel">
                         <a class="<?php if($curpage == 'site/varasto') echo 'active'; ?>" href="javascript:;" data-parent="#side" data-toggle="collapse" class="accordion-toggle" data-target="#varastot">
-                            <i class="fa fa-bar-chart-o"></i> <?php echo Yii::t('main', 'Valitse varasto'); ?> <i class="fa fa-caret-down"></i>
+                            <i class="fa fa-newspaper-o"></i> <?php echo Yii::t('main', 'Varasto'); ?> <i class="fa fa-caret-down"></i>
                         </a>
                         <ul class="collapse <?php if($curpage == 'site/varasto') echo 'in'; ?> nav" id="varastot">
 
+	                    <li>
+	                        <a class="<?php if($curpage == 'varastoOtsikkot/index') echo 'active'; ?>" href="<?php echo Yii::app()->request->baseUrl.'/index.php/varastoOtsikkot/index'; ?>">
+	                            <i class="fa fa-newspaper-o"></i>
+					<?php if (count($varastot) > 0): ?> 
+						Luo/muokkaa varastorakennetta
+					<?php else: ?> 
+						Luo ensin varastorakenne tästä
+					<?php endif; ?> 
+	                        </a>
+	                    </li>
+
+		    	   <?php if (count($varastot) > 0): ?>
 	   		   <?php
 				foreach($varastot as $data){
 			  		echo '
@@ -632,9 +650,9 @@ $curpage .= '/'.Yii::app()->getController()->getAction()->controller->action->id
 					</li>';
 				}
 			   ?>
+			   <?php endif; ?>
                         </ul>
                     </li>
-		    <?php endif; ?>
                     <!-- end CHARTS DROPDOWN -->
 
                     <li>
@@ -644,10 +662,23 @@ $curpage .= '/'.Yii::app()->getController()->getAction()->controller->action->id
                     </li>
 
                     <li>
-                        <a href="<?php echo Yii::app()->request->baseUrl.'/index.php/tuotanto'; ?>">
-                            <i class="fa fa-list-alt"></i> Tuotanto
+                        <a class="<?php if($curpage == 'tuotanto/index') echo 'active'; ?>" href="<?php echo Yii::app()->request->baseUrl.'/index.php/tuotanto/index'; ?>">
+                            <i class="fa fa-truck"></i> Tuotanto
                         </a>
                     </li>
+
+                    <li>
+                        <a href="<?php echo Yii::app()->request->baseUrl.'/index.php/laskutus'; ?>">
+                            <i class="fa fa-money"></i> Laskutus
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="<?php echo Yii::app()->request->baseUrl.'/index.php/raportit'; ?>">
+                            <i class="fa fa-bar-chart"></i> Raportit
+                        </a>
+                    </li>
+
 		    <?php endif; ?>
 		    <!-- Yrittaja -->
 
@@ -944,17 +975,17 @@ $curpage .= '/'.Yii::app()->getController()->getAction()->controller->action->id
         <div class="logout-message">
             <img class="img-circle img-logout" src="<?php echo Yii::app()->request->baseUrl; ?>/sisainen_assets/img/profile-pic.jpg" alt="">
             <h3>
-                <i class="fa fa-sign-out text-green"></i> Ready to go?
+                <i class="fa fa-sign-out text-green"></i> Haluatko kirjautua ulos?
             </h3>
-            <p>Select "Logout" below if you are ready<br> to end your current session.</p>
+            <p>Valitse "Ulos" <br> lopettaaksesi istuntosi.</p>
             <ul class="list-inline">
                 <li>
                     <a href="<?php echo Yii::app()->request->baseUrl; ?>/index.php/user/logout" class="btn btn-green">
-                        <strong>Logout</strong>
+                        <strong>Ulos</strong>
                     </a>
                 </li>
                 <li>
-                    <button class="logout_close btn btn-green">Cancel</button>
+                    <button class="logout_close btn btn-green">Peruuta</button>
                 </li>
             </ul>
         </div>
