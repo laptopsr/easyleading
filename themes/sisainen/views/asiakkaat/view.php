@@ -2,11 +2,6 @@
 /* @var $this AsiakkaatController */
 /* @var $model Asiakkaat */
 
-$this->breadcrumbs=array(
-	'Asiakkaats'=>array('index'),
-	$model->id,
-);
-
 
 $arr = array(
 		'id',
@@ -76,20 +71,35 @@ if($model->tyyppi == 1) $model->tyyppi = 'Yksityishenkilö';
 
 
 
-		<?php echo CHtml::link('<i class="fa fa-home" aria-hidden="true"></i>', 
-				array('index'), 
-				array(
-					'class'=>'btn btn-primary myBgColors', 
-					'style'=>'color:white', 
-					'data-toggle'=>'tooltip', 
-					'data-placement'=>'top', 
-					'title'=>Yii::t('main', 'Palaa asiakkaan etusivulle') 
-				)
-			); 
-		?>
+                <!-- begin PAGE TITLE ROW -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="page-title">
+                            <h1>
+                                Asiakkaat
+                            </h1>
+                            <ol class="breadcrumb">
+                                <li><i class="fa fa-dashboard"></i>  <a href="<?php echo Yii::app()->request->baseUrl.'/index.php/site/index'; ?>">Etusivu</a></li>
+                                <li>  <a href="<?php echo Yii::app()->request->baseUrl.'/index.php/asiakkaat/index'; ?>">asiakkaat</a></li>
+                                <li class="active">  <a href="<?php echo Yii::app()->request->baseUrl.'/index.php/asiakkaat/update?id='.$model->id; ?>">muoka asiakas #<?php echo $model->id; ?></a></li>
+                                <li class="active">  asiakas #<?php echo $model->id; ?></li>
+                            </ol>
+                        </div>
+                    </div>
+                    <!-- /.col-lg-12 -->
+                </div>
+                <!-- /.row -->
+                <!-- end PAGE TITLE ROW -->
 
 
-<h1>Asiakas ID#<?php echo $model->id; ?></h1>
+<div class="portlet portlet-default">
+  <div class="portlet-heading">
+      <div class="portlet-title">
+         <h4>Katso työ</h4>
+      </div>
+    <div class="clearfix"></div>
+  </div>
+  <div class="portlet-body">
 
 <?php 
    $this->widget('zii.widgets.CDetailView', array(
@@ -98,3 +108,9 @@ if($model->tyyppi == 1) $model->tyyppi = 'Yksityishenkilö';
    ));
 
 ?>
+
+
+   </div>
+ </div>
+</div>
+<!-- /.portlet -->

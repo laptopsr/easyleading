@@ -1,6 +1,6 @@
 <?php
 
-class AsiakkaatController extends Controller
+class TuotantoController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -45,6 +45,7 @@ class AsiakkaatController extends Controller
 		);
 	}
 
+
 	// <-- Teematus
         public function init()
         {
@@ -75,20 +76,25 @@ class AsiakkaatController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new Asiakkaat;
+		$model=new Tuotanto;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Asiakkaat']))
+		if(isset($_POST['Tuotanto']))
 		{
-			$model->attributes=$_POST['Asiakkaat'];
-
-			if(!isset($_POST['Asiakkaat']['eriosoite']))
-			$model->eriosoite = '';
-
+			$model->attributes=$_POST['Tuotanto'];
+			$model->liitteet=CUploadedFile::getInstance($model,'liitteet');
 			if($model->save())
+			{
+				$path = "uploaded/tuotanto/yritys_".Yii::app()->getModule('user')->user()->profile->getAttribute('yid');
+				if (!file_exists(Yii::app()->basePath."/../".$path)) {
+					mkdir(Yii::app()->basePath."/../".$path, 0777, true);
+				}
+
+				$model->liitteet->saveAs($path.'/'.$model->liitteet);
 				$this->redirect(array('view','id'=>$model->id));
+			}
 		}
 
 		$this->render('create',array(
@@ -108,20 +114,54 @@ class AsiakkaatController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Asiakkaat']))
+		if(isset($_POST['Tuotanto']))
 		{
-			$model->attributes=$_POST['Asiakkaat'];
-
-			if(!isset($_POST['Asiakkaat']['eriosoite']))
-			$model->eriosoite = '';
-
+			$model->attributes=$_POST['Tuotanto'];
+			$model->liitteet=CUploadedFile::getInstance($model,'liitteet');
 			if($model->save())
+			{
+				$path = "uploaded/tuotanto/yritys_".Yii::app()->getModule('user')->user()->profile->getAttribute('yid');
+				if (!file_exists(Yii::app()->basePath."/../".$path)) {
+					mkdir(Yii::app()->basePath."/../".$path, 0777, true);
+				}
+
+print_r($_POST);
+
+			if(isset($_FILES['liitteet']) and !empty($_FILES['liitteet']))
+			{
+				$liiteArr = $this->reArrayFiles($_FILES['liitteet']);
+
+    				foreach($liiteArr as $val)
+    				{
+					$model->liitteet->saveAs($path.'/'.$val['tmp_name']);
+    				}
+			}
+
+exit;
 				$this->redirect(array('view','id'=>$model->id));
+			}
 		}
 
 		$this->render('update',array(
 			'model'=>$model,
 		));
+	}
+
+
+	protected function reArrayFiles($file)
+	{
+	    $file_ary = array();
+	    $file_count = count($file['name']);
+	    $file_key = array_keys($file);
+	    
+	    for($i=0;$i<$file_count;$i++)
+	    {
+	        foreach($file_key as $val)
+	        {
+	            $file_ary[$i][$val] = $file[$val][$i];
+	        }
+	    }
+	    return $file_ary;
 	}
 
 	/**
@@ -143,16 +183,12 @@ class AsiakkaatController extends Controller
 	 */
 	public function actionIndex()
 	{
-
        		$criteria = new CDbCriteria();
 
-		if(isset($_POST['osoite']) and !empty($_POST['osoite']))
-	        $criteria->addCondition (" osoite LIKE '%".$_POST['osoite']."%' ");
+		if(isset($_POST['tehtavanimike']) and !empty($_POST['tehtavanimike']))
+	        $criteria->addCondition (" tehtavanimike LIKE '%".$_POST['tehtavanimike']."%' ");
 
-		if(isset($_POST['sahkoposti']) and !empty($_POST['sahkoposti']))
-	        $criteria->addCondition (" sahkoposti LIKE '%".$_POST['sahkoposti']."%' ");
-
-		$dataProvider=new CActiveDataProvider('Asiakkaat', array(
+		$dataProvider=new CActiveDataProvider('Tuotanto', array(
 			'criteria'=>$criteria,
 			//'pagination'=>false
 		));
@@ -167,10 +203,10 @@ class AsiakkaatController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		$model=new Asiakkaat('search');
+		$model=new Tuotanto('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Asiakkaat']))
-			$model->attributes=$_GET['Asiakkaat'];
+		if(isset($_GET['Tuotanto']))
+			$model->attributes=$_GET['Tuotanto'];
 
 		$this->render('admin',array(
 			'model'=>$model,
@@ -181,12 +217,12 @@ class AsiakkaatController extends Controller
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
 	 * @param integer $id the ID of the model to be loaded
-	 * @return Asiakkaat the loaded model
+	 * @return Tuotanto the loaded model
 	 * @throws CHttpException
 	 */
 	public function loadModel($id)
 	{
-		$model=Asiakkaat::model()->findByPk($id);
+		$model=Tuotanto::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -194,11 +230,11 @@ class AsiakkaatController extends Controller
 
 	/**
 	 * Performs the AJAX validation.
-	 * @param Asiakkaat $model the model to be validated
+	 * @param Tuotanto $model the model to be validated
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='asiakkaat-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='tuotanto-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();

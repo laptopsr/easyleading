@@ -246,7 +246,8 @@ $(document).ready( function() {
 				entry.removeClass('expanded').addClass('collapsed');
 			}
 		} else {
-			$( '#selected_file' ).text( "File:  " + $(this).attr( 'rel' ));
+			//$( '#selected_file' ).text( "File:  " + $(this).attr( 'rel' ));
+			window.location.href="../../" + $(this).attr( 'rel' ); 
 		}
 	return false;
 	});

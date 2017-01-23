@@ -44,7 +44,7 @@ class treeview {
 					$list .= '
 					<li class="file ext_' . $ext . '">
 					 <i class="fa fa-trash-o link poista btn btn-purple pull-right" pois="' . htmlentities( $this->folder . $file ) . '" aria-hidden="true"></i>
-					 <a href="#" rel="' . htmlentities( $this->folder . $file ) . '">' . htmlentities( $file ) . '</a>
+					 <a href="../../' . htmlentities( $this->folder . $file ) . '" rel="' . htmlentities( $this->folder . $file ) . '">' . htmlentities( $file ) . '</a>
 					</li>';
 				}
 			}

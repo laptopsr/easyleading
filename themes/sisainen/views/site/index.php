@@ -8,7 +8,7 @@
                     <div class="col-lg-12">
                         <div class="page-title">
                             <h1>Etusivu
-                                <small>Mailmaan paras ohjelma</small>
+                                <small>Klikkaa ja nauti!</small>
                             </h1>
                             <ol class="breadcrumb">
                                 <li class="active"><i class="fa fa-dashboard"></i> Etusivu</li>
@@ -61,7 +61,7 @@
                 <div class="row">
                     <div class="col-lg-2 col-sm-6">
                         <div class="circle-tile">
-                            <a href="#">
+                            <a href="<?php echo Yii::app()->request->baseUrl; ?>/index.php/user">
                                 <div class="circle-tile-heading dark-blue">
                                     <i class="fa fa-user fa-fw fa-3x"></i>
                                 </div>
@@ -74,10 +74,29 @@
                                     <?php echo count($tyontekijat); ?>
                                     <span id="sparklineA"></span>
                                 </div>
-                                <a href="<?php echo Yii::app()->request->baseUrl; ?>/index.php/user" class="circle-tile-footer">Kaikki <i class="fa fa-chevron-circle-right"></i></a>
+                                <a href="<?php echo Yii::app()->request->baseUrl; ?>/index.php/user" class="circle-tile-footer">Kaikki käyttäjät <i class="fa fa-chevron-circle-right"></i></a>
                             </div>
                         </div>
                     </div>
+       <!--             <div class="col-lg-2 col-sm-6">
+                        <div class="circle-tile">
+                            <a href="<?php echo Yii::app()->request->baseUrl; ?>/index.php/varastoOtsikkot/index">
+                                <div class="circle-tile-heading green">
+                                    <i class="fa fa-database fa-fw fa-3x"></i>
+                                </div>
+                            </a>
+                            <div class="circle-tile-content green">
+                                <div class="circle-tile-description text-faded">
+                                    Varastorakenne
+                                </div>
+                                <div class="circle-tile-number text-faded">
+                                    <?php echo count($tyontekijat); ?>
+                                </div>
+                                <a href="<?php echo Yii::app()->request->baseUrl; ?>/index.php/varastoOtsikkot/index" class="circle-tile-footer">Hallinta <i class="fa fa-chevron-circle-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+-->
                     <div class="col-lg-2 col-sm-6">
                         <div class="circle-tile">
                             <a href="#">
@@ -87,18 +106,20 @@
                             </a>
                             <div class="circle-tile-content green">
                                 <div class="circle-tile-description text-faded">
-                                    Varastot
+                                    Varasto
                                 </div>
                                 <div class="circle-tile-number text-faded">
                                     <?php echo count($tyontekijat); ?>
                                 </div>
-                                <a href="<?php echo Yii::app()->request->baseUrl; ?>/index.php/varastoOtsikkot/index" class="circle-tile-footer">Hallinta <i class="fa fa-chevron-circle-right"></i></a>
+                                <a href="<?php echo Yii::app()->request->baseUrl; ?>/index.php/site/varasto?id='.$data->id.'" class="circle-tile-footer">Hallinta <i class="fa fa-chevron-circle-right"></i></a>
                             </div>
                         </div>
                     </div>
+
+
                     <div class="col-lg-2 col-sm-6">
                         <div class="circle-tile">
-                            <a href="#">
+                            <a href="<?php echo Yii::app()->request->baseUrl; ?>/index.php/viestinta/index">
                                 <div class="circle-tile-heading orange">
                                     <i class="fa fa-envelope fa-fw fa-3x"></i>
                                 </div>
@@ -110,7 +131,7 @@
                                 <div class="circle-tile-number text-faded">
                                     <?php echo count($viestinta); ?>
                                 </div>
-                                <a href="<?php echo Yii::app()->request->baseUrl; ?>/index.php/viestinta/index" class="circle-tile-footer">Katso kaikki <i class="fa fa-chevron-circle-right"></i></a>
+                                <a href="<?php echo Yii::app()->request->baseUrl; ?>/index.php/viestinta/index" class="circle-tile-footer">Kaikki viestit <i class="fa fa-chevron-circle-right"></i></a>
                             </div>
                         </div>
                     </div>
@@ -134,20 +155,20 @@
                     </div>
                     <div class="col-lg-2 col-sm-6">
                         <div class="circle-tile">
-                            <a href="#">
+                            <a href="<?php echo Yii::app()->request->baseUrl; ?>/index.php/site/oma_kansio">
                                 <div class="circle-tile-heading blue">
-                                    <i class="fa fa-tasks fa-fw fa-3x"></i>
+                                    <i class="fa fa-files-o fa-fw fa-3x"></i>
                                 </div>
                             </a>
                             <div class="circle-tile-content blue">
                                 <div class="circle-tile-description text-faded">
-                                    Tasks
+                                    Liikekirjeet
                                 </div>
                                 <div class="circle-tile-number text-faded">
                                     10
                                     <span id="sparklineB"></span>
                                 </div>
-                                <a href="#" class="circle-tile-footer">More Info <i class="fa fa-chevron-circle-right"></i></a>
+                                <a href="<?php echo Yii::app()->request->baseUrl; ?>/index.php/site/oma_kansio"  class="circle-tile-footer">Kaikki tiedostot <i class="fa fa-chevron-circle-right"></i></a>
                             </div>
                         </div>
                     </div>
@@ -155,21 +176,63 @@
                         <div class="circle-tile">
                             <a href="#">
                                 <div class="circle-tile-heading red">
-                                    <i class="fa fa-shopping-cart fa-fw fa-3x"></i>
+                                    <i class="fa fa-truck fa-fw fa-3x"></i>
                                 </div>
                             </a>
                             <div class="circle-tile-content red">
                                 <div class="circle-tile-description text-faded">
-                                    Orders
+                                    Tuotanto
                                 </div>
                                 <div class="circle-tile-number text-faded">
                                     24
                                     <span id="sparklineC"></span>
                                 </div>
-                                <a href="#" class="circle-tile-footer">More Info <i class="fa fa-chevron-circle-right"></i></a>
+                                <a href="#" class="circle-tile-footer">Hallinta<i class="fa fa-chevron-circle-right"></i></a>
                             </div>
                         </div>
                     </div>
+
+                    <div class="col-lg-2 col-sm-6">
+                        <div class="circle-tile">
+                            <a href="#">
+                                <div class="circle-tile-heading blue">
+                                    <i class="fa fa-money fa-fw fa-3x"></i>
+                                </div>
+                            </a>
+                            <div class="circle-tile-content blue">
+                                <div class="circle-tile-description text-faded">
+                                    Laskutus
+                                </div>
+                                <div class="circle-tile-number text-faded">
+                                    24
+                                    <span id="sparklineC"></span>
+                                </div>
+                                <a href="#" class="circle-tile-footer">Hallinta <i class="fa fa-chevron-circle-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-2 col-sm-6">
+                        <div class="circle-tile">
+                            <a href="#">
+                                <div class="circle-tile-heading blue">
+                                    <i class="fa fa-bar-chart fa-fw fa-3x"></i>
+                                </div>
+                            </a>
+                            <div class="circle-tile-content blue">
+                                <div class="circle-tile-description text-faded">
+                                    Raportit
+                                </div>
+                                <div class="circle-tile-number text-faded">
+                                    24
+                                    <span id="sparklineC"></span>
+                                </div>
+                                <a href="#" class="circle-tile-footer">Kaikki raportit <i class="fa fa-chevron-circle-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+
                 </div>
                 <!-- end DASHBOARD CIRCLE TILES -->
 

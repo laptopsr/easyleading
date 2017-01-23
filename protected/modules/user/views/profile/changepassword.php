@@ -17,10 +17,43 @@ $this->menu=array(
 */
 ?>
 
-<h1><?php echo UserModule::t("Vaihda salasana"); ?></h1>
 
-<div class="row form">
-  <div class="col-sm-3">
+                <!-- begin PAGE TITLE ROW -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="page-title">
+                            <h1>
+                                Vaihda salasana 
+                            </h1>
+                            <ol class="breadcrumb">
+                                <li><i class="fa fa-dashboard"></i>  <a href="<?php echo Yii::app()->request->baseUrl.'/index.php/site/index'; ?>">Etusivu</a>
+                                </li>
+                                <li class="active">uusi salasana</li>
+                            </ol>
+                        </div>
+                    </div>
+                    <!-- /.col-lg-12 -->
+                </div>
+                <!-- /.row -->
+                <!-- end PAGE TITLE ROW -->
+
+
+
+
+
+
+<div class="portlet portlet-default">
+  <div class="portlet-heading">
+      <div class="portlet-title">
+         <h4>Profiili</h4>
+      </div>
+    <div class="clearfix"></div>
+  </div>
+  <div class="portlet-body">
+   <div class="row">
+    <div class="col-sm-4">
+
+
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'changepassword-form',
 	'enableAjaxValidation'=>true,
@@ -32,13 +65,13 @@ $this->menu=array(
 	<p class="note"><?php echo UserModule::t('Tähdellä <span class="required">*</span> merkityt kentät ovat pakollisia.'); ?></p>
 	<?php echo $form->errorSummary($model); ?>
 	
-	<div class="row">
+	<div class="">
 	<?php echo $form->labelEx($model,'oldPassword'); ?>
 	<?php echo $form->passwordField($model,'oldPassword', array('class'=>'form-control')); ?>
 	<?php echo $form->error($model,'oldPassword'); ?>
 	</div>
 	
-	<div class="row">
+	<div class="">
 	<?php echo $form->labelEx($model,'password'); ?>
 	<?php echo $form->passwordField($model,'password', array('class'=>'form-control')); ?>
 	<?php echo $form->error($model,'password'); ?>
@@ -47,17 +80,22 @@ $this->menu=array(
 
 	</div>
 	
-	<div class="row">
+	<div class="">
 	<?php echo $form->labelEx($model,'verifyPassword'); ?>
 	<?php echo $form->passwordField($model,'verifyPassword', array('class'=>'form-control')); ?>
 	<?php echo $form->error($model,'verifyPassword'); ?>
 	</div>
 	
-	
-	<div class="row">
-		<?php echo CHtml::submitButton(UserModule::t('Tallenna'),array('class'=>'btn btn-primary btn-block')); ?>
+	<br>
+	<div class="">
+		<?php echo CHtml::submitButton(UserModule::t('Tallenna'),array('class'=>'btn btn-default btn-block')); ?>
 	</div>
 
 <?php $this->endWidget(); ?>
+
+
+    </div>
+   </div>
  </div>
-</div><!-- form -->
+</div>
+<!-- /.portlet -->

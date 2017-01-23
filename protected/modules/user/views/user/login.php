@@ -49,7 +49,7 @@
                         </div>
                         <div class="portlet-widgets">
 			    <a class="btn btn-default btn-xs" href="<?php echo Yii::app()->request->baseUrl; ?>/index.php/user/registration">
-                              <i class="fa fa-plus-circle"></i> registeröinti
+                              <i class="fa fa-plus-circle"></i> Rekisteröinti
 			    </a>
                         </div>
                         <div class="clearfix"></div>
@@ -67,7 +67,7 @@
                                 </div>
                                 <div class="checkbox">
                                     <label>
-                                        <input name="remember" type="checkbox" value="Remember Me">Remember Me
+                                        <input name="remember" type="checkbox" value="Remember Me">Muista minut
                                     </label>
                                 </div>
                                 <br>
@@ -75,7 +75,7 @@
                             </fieldset>
                             <br>
                             <p class="small">
-                                <a href="#">Forgot your password?</a>
+                                <a href="#">Unohditko salasanasi?</a>
                             </p>
 <?php echo CHtml::endForm(); ?>
                     </div>
