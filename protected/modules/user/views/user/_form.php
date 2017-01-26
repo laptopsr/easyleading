@@ -12,31 +12,6 @@
 
 	<?php echo $form->errorSummary(array($model,$profile)); ?>
 
-	<div class="">
-		<?php echo $form->labelEx($model,'username'); ?>
-		<?php echo $form->textField($model,'username',array('size'=>20,'maxlength'=>20, 'class'=>'form-control')); ?>
-		<?php echo $form->error($model,'username'); ?>
-	</div>
-
-	<div class="">
-		<?php echo $form->labelEx($model,'password'); ?>
-		<?php echo $form->textField($model,'password',array('size'=>60,'maxlength'=>128, 'class'=>'form-control')); ?>
-		<?php echo $form->error($model,'password'); ?>
-	</div>
-
-	<div class="">
-		<?php echo $form->labelEx($model,'email'); ?>
-		<?php echo $form->textField($model,'email',array('size'=>60,'maxlength'=>128, 'class'=>'form-control')); ?>
-		<?php echo $form->error($model,'email'); ?>
-	</div>
-
-	<div class="">
-		<?php echo $form->labelEx($model,'status'); ?>
-		<?php echo $form->dropDownList($model,'status',User::itemAlias('UserStatus'),array('class'=>'form-control')); ?>
-		<?php echo $form->error($model,'status'); ?>
-	</div>
-
-		<?php echo $form->hiddenField($model,'superuser',array('value'=>0,'class'=>'form-control')); ?>
 
 <?php 
 		$profileFields=$profile->getFields();
@@ -72,6 +47,34 @@
 			}
 		}
 ?>
+
+
+	<div class="">
+		<?php echo $form->labelEx($model,'username'); ?>
+		<?php echo $form->textField($model,'username',array('size'=>20,'maxlength'=>20, 'class'=>'form-control')); ?>
+		<?php echo $form->error($model,'username'); ?>
+	</div>
+
+	<div class="">
+		<?php echo $form->labelEx($model,'password'); ?>
+		<?php echo $form->textField($model,'password',array('size'=>60,'maxlength'=>128, 'class'=>'form-control')); ?>
+		<?php echo $form->error($model,'password'); ?>
+	</div>
+
+	<div class="">
+		<?php echo $form->labelEx($model,'email'); ?>
+		<?php echo $form->textField($model,'email',array('size'=>60,'maxlength'=>128, 'class'=>'form-control')); ?>
+		<?php echo $form->error($model,'email'); ?>
+	</div>
+
+	<div class="">
+		<?php echo $form->labelEx($model,'status'); ?>
+		<?php echo $form->dropDownList($model,'status',User::itemAlias('UserStatus'),array('class'=>'form-control')); ?>
+		<?php echo $form->error($model,'status'); ?>
+	</div>
+
+		<?php echo $form->hiddenField($model,'superuser',array('value'=>0,'class'=>'form-control')); ?>
+
 	<br>
 	<div class=" buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Tallenna' : 'Tallenna', array('class'=>'submit btn btn-default')); ?>

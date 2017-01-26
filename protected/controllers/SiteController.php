@@ -434,11 +434,12 @@ class SiteController extends Controller
 	{
 
 
-		
+		/*
 		echo '<pre>';
 		print_r($_POST);
 		echo '</pre>';
 		//exit;
+		*/
 		
 
 			// <-- Onko kuva
@@ -692,4 +693,59 @@ class SiteController extends Controller
 		return $list;
 	}
 
+
+	public function Yksikkot()
+	{	
+		$list = array(
+			'kpl'=>'kpl',
+			'm'=>'m',
+			'km'=>'km',
+			'min'=>'min',
+			'h'=>'h',
+			'd'=>'d',
+			'vko'=>'vko',
+			'kk'=>'kk',
+			'Vuosi'=>'Vuosi',
+			'dl'=>'dl',
+			'm3'=>'m3',
+			'g'=>'g',
+			'kg'=>'kg',
+			't'=>'t',
+		);
+		return $list;
+	}
+
+
+
+	public function netvisorYhteys()
+	{
+
+	   $return = array();
+	   $a = Asetukset::model()->findbypk(1);
+
+	   if($a->netvisor_kaytto == 1)
+	   {
+		if(empty($a->netvisor_host))
+		die('Netvisor HOST ei ole määritetty asetuksessa.');
+
+		$url		= "https://".$a->netvisor_host; 
+		$host 		= $a->netvisor_host;
+
+		$sender 	= Yii::app()->getModule('user')->user()->profile->getAttribute('yrityksen_nimi');
+		$customerId	= $a->netvisor_customer_id;
+		$partnerId	= $a->netvisor_partner_id;
+		$timestamp	=  date("Y-m-d H:i:s");
+		$language	= 'FI';
+		$organisationIdentifier	= $a->netvisor_organisation_identifier;
+		$transactionIdentifier	= rand(0,10000000);
+		$userKey 	= $a->netvisor_userkey;
+		$partnerKey	= $a->netvisor_partnerkey;
+
+		$return = array($url,$host,$sender,$customerId,$partnerId,$timestamp,$language,$organisationIdentifier,$transactionIdentifier,$userKey, $partnerKey);
+
+	   }
+
+		return $return;
+
+	}
 }

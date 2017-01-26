@@ -45,7 +45,7 @@ $(document).ready(function() {
     //Set the initial state of the picker label
     $('#reportrange span').html(moment().subtract('days', 29).format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'));
 });
-
+/*
 //Morris Area Chart
 var sales_data = [{
     date: '2014-1-25',
@@ -156,7 +156,7 @@ $("#sparklineD").sparkline([72, 65, 45, 65, 82, 78, 92, 83, 46, 87, 69, 96], {
     chartRangeMin: 25,
     drawNormalOnTop: false
 });
-
+*/
 //Flot Chart Dynamic Chart
 
 var container = $("#flot-chart-moving-line");
@@ -203,7 +203,7 @@ series = [{
 }];
 
 //
-
+/*
 var plot = $.plot(container, series, {
     grid: {
         borderWidth: 0,
@@ -348,7 +348,7 @@ $(function() {
     });
 
 });
-
+*/
 //DataTables Initialization for Map Table Example
 $(document).ready(function() {
     $('#map-table-example').dataTable();

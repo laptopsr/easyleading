@@ -8,7 +8,7 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
-          <h4 class="modal-title" id="exampleModalLabel">New message</h4>
+          <h4 class="modal-title" id="exampleModalLabel">Muokkaa tuotetta</h4>
         </div>
         <div class="modal-body">
           <form id="modalForm" action="saveModal" enctype="multipart/form-data" method="POST">
@@ -16,9 +16,13 @@
 		<input type="hidden" class="form-control" name="backLinkID" value="<?php echo $_POST['backLinkID']; ?>">
 
 		<?php 
+		$path = Yii::app()->basePath."/../";
+		$nextPath = "uploaded/varasto/yritys_".Yii::app()->getModule('user')->user()->profile->getAttribute('yid');
+
 		$sarakkeen_nimi = array();
 		foreach($varastoOtsikkot as $data)
 		{	
+
 
 			if($data->sarakkeen_tyyppi == 1)
 				$tyyppi = 'text';
@@ -71,6 +75,45 @@
 
 			if($data->sarakkeen_tyyppi == 3)
 			{
+
+/*
+				$ekaKuva = '';
+				if(is_array(json_decode($value, true)))
+				{
+					$kuvat = json_decode($value, true);
+
+
+					echo '<div class="row">';
+					foreach($kuvat as $item)
+					{
+					echo '
+					 <div class="col-sm-4">
+					  <span class="openModalImage">
+						<img src="../../'.$nextPath.'/'.$item.'" class="img-thumbnail">
+					  </span>
+					 </div>
+					';
+					}
+					echo '</div><br>';
+
+					$arr = array();
+					foreach($kuvat as $item)
+					{
+					$arr['../../'.$nextPath.'/'.$item] = $item;
+					}
+
+$this->widget('application.extensions.Slider.Slider',array(
+'items'=>$arr,
+'options'=>array(
+'speed'=>'3000',
+),
+));
+
+
+				}
+*/
+
+
 			echo '
 			<div class="form-group">
 				<label>'.$data->sarakkeen_nimi.'</label>

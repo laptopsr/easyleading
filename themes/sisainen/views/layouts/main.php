@@ -58,6 +58,15 @@
   elseif(Yii::app()->user->isGuest)
 	$tila = 'Vieras';
 
+	// <-- onko asetuksessa rivi id 1
+		$onkoid1=Asetukset::model()->findByPk(1);
+		if(!isset($onkoid1->id))
+		{
+			$asetukset = new Asetukset;
+			$asetukset->id = 1;
+			$asetukset->save();
+		}
+	//  onko asetuksessa rivi id 1 -->
 ?>
 
 
@@ -68,6 +77,8 @@
 <?php
 $curpage = Yii::app()->getController()->getAction()->controller->id;
 $curpage .= '/'.Yii::app()->getController()->getAction()->controller->action->id;
+
+  Yii::app()->clientScript->registerPackage('jquery');
 ?>
 
 
@@ -153,7 +164,7 @@ $curpage .= '/'.Yii::app()->getController()->getAction()->controller->action->id
                                                 </div>
                                                 <div class="col-xs-10">
                                                     <p>
-                                                        <strong><?php echo $user->firstname.' '.$user->lastname; ?></strong>: <?php echo $data->teksti; ?>
+                                                        <strong><?php echo $user->firstname.' '.$user->lastname; ?></strong>: <?php echo $data->otsikko; ?>
                                                     </p>
                                                     <p class="small">
                                                         <i class="fa fa-clock-o"></i> <?php echo $data->time; ?>
@@ -505,11 +516,17 @@ $curpage .= '/'.Yii::app()->getController()->getAction()->controller->action->id
                                 </a>
                             </li>
                             <li>
-                                <a href="<?php echo Yii::app()->request->baseUrl; ?>/index.php/viestinta/index">
-                                    <i class="fa fa-envelope"></i> Viestit
-                                    <span class="badge green pull-right"><?php echo count($viestinta); ?></span>
+                                <a href="<?php echo Yii::app()->request->baseUrl; ?>/index.php/asetukset/update?id=1">
+                                    <i class="fa fa-user"></i> Laskutus asetukset
                                 </a>
                             </li>
+                            <li>
+                                <a href="<?php echo Yii::app()->request->baseUrl; ?>/index.php/viestinta/index">
+                                    <i class="fa fa-envelope"></i> Viestit
+                                    <span class="badge green pull-right"></span>
+                                </a>
+                            </li>
+<!--<?php echo count($viestinta); ?>-->
                             <li>
                                 <a class="logout_open" href="#logout">
                                     <i class="fa fa-sign-out"></i> Kirjaudu ulos
@@ -579,6 +596,8 @@ $curpage .= '/'.Yii::app()->getController()->getAction()->controller->action->id
 
 		    <!-- Yrittaja -->
 		    <?php if(!Yii::app()->user->isGuest and Yii::app()->getModule('user')->user()->profile->getAttribute('tyyppi') == 1) : ?>
+
+
                     <li>
                         <a class="<?php if($curpage == 'default/index') echo 'active'; ?>" href="<?php echo Yii::app()->request->baseUrl.'/index.php/user'; ?>">
                             <i class="fa fa-user"></i> Henkilöstö  
@@ -668,7 +687,7 @@ $curpage .= '/'.Yii::app()->getController()->getAction()->controller->action->id
                     </li>
 
                     <li>
-                        <a href="<?php echo Yii::app()->request->baseUrl.'/index.php/laskutus'; ?>">
+                        <a href="<?php echo Yii::app()->request->baseUrl.'/index.php/laskut/index'; ?>">
                             <i class="fa fa-money"></i> Laskutus
                         </a>
                     </li>
@@ -948,7 +967,7 @@ $curpage .= '/'.Yii::app()->getController()->getAction()->controller->action->id
 
 
 
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <?php /*<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery-1.11.2.min.js"></script>*/?>
         <script src="<?php echo Yii::app()->request->baseUrl; ?>/sisainen_assets/js/plugins/bootstrap/bootstrap.min.js"></script>
 
         <!-- begin MAIN PAGE CONTENT -->
@@ -1004,8 +1023,9 @@ $curpage .= '/'.Yii::app()->getController()->getAction()->controller->action->id
     <script src="<?php echo Yii::app()->request->baseUrl; ?>/sisainen_assets/js/plugins/daterangepicker/moment.js"></script>
     <script src="<?php echo Yii::app()->request->baseUrl; ?>/sisainen_assets/js/plugins/daterangepicker/daterangepicker.js"></script>
     <!-- Flot Charts -->
+<!--
     <script src="<?php echo Yii::app()->request->baseUrl; ?>/sisainen_assets/js/plugins/flot/jquery.flot.js"></script>
-    <script src="<?php echo Yii::app()->request->baseUrl; ?>/sisainen_assets/js/plugins/flot/jquery.flot.resize.js"></script>
+    <script src="<?php echo Yii::app()->request->baseUrl; ?>/sisainen_assets/js/plugins/flot/jquery.flot.resize.js"></script>-->
     <!-- Sparkline Charts -->
     <script src="<?php echo Yii::app()->request->baseUrl; ?>/sisainen_assets/js/plugins/sparkline/jquery.sparkline.min.js"></script>
     <!-- Moment.js -->

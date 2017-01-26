@@ -202,4 +202,12 @@ class ViestintaController extends Controller
 			Yii::app()->end();
 		}
 	}
+
+	protected function etuSukunimi($id)
+	{
+
+		$model=Profile::model()->findByPk($id);
+		if(isset($model->user_id))
+		return $model->firstname.' '.$model->lastname;
+	}
 }

@@ -2,6 +2,10 @@
 /* @var $this ViestintaController */
 /* @var $model Viestinta */
 Viestinta::model()->updatebypk($model->id, array('is_katsonut'=>1));
+
+
+$model->saaja = $this->etuSukunimi($model->saaja);
+$model->lahettaja = $this->etuSukunimi($model->lahettaja);
 ?>
 
 
@@ -59,6 +63,7 @@ Viestinta::model()->updatebypk($model->id, array('is_katsonut'=>1));
 		'time',
 		'saaja',
 		'lahettaja',
+		'otsikko',
 		'teksti',
 	),
 )); ?>

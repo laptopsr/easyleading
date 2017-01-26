@@ -2,6 +2,20 @@
 /* @var $this AsiakkaatController */
 /* @var $model Asiakkaat */
 /* @var $form CActiveForm */
+
+if(!isset($model->id))
+{
+
+       		$criteria = new CDbCriteria();
+       		$criteria->order = " asiakasnumero DESC ";
+       		$criteria->condition = " asiakasnumero!='' ";
+		$asiakasnumero = 0;
+		$vm = Asiakkaat::model()->find($criteria);
+		if(isset($vm->id))
+		$asiakasnumero = (int)$vm->asiakasnumero+1;
+
+		$model->asiakasnumero = $asiakasnumero;
+}
 ?>
 
 <style>
@@ -16,7 +30,7 @@
 
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'asiakkaat-form',
-	'enableAjaxValidation'=>false,
+	'enableAjaxValidation'=>true,
 )); ?>
 
 	<p class="note">Tähdellä <span class="required">*</span> merkityt kentät ovat pakollisia.</p>
@@ -27,6 +41,12 @@
  <div class="col-sm-4">
 
 	<legend>Asiakkaan tiedot</legend>
+
+	<div class="">
+		<?php echo $form->labelEx($model,'asiakasnumero'); ?>
+		<?php echo $form->textField($model,'asiakasnumero',array('size'=>60,'maxlength'=>255, 'class'=>'form-control')); ?>
+		<?php echo $form->error($model,'asiakasnumero'); ?>
+	</div>
 
 	<div class="">
 		<?php echo $form->labelEx($model,'tyyppi'); ?>
@@ -93,6 +113,32 @@
 		<?php echo $form->error($model,'puhelinnumero'); ?>
 	</div>
 
+	<div class="">
+		<?php echo $form->labelEx($model,'ryhma'); ?>
+		<?php
+		$list = array(
+			Yii::t('main', 'Ryhmä 1')=>Yii::t('main', 'Ryhmä 1'),
+			Yii::t('main', 'Ryhmä 2')=>Yii::t('main', 'Ryhmä 2'),
+			Yii::t('main', 'Ryhmä 3')=>Yii::t('main', 'Ryhmä 3'),
+		);
+        	echo $form->dropDownList($model, 'ryhma', $list,
+		array('class'=>'form-control'));	
+        	?>
+		<?php echo $form->error($model,'ryhma'); ?>
+	</div>
+
+	<div class="">
+		<?php echo $form->labelEx($model,'aktiivinen'); ?>
+		<?php
+		$list = array(
+			1=>Yii::t('main', 'Kyllä'),
+			0=>Yii::t('main', 'Ei'),
+		);
+        	echo $form->dropDownList($model, 'aktiivinen', $list,
+		array('class'=>'form-control'));	
+        	?>
+		<?php echo $form->error($model,'aktiivinen'); ?>
+	</div>
 
      <input type="hidden" id="onkoEriosoite" value="<?php echo $model->eriosoite; ?>">
      <legend><?php echo Yii::t('main', 'Käyntiosoite on eri kuin laskutusosoite'); ?> <input type="checkbox" name="Asiakkaat[eriosoite]" id="eriosoite" data-toggle="collapse" data-target="#kosoiteet"></legend>
@@ -125,13 +171,26 @@
 
 	<div class="">
 		<?php echo $form->labelEx($model,'laskutuskanava'); ?>
-		<?php echo $form->textField($model,'laskutuskanava',array('size'=>60,'maxlength'=>100, 'class'=>'form-control')); ?>
+		<?php
+		$list = array(	'posti'=>Yii::t('main','Posti'),
+				'verkkolasku'=>Yii::t('main','Verkkolasku'),
+				'sahkoposti'=>Yii::t('main','Sähköposti')
+				);
+        	echo $form->dropDownList($model, 'laskutuskanava', $list,
+		array('empty'=>'Valitse','class'=>'form-control'));
+        	?>
 		<?php echo $form->error($model,'laskutuskanava'); ?>
 	</div>
 
 	<div class="">
 		<?php echo $form->labelEx($model,'kirjeluokka'); ?>
-		<?php echo $form->textField($model,'kirjeluokka',array('class'=>'form-control')); ?>
+		<?php
+		$list = array(	'1'=>Yii::t('main','Luokka 1'),
+				'2'=>Yii::t('main','Luokka 2')
+				);
+        	echo $form->dropDownList($model, 'kirjeluokka', $list,
+		array('empty'=>'Valitse','class'=>'form-control'));
+        	?>
 		<?php echo $form->error($model,'kirjeluokka'); ?>
 	</div>
 

@@ -52,6 +52,8 @@ class Asiakkaat extends CActiveRecord
 		CREATE TABLE IF NOT EXISTS `asiakkaat_yid_".Yii::app()->getModule('user')->user()->profile->getAttribute('yid')."` (
 		  `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 		  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  `asiakasnumero` varchar(255) NOT NULL,
+		  `ryhma` varchar(255) NOT NULL,
 		  `yrityksen_nimi` varchar(255) NOT NULL,
 		  `tyyppi` int(1) NOT NULL,
 		  `y_tunnus` varchar(255) NOT NULL,
@@ -70,9 +72,11 @@ class Asiakkaat extends CActiveRecord
 		  `ovt_tunnus` varchar(255) NOT NULL,
 		  `verkkolaskuosoite` varchar(255) NOT NULL,
 		  `valittajatunnus` varchar(255) NOT NULL,
-		  `viivastyskorko` int(1) NOT NULL,
-		  `maksuehto` int(1) NOT NULL,
+		  `viivastyskorko` int(10) NOT NULL,
+		  `maksuehto` int(10) NOT NULL,
 		  `alv_prosentti` int(10) NOT NULL,
+		  `netvisorkey` int(11) NOT NULL,
+		  `aktiivinen` int(1) NOT NULL,
 		  `eriosoite` varchar(100) NOT NULL
 		) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=latin1;
 		")->execute();
@@ -90,9 +94,10 @@ class Asiakkaat extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('yrityksen_nimi', 'required'),
-			array('tyyppi, postinumero, kayntipostinumero, kirjeluokka, viivastyskorko, maksuehto, alv_prosentti', 'numerical', 'integerOnly'=>true),
-			array('yrityksen_nimi, y_tunnus, henkilotunnus, yhteyshenkilo, sahkoposti, osoite, postitoimipaikka, kayntiosoite, kayntipostitoimipaikka, puhelinnumero, ovt_tunnus, verkkolaskuosoite, valittajatunnus', 'length', 'max'=>255),
+			array('asiakasnumero', 'required'),
+                        array('asiakasnumero','unique', 'message'=>'Tämä asiakasnmero on jo annettu toiselle aisakkaalle.'),
+			array('tyyppi, postinumero, kayntipostinumero, kirjeluokka, viivastyskorko, maksuehto, alv_prosentti, aktiivinen', 'numerical', 'integerOnly'=>true),
+			array('yrityksen_nimi, y_tunnus, henkilotunnus, yhteyshenkilo, sahkoposti, osoite, postitoimipaikka, kayntiosoite, kayntipostitoimipaikka, puhelinnumero, ovt_tunnus, verkkolaskuosoite, valittajatunnus, asiakasnumero, ryhma', 'length', 'max'=>255),
 			array('laskutuskanava, eriosoite', 'length', 'max'=>100),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
