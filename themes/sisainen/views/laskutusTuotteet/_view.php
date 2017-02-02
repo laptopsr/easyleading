@@ -8,7 +8,7 @@
 		<?php echo CHtml::link('<i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 110%"></i>', 
 				array('update', 'id'=>$data->id), 
 				array(
-					'class'=>'btn btn-primary myBgColors', 
+					'class'=>'btn btn-default btn-md', 
 					'style'=>'color:white', 
 					'data-toggle'=>'tooltip', 
 					'data-placement'=>'top', 
@@ -32,10 +32,5 @@
 	<td>
 		<?php echo $data->yksikko; ?>
 	</td>
-<?php if($netvisor == true) : ?>
-	<td>
-		<?php echo $this->onkoNetvisor($data->id); ?>
-	</td>
-<?php endif; ?>
 
 </tr>

@@ -9,7 +9,7 @@
                     <div class="col-lg-12">
                         <div class="page-title">
                             <h1>
-                                Laskutus tuotteet <a href="<?php echo Yii::app()->request->baseUrl.'/index.php/laskutusTuotteet/create'; ?>" data-toggle="tooltip" data-placement="right" title="Luo asiakas"><i class="fa fa-plus-square"></i></a>
+                                Laskutus tuotteet <a href="<?php echo Yii::app()->request->baseUrl.'/index.php/laskutusTuotteet/create'; ?>" data-toggle="tooltip" data-placement="right" title="Luo uusi tuote/palvelu"><i class="fa fa-plus-square"></i></a>
                             </h1>
                             <ol class="breadcrumb">
                                 <li><i class="fa fa-dashboard"></i>  <a href="<?php echo Yii::app()->request->baseUrl.'/index.php/site/index'; ?>">Etusivu</a>
@@ -40,10 +40,6 @@
   <th><?php echo Yii::t('main', 'Hinta Alv Sis'); ?></th>
   <th><?php echo Yii::t('main', 'Alv'); ?></th>
   <th><?php echo Yii::t('main', 'Yksikko'); ?></th>
-  <?php
-    if($netvisor == true)
-    echo '<th>'.Yii::t('main', 'Netvisor').'</th>';
-  ?>
   </tr>
   </thead>
 <?php $this->widget('zii.widgets.CListView', array(

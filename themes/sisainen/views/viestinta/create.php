@@ -14,7 +14,7 @@
                             </h1>
                             <ol class="breadcrumb">
                                 <li><i class="fa fa-dashboard"></i>  <a href="<?php echo Yii::app()->request->baseUrl.'/index.php/site/index'; ?>">Etusivu</a></li>
-                                <li>  <a href="<?php echo Yii::app()->request->baseUrl.'/index.php/asiakkaat/index'; ?>">viestintä</a></li>
+                                <li>  <a href="<?php echo Yii::app()->request->baseUrl.'/index.php/viestinta/index'; ?>">viestintä</a></li>
                                 <li class="active">  luo viesti</li>
                             </ol>
                         </div>

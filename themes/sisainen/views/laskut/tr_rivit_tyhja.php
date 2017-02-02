@@ -12,11 +12,28 @@ if(isset($_POST['num'])){
 	<input type="hidden" size="1" name="tuoteID[<?php echo $num; ?>]" id="tuoteID_<?php echo $num; ?>" class="form-control">
 
 	<input type="text" size="1" name="tkoodi[<?php echo $num; ?>]" id="tkoodi_<?php echo $num; ?>" class="for_tkoodi form-control" value="" data-toggle="collapse"  data-target="#lt_<?php echo $num; ?>">
-	<?php
+	<?php /*
 		$criteria = new CDbCriteria();
        		$criteria->condition = " is_active=1 ";
 		echo CHtml::dropdownList('','palvelu', CHtml::listData(LaskutusTuotteet::model()->findAll($criteria), 'id', 'tuotenimi'), 
 		array('empty'=>'Valitse tuote/palvelu','class'=>'form-control collapse valitseTuote input-sm','id'=>'lt_'.$num,'num'=>$num));
+	*/?>
+	<?php
+		$criteria = new CDbCriteria();
+       		$criteria->group = " tr_rivi ";
+       		$criteria->condition = " sarakkeen_nimi='NETVISOR' ";
+		$varasto = VarastoRakenne::model()->findAll($criteria); 
+		echo '<select class="form-control valitseTuote collapse" id="lt_'.$num.'" num="'.$num.'">';
+		echo '<option>Valitse tuote</option>';
+		foreach($varasto as $item)
+		{
+			$val = json_decode($item->value, true);
+			if(is_array($val))
+			{
+				echo '<option value="'.$item->id.'">'.$val['tuotenimi'].'</option>';
+			}
+		}
+		echo '</select>';
 	?>
 	</TD>
 

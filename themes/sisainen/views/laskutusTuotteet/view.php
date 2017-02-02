@@ -2,25 +2,7 @@
 /* @var $this LaskutusTuotteetController */
 /* @var $model LaskutusTuotteet */
 
-$this->breadcrumbs=array(
-	'Laskutus Tuotteets'=>array('index'),
-	$model->id,
-);
-
-$this->menu=array(
-	array('label'=>'List LaskutusTuotteet', 'url'=>array('index')),
-	array('label'=>'Create LaskutusTuotteet', 'url'=>array('create')),
-	array('label'=>'Update LaskutusTuotteet', 'url'=>array('update', 'id'=>$model->id)),
-	array('label'=>'Delete LaskutusTuotteet', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->id),'confirm'=>'Are you sure you want to delete this item?')),
-	array('label'=>'Manage LaskutusTuotteet', 'url'=>array('admin')),
-);
-?>
-
-<h1>View LaskutusTuotteet #<?php echo $model->id; ?></h1>
-
-<?php $this->widget('zii.widgets.CDetailView', array(
-	'data'=>$model,
-	'attributes'=>array(
+$arr = array(
 		'id',
 		'time',
 		'tuotenimi',
@@ -28,5 +10,52 @@ $this->menu=array(
 		'hinta_alv_sis',
 		'alv',
 		'yksikko',
-	),
-)); ?>
+	);
+
+?>
+
+
+
+                <!-- begin PAGE TITLE ROW -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="page-title">
+                            <h1>
+                                Tuotteet
+                            </h1>
+                            <ol class="breadcrumb">
+                                <li><i class="fa fa-dashboard"></i>  <a href="<?php echo Yii::app()->request->baseUrl.'/index.php/site/index'; ?>">Etusivu</a></li>
+                                <li>  <a href="<?php echo Yii::app()->request->baseUrl.'/index.php/laskutusTuotteet/index'; ?>">tuotteet</a></li>
+                                <li class="active">  <a href="<?php echo Yii::app()->request->baseUrl.'/index.php/laskutusTuotteet/update?id='.$model->id; ?>">muokkaa tuotetta #<?php echo $model->id; ?></a></li>
+                                <li class="active">  tuote #<?php echo $model->id; ?></li>
+                            </ol>
+                        </div>
+                    </div>
+                    <!-- /.col-lg-12 -->
+                </div>
+                <!-- /.row -->
+                <!-- end PAGE TITLE ROW -->
+
+
+<div class="portlet portlet-default">
+  <div class="portlet-heading">
+      <div class="portlet-title">
+         <h4>Tuote tiedot</h4>
+      </div>
+    <div class="clearfix"></div>
+  </div>
+  <div class="portlet-body">
+
+<?php 
+   $this->widget('zii.widgets.CDetailView', array(
+	'data'=>$model,
+	'attributes'=> $arr,
+   ));
+
+?>
+
+
+   </div>
+ </div>
+</div>
+<!-- /.portlet -->

@@ -14,7 +14,7 @@
 <tr>
         <?php if($lahettamattomat == true): ?>
 	<td>
-		<span class="btn btn-primary myBgColors" data-toggle="tooltip" data-placement="top" title="<?php echo Yii::t('main', 'Valitse lähetettäväksi'); ?>"><input type="checkbox" class="valitseLahetettavaksi" for="<?php echo $data->id; ?>"></span>
+		<span class="btn btn-default btn-md" data-toggle="tooltip" data-placement="top" title="<?php echo Yii::t('main', 'Valitse lähetettäväksi'); ?>"><input type="checkbox" class="valitseLahetettavaksi" for="<?php echo $data->id; ?>"></span>
 	</td>
    	<?php endif; ?>
 
@@ -22,7 +22,7 @@
 		<?php echo CHtml::link('<i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 110%"></i>', 
 				array('update', 'id'=>$data->id), 
 				array(
-					'class'=>'myBgColors', 
+					'class'=>'btn btn-default btn-md', 
 					'data-toggle'=>'tooltip', 
 					'data-placement'=>'top', 
 					'title'=>Yii::t('main', 'Muokkaa') 
@@ -31,7 +31,7 @@
 		?>
 	</td>
 	<td>
-		<span class="myBgColors"> <i class="link fa fa-history" for="<?php echo $data->id; ?>"></i></span>
+		<span class="btn btn-default btn-md"> <i class="link fa fa-history" for="<?php echo $data->id; ?>"></i></span>
 	</td>
 	<td>
 		<?php echo $data->laskunumero; ?>

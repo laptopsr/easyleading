@@ -62,13 +62,26 @@
 		array('empty'=>'Valitse Laskutusyksikkö','class'=>'form-control'));		
         	?>
 		<span class="input-group-btn">
-			<span class="btn btn-primary myBgColors muokaValiko" for="laskutus_yksikko"><i class="fa fa-pencil-square-o"></i></span>
+			<span class="btn btn-default btn-md muokaValiko" for="laskutus_yksikko"><i class="fa fa-pencil-square-o"></i></span>
 		</span>
 	   </div>
 
 		<?php echo $form->error($model,'yksikko'); ?>
 	</div>
 
+	<div class="">
+		<?php echo $form->labelEx($model,'ryhma'); ?>
+		<?php
+		$list = array(
+			Yii::t('main', 'Ryhmä 1')=>Yii::t('main', 'Ryhmä 1'),
+			Yii::t('main', 'Ryhmä 2')=>Yii::t('main', 'Ryhmä 2'),
+			Yii::t('main', 'Ryhmä 3')=>Yii::t('main', 'Ryhmä 3'),
+		);
+        	echo $form->dropDownList($model, 'ryhma', $list,
+		array('class'=>'form-control'));	
+        	?>
+		<?php echo $form->error($model,'ryhma'); ?>
+	</div>
 
 	<div class="section fill mb5">
 		<?php echo $form->labelEx($model,'is_active'); ?>
@@ -88,7 +101,7 @@
 
 <br>
 	<div class="buttons">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Luo' : 'Tallenna',array('class'=>'btn btn-primary')); ?>
+		<?php echo CHtml::submitButton($model->isNewRecord ? 'Luo' : 'Tallenna',array('class'=>'btn btn-default btn-md')); ?>
 	</div>
 
 <?php $this->endWidget(); ?>

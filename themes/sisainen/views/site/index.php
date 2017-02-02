@@ -126,7 +126,7 @@
                             </a>
                             <div class="circle-tile-content orange">
                                 <div class="circle-tile-description text-faded">
-                                    Uusi viesti
+                                    Viestit
                                 </div>
                                 <div class="circle-tile-number text-faded">
                                     <?php echo count($viestinta); ?>
@@ -165,7 +165,7 @@
                                     Liikekirjeet
                                 </div>
                                 <div class="circle-tile-number text-faded">
-                                    10
+					<br>
                                     <span id="sparklineB"></span>
                                 </div>
                                 <a href="<?php echo Yii::app()->request->baseUrl; ?>/index.php/site/oma_kansio"  class="circle-tile-footer">Kaikki tiedostot <i class="fa fa-chevron-circle-right"></i></a>
@@ -184,7 +184,7 @@
                                     Tuotanto
                                 </div>
                                 <div class="circle-tile-number text-faded">
-                                    24
+					<br><!--tähän tulee haluttaessa rivimäärät-->
                                     <span id="sparklineC"></span>
                                 </div>
                                 <a href="#" class="circle-tile-footer">Hallinta<i class="fa fa-chevron-circle-right"></i></a>
@@ -194,7 +194,7 @@
 
                     <div class="col-lg-2 col-sm-6">
                         <div class="circle-tile">
-                            <a href="#">
+                            <a href="<?php echo Yii::app()->request->baseUrl; ?>/index.php/laskut">
                                 <div class="circle-tile-heading blue">
                                     <i class="fa fa-money fa-fw fa-3x"></i>
                                 </div>
@@ -204,10 +204,10 @@
                                     Laskutus
                                 </div>
                                 <div class="circle-tile-number text-faded">
-                                    24
+					<br><!--tähän tulee haluttaessa rivimäärät-->
                                     <span id="sparklineC"></span>
                                 </div>
-                                <a href="#" class="circle-tile-footer">Hallinta <i class="fa fa-chevron-circle-right"></i></a>
+                                <a href="<?php echo Yii::app()->request->baseUrl; ?>/index.php/laskut" class="circle-tile-footer">Hallinta <i class="fa fa-chevron-circle-right"></i></a>
                             </div>
                         </div>
                     </div>
@@ -216,7 +216,7 @@
                         <div class="circle-tile">
                             <a href="#">
                                 <div class="circle-tile-heading blue">
-                                    <i class="fa fa-bar-chart fa-fw fa-3x"></i>
+                                    <i class="fa fa-line-chart fa-fw fa-3x"></i>
                                 </div>
                             </a>
                             <div class="circle-tile-content blue">
@@ -224,7 +224,7 @@
                                     Raportit
                                 </div>
                                 <div class="circle-tile-number text-faded">
-                                    24
+					<br><!--tähän tulee haluttaessa rivimäärät-->
                                     <span id="sparklineC"></span>
                                 </div>
                                 <a href="#" class="circle-tile-footer">Kaikki raportit <i class="fa fa-chevron-circle-right"></i></a>

@@ -29,7 +29,7 @@
 		echo CHtml::link("poista", '#', array(
 		'submit'=>array('delete', "id"=>$model->id), 
 		'confirm' => 'Haluatko varmaasti poistaa laskun?',
-		'class'=>'btn btn-primary myBgColors pull-right'
+		'class'=>'btn btn-red btn-md pull-right'
 		));
 
 	   ?>

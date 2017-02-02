@@ -96,7 +96,7 @@ echo '<input type="hidden" id="forTilanne" value="0">';
 		$criteria->order = " yhteyshenkilo ";
 
         	$a = Asiakkaat::model()->findAll($criteria);
-		echo '<select name="Lasku[as_nro]" class="form-control" id="Lasku_as_nro">';
+		echo '<select name="Laskut[as_nro]" class="form-control" id="Lasku_as_nro">';
 
 		if(isset($model->asiakas_id) and !empty($model->asiakas_id))
 		{
@@ -541,7 +541,7 @@ echo '<input type="hidden" id="forTilanne" value="0">';
 	 <div class="form-inline">
 		<?php if(!isset($model->id) or $model->tilanne == '0') : ?>
 		<div class="form-group">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Tallenna' : 'Tallenna',array('class'=>'btn  btn-primary myBgColors')); ?>
+		<?php echo CHtml::submitButton($model->isNewRecord ? 'Tallenna' : 'Tallenna',array('class'=>'btn btn-default btn-md')); ?>
 		</div>
 		<?php endif; ?>
 
@@ -549,7 +549,7 @@ echo '<input type="hidden" id="forTilanne" value="0">';
 			isset($model->id) 
 		) : ?>
 		<div class="form-group">
-		<a href="lasku_pdf?id=<?php echo $model->id; ?>" target="_blank" class="btn  btn-primary btn-group myBgColors" data-toggle="tooltip" data-placement="top" title="<?php echo Yii::t('main', 'Tämä esikatselu on vain blaa, koska netvisorilla on oma PDF'); ?>"><?php echo Yii::t('main','Esikatselu'); ?></a>
+		<a href="lasku_pdf?id=<?php echo $model->id; ?>" target="_blank" class="btn btn-default btn-md" data-toggle="tooltip" data-placement="top" title="<?php echo Yii::t('main', 'HUOM! Netvisor muodostaa PDF:n omalle pohjalle.'); ?>"><?php echo Yii::t('main','Esikatselu'); ?></a>
 		</div>
 		<?php endif; ?>
 
@@ -560,14 +560,14 @@ echo '<input type="hidden" id="forTilanne" value="0">';
 			and $model->tilanne != 999
 		): ?>
 		<div class="form-group">
-		<a href="finvoice?id=<?php echo $model->id; ?>&lahetaNetvisor=true" class="btn btn-group btn-success btn-group myBgColors" data-toggle="tooltip" data-placement="top" title="<?php echo Yii::t('main', 'Lähetä Netvisoriin'); ?>"><?php echo Yii::t('main','Lähetä'); ?></a> 
+		<a href="finvoice?id=<?php echo $model->id; ?>&lahetaNetvisor=true" class="btn btn-success btn-md" data-toggle="tooltip" data-placement="top" title="<?php echo Yii::t('main', 'Lähetä Netvisoriin'); ?>"><?php echo Yii::t('main','Lähetä'); ?></a> 
 		</div>
 		<?php endif; ?>
 
 
 		<?php if(isset($model->id) and $model->tilanne == '0') : ?>
 		<div class="form-group">
-		<a href="finvoice?id=<?php echo $model->id; ?>&hyvaksyminen=true" class="btn btn-success btn-group myBgColors" data-toggle="tooltip" data-placement="top" title="<?php echo Yii::t('main', 'Hyväksymisen jälkeen ei voi enää muokata'); ?>"><?php echo Yii::t('main','Hyväksy'); ?></a> 
+		<a href="finvoice?id=<?php echo $model->id; ?>&hyvaksyminen=true" class="btn btn-success btn-md" data-toggle="tooltip" data-placement="top" title="<?php echo Yii::t('main', 'Hyväksymisen jälkeen laskua ei voi enää muokata.'); ?>"><?php echo Yii::t('main','Hyväksy'); ?></a> 
 		</div>
 		<?php endif; ?>
 
@@ -576,7 +576,7 @@ echo '<input type="hidden" id="forTilanne" value="0">';
 			and $model->tilanne != 999
 		) : ?>
 		<div class="form-group">
-		<a href="lasku_pdf?id=<?php echo $model->id; ?>&muistutuslasku=true" target="_blank" class="btn btn-primary btn-group myBgColors"><?php echo Yii::t('main','Maksumuistutus'); ?></a>
+		<a href="lasku_pdf?id=<?php echo $model->id; ?>&muistutuslasku=true" target="_blank" class="btn btn-default btn-md"><?php echo Yii::t('main','Maksumuistutus'); ?></a>
 		</div>
 		<?php endif; ?>
 
@@ -586,7 +586,7 @@ echo '<input type="hidden" id="forTilanne" value="0">';
 			)
 		: ?>
 		<div class="form-group">
-		<a href="hyvityslasku?id=<?php echo $model->id; ?>" class="btn btn-success btn-group myBgColors"><?php echo Yii::t('main','Hyvityslasku'); ?></a>
+		<a href="hyvityslasku?id=<?php echo $model->id; ?>" class="btn btn-default btn-md"><?php echo Yii::t('main','Hyvityslasku'); ?></a>
 		</div>
 		<?php endif; ?>
 
@@ -596,8 +596,8 @@ echo '<input type="hidden" id="forTilanne" value="0">';
 			and $model->tilanne != 999
 		) : ?>
 		<div class="form-group">
-		<a href="finvoice?id=<?php echo $model->id; ?>&mitatointi=true" class="btn btn-success btn-group myBgColors"><?php echo Yii::t('main','Mitätöi'); ?></a>
-		<a href="finvoice?id=<?php echo $model->id; ?>&kopio=true" class="btn btn-success btn-group myBgColors"><?php echo Yii::t('main','Kopio'); ?></a>
+		<a href="finvoice?id=<?php echo $model->id; ?>&mitatointi=true" class="btn btn-red btn-md"><?php echo Yii::t('main','Mitätöi'); ?></a>
+		<a href="finvoice?id=<?php echo $model->id; ?>&kopio=true" class="btn btn-default btn-md"><?php echo Yii::t('main','Kopio'); ?></a>
 		</div>
 		<?php endif; ?>
 
@@ -610,21 +610,21 @@ echo '<input type="hidden" id="forTilanne" value="0">';
 			isset($model->id) 
 			and $model->tilanne != '0'
 		) : ?>
-		<a href="finvoice?id=<?php echo $model->id; ?>&merkitseMaksetuksi=true" class="btn  btn-primary btn-group myBgColors"><?php echo Yii::t('main','Maksettu'); ?></a>
+		<a href="finvoice?id=<?php echo $model->id; ?>&merkitseMaksetuksi=true" class="btn btn-default btn-md"><?php echo Yii::t('main','Maksettu'); ?></a>
 		<?php endif; ?>
 
 		<?php if(
 			isset($model->id) 
 			and $model->tilanne != '0'
 		) : ?>
-		<a href="finvoice?id=<?php echo $model->id; ?>&merkitseLahetettavaksi=true" class="btn  btn-primary btn-group myBgColors"><?php echo Yii::t('main','Lähetetty'); ?></a>
+		<a href="finvoice?id=<?php echo $model->id; ?>&merkitseLahetettavaksi=true" class="btn btn-default btn-md"><?php echo Yii::t('main','Lähetetty'); ?></a>
 		<?php endif; ?>
 
 		<?php if(
 			isset($model->id) 
 			and $model->tilanne != '0'
 		) : ?>
-		<a href="finvoice?id=<?php echo $model->id; ?>&merkitseMaksumuistutusLahetettavaksi=true" class="btn  btn-primary btn-group myBgColors"><?php echo Yii::t('main','Maksumuistutus lähetetty'); ?></a>
+		<a href="finvoice?id=<?php echo $model->id; ?>&merkitseMaksumuistutusLahetettavaksi=true" class="btn btn-default btn-md"><?php echo Yii::t('main','Maksumuistutus lähetetty'); ?></a>
 		<?php endif; ?>
 
 
@@ -717,21 +717,20 @@ $("table#TableRivit .valitseTuote").change(function() {
            type: "POST",
            data: { tuoteID : tuoteID },
            success: function(data){
-		var sp = data.split("//");
+		var data = JSON.parse(data);
 
 		$("#kpl_"+num).val("1");
 
-		if(sp[0])
-		$("#tkoodi_"+num).val(sp[0]);
-		if(sp[1])
-		$("#hinta_"+num).val(sp[1]);
-		if(sp[3])
-		$("#yksikko_"+num+" option[value="+sp[3]+"]").attr('selected','selected');
-		if(sp[2])
-		$("#alv_"+num+" option[value="+sp[2]+"]").attr('selected','selected');
-
-		if(sp[5])
-		$("#tuoteID_"+num).val(sp[5]);
+		if(data['tuotenimi'])
+		$("#tkoodi_"+num).val( data['tuotenimi'] );
+		if(data['hinta_alv_0'])
+		$("#hinta_"+num).val( data['hinta_alv_0'] );
+		if(data['alv'])
+		$("#alv_"+num+" option[value="+data['alv']+"]").attr('selected','selected');
+		if(data['yksikko'])
+		$("#yksikko_"+num+" option[value="+data['yksikko']+"]").attr('selected','selected');
+		if(data['tuoteID'])
+		$("#tuoteID_"+num).val(data['tuoteID']);
 
 		eachLaskenta();
 		$("#lt_"+num).hide();
@@ -836,141 +835,6 @@ function yhteensaTotal(){
 	});
 }
 
-
-$(".luoRiviTunti").click(function() {
-
-	var from = $("#from").val();
-	var to = $("#to").val();
-	var kohteet = $(".selectpicker.h").val();
-	var tuotePalvelu = $("#tuntipalvelu").val();
-
-	if (from  === '') 
-	{
-	     $('#from').css({"border" : "2px #f14010 solid"}).focus();
-	     return false;
-	}
-	if (to  === '') 
-	{
-	     $('#to').css({"border" : "2px #f14010 solid"}).focus();
-	     return false;
-	}
-	if (!kohteet) 
-	{ 
-	    alert('Valitse kohde')
-	    return false;
-
-	} 
-
-	    pyyntoRiville(kohteet,from,to,tuotePalvelu,"tunti");
-});
-
-
-
-$(".luoRiviKk").click(function() {
-
-	var from = $("#fromkk").val();
-	var to = $("#tokk").val();
-	var kohteet = $(".selectpicker.kk").val();
-	var tuotePalvelu = $("#kkpalvelu").val();
-
-
-	if (from  === '') 
-	{
-	     $('#fromkk').css({"border" : "2px #f14010 solid"}).focus();
-	     return false;
-	}
-	if (to  === '') 
-	{
-	     $('#tokk').css({"border" : "2px #f14010 solid"}).focus();
-	     return false;
-	}
-	if (!kohteet) 
-	{ 
-	    alert('Valitse kohde')
-	    return false;
-
-	} 
-
-	    pyyntoRiville(kohteet,from,to,tuotePalvelu,"kk");
-
-});
-
-
-function pyyntoRiville(kohteet,from,to,tuotePalvelu,tuntiVaiKk){
-
-	    if($('#tkoodi_1').val() === '')
-	    $("#trRivi_1").remove();
-
-	    $.each(kohteet, function( index, value ) {
-
-	    var spH = value.split("//");
-	    if(spH[3] == 'onkohde')
-	    var mistaLuo = 'luoKohteista';
-
-	    if(spH[3] == 'eikohde')
-	    var mistaLuo = 'luoAsiakaasta';
-
-
-	        $.ajax({
-	           url: mistaLuo+'?id='+spH[0],
-		   type: 'POST',
-		   data: { from : from, to : to },
-	           success: function(data){
-	               	console.log(data);
-			var tunnit = data;			
-			var num = 0;
-			if((tunnit == 0) && (tuntiVaiKk == "tunti"))
-			{
-				$("#tuntienTulos").addClass("alert alert-danger").html('<b>Ei löydy tuntia</b>');
-				//$("#rivit").hide('slow');
-			}
-
-			if((tunnit > 0) || (tuntiVaiKk == "kk"))
-			{
-			num = $("table#TableRivit tbody tr").length+index;
-			
-			var kpl = 0;
-			var yksikko = 0;
-			if(tuntiVaiKk == "kk"){
-			  yksikko = 'kk';
-			  kpl = '1';
-			} else {
-			  yksikko = spH[2];
-			  kpl = tunnit;
-			}
-
-	        	$.ajax({
-		           url: 'tr_rivit?id='+spH[0],
-			   type: 'POST',
-			   data: { num : num, from : from, to : to, kpl : kpl, hinta : spH[1], yksikko : yksikko, onkokohde : spH[3], tuotePalvelu : tuotePalvelu },
-		           success: function(data){
-				console.log(value);
-				$("table#TableRivit tbody tr").last().after(data);
-				poista();
-				eachLaskenta();
-				Rivi();
-				$("#tuntienTulos").removeClass("alert alert-danger").html('');
-				$("#rivit").show('slow');
-				$(".subm").show('slow');
-		           },
-		           error: function(XMLHttpRequest, textStatus, errorThrown){
-		               	console.log(XMLHttpRequest);
-			   }
-		        });
-
-			}
-	
-	           },
-	           error: function(XMLHttpRequest, textStatus, errorThrown){
-	               	console.log(XMLHttpRequest);
-		   }
-	        });
-	    });
-
-	    
-	    jumpToPageBottom();
-
-}
 
 $("#Lasku_yid").change(function() {
 

@@ -263,10 +263,36 @@ class LaskutController extends Controller
 
 	public function actionValitsetuote()
 	{
-		$tuote = LaskutusTuotteet::model()->findbypk($_POST['tuoteID']);
-		if(isset($tuote->id)) $tuoteID = $tuote->id; else $tuoteID = '';
 
-		echo $tuote->tuotenimi."//".$tuote->hinta_alv_0."//".$tuote->alv."//".$tuote->yksikko."//".$tuote->hinta_alv_sis."//".$tuoteID;
+	  if(isset($_POST['tuoteID']))
+	  {
+		$tuoteID = $_POST['tuoteID'];
+		$tuote = VarastoRakenne::model()->findbypk($tuoteID);
+		$val = json_decode($tuote->value, true);
+		if(is_array($val))
+		{
+			$tuotenimi = $val['tuotenimi'];
+			$hinta_alv_0 = $val['hinta_alv_0'];
+			$alv = $val['alv'];
+			$yksikko = $val['yksikko'];
+			$hinta_alv_sis = $val['hinta_alv_sis'];
+
+			echo json_encode(array(
+				'tuotenimi'=>$tuotenimi,
+				'hinta_alv_0'=>$hinta_alv_0,
+				'alv'=>$alv,
+				'yksikko'=>$yksikko,
+				'hinta_alv_sis'=>$hinta_alv_sis,
+				'tuoteID'=>$tuoteID
+			));
+			exit;
+		} else {
+			echo json_encode(array('ERROR'=>'Tuote error'));
+			exit;
+		}
+	  }
+
+		echo json_encode(array('ERROR'=>'Tuote error'));
 
 	}
 
@@ -403,18 +429,6 @@ class LaskutController extends Controller
 					$lr->tuoteID	=$_POST['tuoteID'][$key];
 
 
-				if(	isset($as->id) 
-					and (int)$as->vinkki_tunnit > 0 
-					and $_POST['ale'][$key] > 0
-					and $_POST['yksikko'][$key] == 'h'
-				)
-				{
-					$vinkki_tunnit = '';
-					$vinkki_tunnit = (int)$as->vinkki_tunnit-$_POST['kpl'][$key];
-					Asiakkaat::model()->updatebypk($as->id, array('vinkki_tunnit'=>$vinkki_tunnit));
-				}
-
-
 				$lr->veroton	=$_POST['veroton'][$key];
 				$lr->yhteensa_alv=$_POST['yhteensa_alv'][$key];
 				$lr->save();
@@ -548,7 +562,7 @@ class LaskutController extends Controller
 
 		// <!-- Lasku updater
 		$info 	= '';
-		//$info 	.= $this->LaskuUpdater($from,$to);
+		$info 	.= $this->LaskuUpdater($from,$to);
 		// Lasku updater -->
 
        		$criteria = new CDbCriteria();
@@ -591,7 +605,7 @@ class LaskutController extends Controller
 
 
 		// LOCAL Lahetetty
-		if(isset($_POST['tilaLaskulle']) and $_POST['tilaLaskulle'] == 2 and $asetukset->palvelu_tyyppi == 3)
+		if(isset($_POST['tilaLaskulle']) and $_POST['tilaLaskulle'] == 2)
 		{
 		$criteria->addCondition ("
 		id in (SELECT lid FROM 
@@ -935,25 +949,25 @@ foreach($laskunRivit as $rivit)
 {
 
 	$ProductIdentifier = '';
-	$tuotteet = LaskutusTuotteet::model()->findByPk($rivit->tuoteID);
-	if(isset($tuotteet->id) and $tuotteet->netvisorkey){
-		$ProductIdentifier = $tuotteet->netvisorkey;
+	$tuotteet = VarastoRakenne::model()->findByPk($rivit->tuoteID);
+	if(isset($tuotteet->id)) {
+
+		$val = json_decode($tuotteet->value, true);
+		if(is_array($val))
+		{
+			if(isset($val[0]['netvisorkey'][0]))
+			$ProductIdentifier = $val[0]['netvisorkey'][0];
+		} else {
+			die('ERROR: Tuotteella netvisorkey ei ole saattavilla');
+		}
+
+	} elseif($this->onkoOletusProductEsitetty() != false) {
+			$ProductIdentifier = $this->onkoOletusProductEsitetty();
 	} else {
-		die('ERROR: ProductIdentifier');
+		die('ERROR: Tuotteen netvisorkey ei esitetty');
 	}
 
-//             <SalesInvoiceProductLineFreeText>'.$rivit->free_text.'</SalesInvoiceProductLineFreeText>
-/*
-             <AccountingAccountSuggestion>3000</AccountingAccountSuggestion> 
-             <Dimension>
-                <DimensionName>Liiketoimintayksikkö laskentakohteena</DimensionName>
-                <DimensionItem>Yleishallinto</DimensionItem>
-             </Dimension>
-             <Dimension>
-                <DimensionName>Severan "työ" laskentakohteena</DimensionName>
-                <DimensionItem>Makkaran paisto</DimensionItem>
-             </Dimension>
-*/
+
 	$Comment = '';
 	if(!empty($rivit->free_text)){
 	$Comment = '
@@ -1023,6 +1037,165 @@ $xml .= '
 	} // if isset $n[0]
 
 		return $return;
+
+	}
+
+
+	protected function onkoOletusProductEsitetty()
+	{
+
+	  $tuot = VarastoRakenne::model()->find(" sarakkeen_nimi='NETVISOR_DEFAULT' ");
+	  if(!isset($tuot->id))
+	  {
+
+	
+		$defaultTuote = new VarastoRakenne;
+		$defaultTuote->sarakkeen_nimi = 'NETVISOR_DEFAULT';
+		$defaultTuote->varaston_nimike = 'NETVISOR_DEFAULT';
+		$defaultTuote->sarakkeen_tyyppi = '1';
+		$defaultTuote->sum = '0';
+		$defaultTuote->position = '0';
+		if($defaultTuote->save())
+		{
+	
+			// <-- Netvisor
+			$a = Asetukset::model()->findbypk(1);
+			if($a->netvisor_kaytto == 1)
+			{
+				$InsertedDataIdentifier = $this->netvisorProductAddDefault();
+				if(!empty($InsertedDataIdentifier))
+				{
+					VarastoRakenne::model()->updateByPk($defaultTuote->id, array('value'=>$InsertedDataIdentifier));
+					return $InsertedDataIdentifier;
+				}
+	
+			}
+			//  Netvisor -->
+
+		} else {
+			var_dump($defaultTuote->getErrors());
+		}
+	  } else {
+		return $tuot->value;
+	  }
+
+		return false;
+	}
+
+
+
+
+	protected function netvisorProductAddDefault()
+	{
+
+		$return = '';
+		$site = Yii::app()->createController('Site');
+		$n = $site[0]->netvisorYhteys();
+
+	if(isset($n[0]))
+	{
+		$url		= $n[0].'/product.nv?method=add';
+
+		$host 		= $n[1];
+
+		$sender 	= $n[2];
+		$customerId	= $n[3];
+		$partnerId	= $n[4];
+		$timestamp	= $n[5];
+		$language	= $n[6];
+		$organisationIdentifier	= $n[7];
+		$transactionIdentifier	= $n[8];
+		$userKey 	= $n[9];
+		$partnerKey	= $n[10];
+
+
+
+	$getMAC = md5(
+		$url.'&'.
+		$sender.'&'.
+		$customerId.'&'.
+		$timestamp.'&'.
+		$language.'&'.
+		$organisationIdentifier.'&'.
+		$transactionIdentifier.'&'.
+		$userKey.'&'.
+		$partnerKey
+	 	);
+	
+	$auth_data = 
+	    "Host: $host\r\n".  
+	    "X-Netvisor-Authentication-Sender: $sender\r\n".  
+	    "X-Netvisor-Authentication-CustomerId: $customerId\r\n".  
+	    "X-Netvisor-Authentication-PartnerId: $partnerId\r\n".  
+	    "X-Netvisor-Authentication-Timestamp: $timestamp\r\n".
+	    "X-Netvisor-Interface-Language: $language\r\n".
+	    "X-Netvisor-Organisation-ID: $organisationIdentifier\r\n".  
+	    "X-Netvisor-Authentication-TransactionId: $transactionIdentifier\r\n".
+	    "X-Netvisor-Authentication-MAC: $getMAC\r\n"
+	; 
+	
+
+
+$xml = '
+<root>
+  <product>
+    <productbaseinformation>
+      <productcode>99999</productcode>
+      <productgroup>Default group</productgroup>
+      <name>Default product</name>
+      <description></description>
+      <unitprice type="net">0</unitprice>
+      <unit>kpl</unit>
+      <unitweight>1</unitweight>
+      <purchaseprice>0</purchaseprice>
+      <tariffheading></tariffheading>
+      <comissionpercentage>0</comissionpercentage>
+      <isactive>1</isactive>
+      <issalesproduct>0</issalesproduct>
+      <inventoryenabled>1</inventoryenabled>
+    </productbaseinformation>
+    <productbookkeepingdetails>
+      <defaultvatpercentage>24</defaultvatpercentage>
+    </productbookkeepingdetails>
+  </product>
+</root>';
+	
+	$optsPOST = array(
+	  'http'=>array(
+	    'method'=>"POST",
+	    'header'=>"Accept: text/plain\r\n" .
+	              "Content-Type: application/x-www-form-urlencoded\r\n".
+	              "Content-Length: ".strlen($xml)."\r\n".
+		      $auth_data,
+	    'content'=> $xml
+	  )
+	);
+	
+	$context = stream_context_create($optsPOST);
+	
+	$response = file_get_contents($url, false, $context);
+	$result = new SimpleXMLElement($response);
+	
+	
+	  if($result->ResponseStatus->Status == 'OK')
+	  {
+		$return=$result->Replies->InsertedDataIdentifier;
+
+	  } else {
+
+		echo '<pre>';
+		print_r( $response );
+		echo '</pre>';
+
+	  }
+
+	
+
+
+	} // if isset $n[0]
+
+		return $return;
+
 
 	}
 
@@ -1424,7 +1597,7 @@ $xml .= '
 
 		// <-- Netvisor updater
 		$netvisorUpdateCheck = false;
-		if($asetukset->palvelu_tyyppi == 4 and $asetukset->netvisor_kaytto == 1)
+		if($asetukset->netvisor_kaytto == 1)
 		{
 
 			$netvisorList = $this->netvisorList(date("Y-m-d",strtotime($from)),date("Y-m-d",strtotime($to.' +1 day')));
@@ -1448,7 +1621,7 @@ $xml .= '
 		
 				       		$criteria = new CDbCriteria();
 					        $criteria->condition = " netvisorkey='".$list->NetvisorKey."' ";
-						$l = Lasku::model()->find($criteria);
+						$l = Laskut::model()->find($criteria);
 	
 						if(isset($l->id))
 						{

@@ -8,10 +8,37 @@ $model->saaja = $_GET['saaja'];
 
 $model->lahettaja = Yii::app()->user->id;
 
+if(isset($_GET['vastaus_id']))
+{
+	$vanhaViesti = Viestinta::model()->findByPk($_GET['vastaus_id']);
+	if(isset($vanhaViesti->teksti))
+	{
+		$us = Profile::model()->findByPk(Yii::app()->user->id);
+		$ul = Profile::model()->findByPk($vanhaViesti->lahettaja);
+
+		$model->saaja = $vanhaViesti->lahettaja;
+		$model->otsikko = $vanhaViesti->otsikko;
+
+		$m = "RE: \n";
+		$m .= $ul->firstname.' '.$ul->lastname.': '.$vanhaViesti->teksti;
+		$m .= "\n --------- \n";
+		$m .= $us->firstname.' '.$us->lastname.': ';
+		$model->teksti = $m;
+
+	echo '
+	<script>
+	$(function() {
+
+		$("#Viestinta_teksti").focus();
+	});
+	</script>
+	';
+	}
+}
 ?>
 
 <div class="form row">
-  <div class="col-sm-4">
+  <div class="col-sm-6">
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'viestinta-form',
 	'enableAjaxValidation'=>false,
@@ -43,7 +70,7 @@ $model->lahettaja = Yii::app()->user->id;
 
 	<div class="">
 		<?php echo $form->labelEx($model,'teksti'); ?>
-		<?php echo $form->textArea($model,'teksti',array('s'=>6, 'cols'=>50, 'class'=>'form-control')); ?>
+		<?php echo $form->textArea($model,'teksti',array('rows'=>6, 'cols'=>50, 'class'=>'form-control','onfocus'=>"var val=this.value; this.value=''; this.value= val;")); ?>
 		<?php echo $form->error($model,'teksti'); ?>
 	</div>
 

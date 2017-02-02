@@ -434,7 +434,7 @@ $(document).ready(function(){
 	   data: { backLinkID : backLinkID, varaston_nimike : varaston_nimike, tr_rivi : tr_rivi, tuotteen_ryhman_nimike : tuotteen_ryhman_nimike },
            success: function(data){
 		data=JSON.parse(data);
-		//console.log(data);
+		console.log(data);
 		$('#showres').modal().html(data);
               },
 	   error:function(data){
@@ -508,6 +508,7 @@ $('#modalForm').submit();
    );
 
  });
+
 
 });
 </script>

@@ -37,7 +37,7 @@ class ViestintaController extends Controller
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
 				'actions'=>array('admin','delete'),
-				'users'=>array('admin'),
+				'users'=>array('@'),
 			),
 			array('deny',  // deny all users
 				'users'=>array('*'),
@@ -137,12 +137,22 @@ class ViestintaController extends Controller
 	 */
 	public function actionDelete($id)
 	{
-		$this->loadModel($id)->delete();
+		$model = Viestinta::model()->findByPk($id);
+		if(isset($model->piilottu_seuraavasta_idsta) and is_array(json_decode($model->piilottu_seuraavasta_idsta, true)))
+		{
+			$arr = json_decode($model->piilottu_seuraavasta_idsta, true);
+			$arr[] = Yii::app()->user->id;
+			Viestinta::model()->updateByPk($id, array('piilottu_seuraavasta_idsta'=>json_encode($arr)));
+		} elseif( isset($model->piilottu_seuraavasta_idsta) and empty($model->piilottu_seuraavasta_idsta) ){
 
-		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-		if(!isset($_GET['ajax']))
-			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+			$arr = array();
+			$arr[] = Yii::app()->user->id;
+			Viestinta::model()->updateByPk($id, array('piilottu_seuraavasta_idsta'=>json_encode($arr)));
+		}
+		
+		$this->redirect(array('index'));
 	}
+
 
 	/**
 	 * Lists all models.
@@ -152,11 +162,20 @@ class ViestintaController extends Controller
                 $dataProvider=new CActiveDataProvider('Viestinta', array(
                         'criteria'=>array(
                                 'order'=>'t.id DESC',
-				'condition'=>" saaja='".Yii::app()->user->id."' ",
+				'condition'=>" saaja='".Yii::app()->user->id."' 
+					AND piilottu_seuraavasta_idsta NOT LIKE '%".Yii::app()->user->id."%' ",
+                        )));
+
+                $dataProvider_lahetetyt=new CActiveDataProvider('Viestinta', array(
+                        'criteria'=>array(
+                                'order'=>'t.id DESC',
+				'condition'=>" lahettaja='".Yii::app()->user->id."' 
+					AND piilottu_seuraavasta_idsta NOT LIKE '%".Yii::app()->user->id."%' ",
                         )));
 
                 $this->render('index',array(
-                        'dataProvider'=>$dataProvider
+                        'dataProvider'=>$dataProvider,
+			'dataProvider_lahetetyt'=>$dataProvider_lahetetyt
                 ));
 	}
 

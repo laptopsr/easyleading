@@ -53,9 +53,9 @@ if(UserModule::isAdmin()) {
         'itemsCssClass' => 'table table-striped small table-hover',
 	'columns'=>array(
 		array(
-			'header' => 'Muokka',
+			'header' => 'Muokkaa',
 			'type'=>'raw',
-			'value' => 'CHtml::link("<i class=\"fa fa-pencil-square-o\" aria-hidden=\"true\"></i>",array("user/update","id"=>$data->id))',
+			'value' => 'CHtml::link("<i class=\"fa fa-pencil-square-o btn btn-default btn-md\" aria-hidden=\"true\"></i>",array("user/update","id"=>$data->id))',
 		),
 		array(
 			'name' => 'username',
@@ -65,7 +65,7 @@ if(UserModule::isAdmin()) {
 		array(
 			'header' => 'Viesti',
 			'type'=>'raw',
-			'value' => 'CHtml::link("<i class=\"fa fa-envelope\" aria-hidden=\"true\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Lähetä uusi viesti\"></i>",array("//viestinta/create","saaja"=>$data->id))',
+			'value' => 'CHtml::link("<i class=\"fa fa-envelope btn btn-default btn-md\" aria-hidden=\"true\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Lähetä uusi viesti\"></i>",array("//viestinta/create","saaja"=>$data->id))',
 		),
 		'profile.firstname',
 		'profile.lastname',

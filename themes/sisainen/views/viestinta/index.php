@@ -24,10 +24,15 @@
                 <!-- end PAGE TITLE ROW -->
 
 
+
+<div class="row">
+ <div class="col-sm-6">
+
+
 <div class="portlet portlet-default">
   <div class="portlet-heading">
       <div class="portlet-title">
-         <h4>Viestintä</h4>
+         <h4>Saapuneet viestit</h4>
       </div>
     <div class="clearfix"></div>
   </div>
@@ -37,6 +42,7 @@
     <table class="table">
 <?php $this->widget('zii.widgets.CListView', array(
 	'dataProvider'=>$dataProvider,
+	'viewData' => array( 'saapuneet' => true ), 
 	'itemView'=>'_view',
 )); ?>
     </table>
@@ -45,3 +51,30 @@
  </div>
 </div>
 <!-- /.portlet -->
+
+ </div><div class="col-sm-6">
+
+<div class="portlet portlet-default">
+  <div class="portlet-heading">
+      <div class="portlet-title">
+         <h4>Lähetetyt viestit</h4>
+      </div>
+    <div class="clearfix"></div>
+  </div>
+  <div class="portlet-body">
+   <div class="table-responsive">
+
+    <table class="table">
+<?php $this->widget('zii.widgets.CListView', array(
+	'dataProvider'=>$dataProvider_lahetetyt,
+	'itemView'=>'_view',
+)); ?>
+    </table>
+
+   </div>
+ </div>
+</div>
+<!-- /.portlet -->
+
+ </div>
+</div>

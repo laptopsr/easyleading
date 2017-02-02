@@ -1,4 +1,7 @@
+<?php
 
+
+?>
 
                 <!-- begin PAGE TITLE ROW -->
                 <div class="row">
@@ -9,7 +12,7 @@
                             </h1>
                             <ol class="breadcrumb">
                                 <li><i class="fa fa-dashboard"></i>  <a href="<?php echo Yii::app()->request->baseUrl.'/index.php/site/index'; ?>">Etusivu</a></li>
-                                <li>  <a href="<?php echo Yii::app()->request->baseUrl.'/index.php/asiakkaat/index'; ?>">laskut</a></li>
+                                <li>  <a href="<?php echo Yii::app()->request->baseUrl.'/index.php/laskut/index'; ?>">laskut</a></li>
                                 <li class="active">  luo lasku</li>
                             </ol>
                         </div>

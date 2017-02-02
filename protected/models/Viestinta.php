@@ -27,7 +27,28 @@ class Viestinta extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'viestinta';
+
+
+		$table = Yii::app()->db->schema->getTable('viestinta_yid_'.Yii::app()->getModule('user')->user()->profile->getAttribute('yid'));
+		if(!isset($table->columns['id'])) {
+
+		Yii::app()->db->createCommand("
+		CREATE TABLE IF NOT EXISTS `viestinta_yid_".Yii::app()->getModule('user')->user()->profile->getAttribute('yid')."` (
+		  `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+		  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		  `saaja` int(11) NOT NULL,
+		  `lahettaja` int(11) NOT NULL,
+		  `teksti` TEXT NOT NULL,
+		  `is_katsonut` int(1) NOT NULL,
+		  `otsikko` varchar(255) NOT NULL,
+		  `piilottu_seuraavasta_idsta` varchar(255) NOT NULL
+		) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=latin1;
+		")->execute();
+
+		}
+
+		return "viestinta_yid_".Yii::app()->getModule('user')->user()->profile->getAttribute('yid');
+
 	}
 
 	/**
@@ -65,9 +86,9 @@ class Viestinta extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'time' => 'Time',
+			'time' => 'Lähetysaika',
 			'saaja' => 'Saaja',
-			'lahettaja' => 'Lahettaja',
+			'lahettaja' => 'Lähettäjä',
 			'teksti' => 'Teksti',
 		);
 	}

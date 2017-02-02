@@ -149,14 +149,14 @@ $(document).ready(function(){
  $(document).delegate(".poista","click",function(){
 	var pois = $(this).attr('pois');
 	var variables = [{'poista': pois}];
-	if(confirm('Haluatko poista tiedoston?'))
+	if(confirm('Haluatko poistaa tiedoston?'))
 	openAjaxTiedosto(variables);
  });
 
  $(document).delegate(".poistaKansio","click",function(){
 	var pois = $(this).attr('pois');
 	var variables = [{'poistaKansio': pois}];
-	if(confirm('Haluatko poista kansion?')){
+	if(confirm('Haluatko varmasti poistaa kansion? Myös kaikki alikansiot poistetaan.')){
 		openAjaxTiedosto(variables);
 		window.location.href="oma_kansio";
 	}

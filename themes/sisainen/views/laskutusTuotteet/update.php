@@ -5,13 +5,7 @@
         <!-- begin: .tray-center -->
         <div class="tray-center">
 
-	   <div class="pull-right">
-	   <?php     
-		$site = Yii::app()->createController('Site');
-		$site[0]->oikeudet($model->id,null);
-	   ?>
-	   </div>
-	   <h2 class="myBgColors p10"> <i class="glyphicon glyphicon-barcode"></i> <?php echo $model->tuotenimi; ?> </h2>
+	   <h2 class="myBgColors p10"> <i class=""></i> <?php echo $model->tuotenimi; ?> </h2>
 
 
             <div class="admin-form">

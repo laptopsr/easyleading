@@ -6,6 +6,7 @@ Viestinta::model()->updatebypk($model->id, array('is_katsonut'=>1));
 
 $model->saaja = $this->etuSukunimi($model->saaja);
 $model->lahettaja = $this->etuSukunimi($model->lahettaja);
+$model->teksti = str_replace("\n", "<br>", $model->teksti);
 ?>
 
 
@@ -64,7 +65,11 @@ $model->lahettaja = $this->etuSukunimi($model->lahettaja);
 		'saaja',
 		'lahettaja',
 		'otsikko',
-		'teksti',
+		//'teksti',
+        	array(               // related city displayed as a link
+	            'type'=>'html',
+	            'name'=>'teksti',
+	        ),
 	),
 )); ?>
 

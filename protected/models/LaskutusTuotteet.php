@@ -35,7 +35,7 @@ class LaskutusTuotteet extends CActiveRecord
 		  `alv` varchar(10) NOT NULL,
 		  `yksikko` varchar(20) NOT NULL,
 		  `netvisorkey` int(11) NOT NULL,
-		  `ryhma` int(3) NOT NULL,
+		  `ryhma` varchar(100) NOT NULL,
 		  `is_active` int(1) NOT NULL
 		) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=latin1;
 		")->execute();
@@ -54,9 +54,9 @@ class LaskutusTuotteet extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('tuotenimi, hinta_alv_0, hinta_alv_sis, alv, yksikko, is_active', 'required'),
-			array('netvisorkey, ryhma, is_active', 'numerical', 'integerOnly'=>true),
-			array('tuotenimi', 'length', 'max'=>100),
+			array('tuotenimi, hinta_alv_0, hinta_alv_sis, alv, is_active', 'required'),
+			array('netvisorkey, is_active', 'numerical', 'integerOnly'=>true),
+			array('tuotenimi, ryhma', 'length', 'max'=>100),
 			array('hinta_alv_0, hinta_alv_sis, yksikko', 'length', 'max'=>20),
 			array('alv', 'length', 'max'=>10),
 			// The following rule is used by search().

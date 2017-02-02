@@ -62,7 +62,7 @@
 	    <div class="input-group">
 	      <input type="text" id="teksti" class="form-control" placeholder="Kirjoita tähän...">
 	      <span class="input-group-btn">
-	        <button class="btn btn-primary laheta" type="button">Lähetä</button>
+	        <button class="btn btn-default btn-md laheta" type="button">Lähetä</button>
 	      </span>
 	    </div><!-- /input-group -->
 	  </div><!-- /.col-lg-6 -->

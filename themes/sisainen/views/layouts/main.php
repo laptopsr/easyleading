@@ -517,7 +517,7 @@ $curpage .= '/'.Yii::app()->getController()->getAction()->controller->action->id
                             </li>
                             <li>
                                 <a href="<?php echo Yii::app()->request->baseUrl; ?>/index.php/asetukset/update?id=1">
-                                    <i class="fa fa-user"></i> Laskutus asetukset
+                                    <i class="fa fa-money"></i> Netvisor asetukset
                                 </a>
                             </li>
                             <li>
@@ -596,6 +596,32 @@ $curpage .= '/'.Yii::app()->getController()->getAction()->controller->action->id
 
 		    <!-- Yrittaja -->
 		    <?php if(!Yii::app()->user->isGuest and Yii::app()->getModule('user')->user()->profile->getAttribute('tyyppi') == 1) : ?>
+
+
+                    <li class="panel">
+                        <a class="<?php if($curpage == 'viestinta/index' or $curpage == 'viestinta/create' or $curpage == 'viestinta/update' or $curpage == 'site/chat') echo 'active'; ?>" href="javascript:;" data-parent="#side" data-toggle="collapse" class="accordion-toggle" data-target="#viestinta">
+                            <i class="fa fa-envelope"></i> Viestintä <i class="fa fa-caret-down"></i>
+                        </a>
+                        <ul class="collapse <?php if($curpage == 'viestinta/index' or $curpage == 'viestinta/create' or $curpage == 'viestinta/update' or $curpage == 'site/chat') echo 'in'; ?> nav" id="viestinta">
+                    	 <li>
+	                        <a class="<?php if($curpage == 'viestinta/create') echo 'active'; ?>" href="<?php echo Yii::app()->request->baseUrl.'/index.php/viestinta/create'; ?>">
+	                            <i class="fa fa-users"></i> Luo viesti
+	                        </a>
+	                 </li>
+                    	 <li>
+	                        <a class="<?php if($curpage == 'viestinta/index') echo 'active'; ?>" href="<?php echo Yii::app()->request->baseUrl.'/index.php/viestinta/index'; ?>">
+	                            <i class="fa fa-users"></i> Kaikki viestit
+	                        </a>
+	                 </li>
+                    	 <li>
+                        	<a class="<?php if($curpage == 'site/chat') echo 'active'; ?>" href="<?php echo Yii::app()->request->baseUrl.'/index.php/site/chat'; ?>">
+                            	    <i class="fa fa-weixin"></i> Chatti
+                        	</a>
+                    	 </li>
+                        </ul>
+                    </li>
+
+
 
 
                     <li>
@@ -686,15 +712,35 @@ $curpage .= '/'.Yii::app()->getController()->getAction()->controller->action->id
                         </a>
                     </li>
 
-                    <li>
-                        <a href="<?php echo Yii::app()->request->baseUrl.'/index.php/laskut/index'; ?>">
-                            <i class="fa fa-money"></i> Laskutus
+
+                    <li class="panel">
+                        <a href="javascript:;" data-parent="#side" data-toggle="collapse" class="accordion-toggle" data-target="#laskutus">
+                            <i class="fa fa-money"></i> Myyntilaskut <i class="fa fa-caret-down"></i>
                         </a>
+                        <ul class="collapse nav" id="laskutus">
+                    	 <li>
+	                        <a href="<?php echo Yii::app()->request->baseUrl.'/index.php/laskut/create'; ?>">
+	                            <i class="fa fa-file"></i> Luo uusi lasku
+	                        </a>
+	                 </li>
+                    	 <li>
+	                        <a href="<?php echo Yii::app()->request->baseUrl.'/index.php/laskut/index'; ?>">
+	                            <i class="fa fa-money"></i> Kaikki laskut
+	                        </a>
+	                 </li>
+                    	 <li>
+	                        <a href="<?php echo Yii::app()->request->baseUrl.'/index.php/laskutusTuotteet/index'; ?>">
+	                            <i class="fa fa-plus-circle"></i> Tuotteet ja palvelut
+	                        </a>
+	                 </li>
+
+                        </ul>
                     </li>
+
 
                     <li>
                         <a href="<?php echo Yii::app()->request->baseUrl.'/index.php/raportit'; ?>">
-                            <i class="fa fa-bar-chart"></i> Raportit
+                            <i class="fa fa-line-chart"></i> Raportit
                         </a>
                     </li>
 
@@ -712,30 +758,6 @@ $curpage .= '/'.Yii::app()->getController()->getAction()->controller->action->id
                     </li>
 		    <?php endif; ?>
 		    <!-- Tyontekija -->
-
-
-                    <li class="panel">
-                        <a class="<?php if($curpage == 'viestinta/index' or $curpage == 'viestinta/create' or $curpage == 'viestinta/update' or $curpage == 'site/chat') echo 'active'; ?>" href="javascript:;" data-parent="#side" data-toggle="collapse" class="accordion-toggle" data-target="#viestinta">
-                            <i class="fa fa-envelope"></i> Viestintä <i class="fa fa-caret-down"></i>
-                        </a>
-                        <ul class="collapse <?php if($curpage == 'viestinta/index' or $curpage == 'viestinta/create' or $curpage == 'viestinta/update' or $curpage == 'site/chat') echo 'in'; ?> nav" id="viestinta">
-                    	 <li>
-	                        <a class="<?php if($curpage == 'viestinta/create') echo 'active'; ?>" href="<?php echo Yii::app()->request->baseUrl.'/index.php/viestinta/create'; ?>">
-	                            <i class="fa fa-users"></i> Luo viesti
-	                        </a>
-	                 </li>
-                    	 <li>
-	                        <a class="<?php if($curpage == 'viestinta/index') echo 'active'; ?>" href="<?php echo Yii::app()->request->baseUrl.'/index.php/viestinta/index'; ?>">
-	                            <i class="fa fa-users"></i> Kaikki viestit
-	                        </a>
-	                 </li>
-                    	 <li>
-                        	<a class="<?php if($curpage == 'site/chat') echo 'active'; ?>" href="<?php echo Yii::app()->request->baseUrl.'/index.php/site/chat'; ?>">
-                            	    <i class="fa fa-weixin"></i> Chatti
-                        	</a>
-                    	 </li>
-                        </ul>
-                    </li>
 
 
 

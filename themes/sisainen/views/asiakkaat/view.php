@@ -81,7 +81,7 @@ if($model->tyyppi == 1) $model->tyyppi = 'Yksityishenkilö';
                             <ol class="breadcrumb">
                                 <li><i class="fa fa-dashboard"></i>  <a href="<?php echo Yii::app()->request->baseUrl.'/index.php/site/index'; ?>">Etusivu</a></li>
                                 <li>  <a href="<?php echo Yii::app()->request->baseUrl.'/index.php/asiakkaat/index'; ?>">asiakkaat</a></li>
-                                <li class="active">  <a href="<?php echo Yii::app()->request->baseUrl.'/index.php/asiakkaat/update?id='.$model->id; ?>">muoka asiakas #<?php echo $model->id; ?></a></li>
+                                <li class="active">  <a href="<?php echo Yii::app()->request->baseUrl.'/index.php/asiakkaat/update?id='.$model->id; ?>">muokkaa asiakastietoja #<?php echo $model->id; ?></a></li>
                                 <li class="active">  asiakas #<?php echo $model->id; ?></li>
                             </ol>
                         </div>
@@ -95,7 +95,7 @@ if($model->tyyppi == 1) $model->tyyppi = 'Yksityishenkilö';
 <div class="portlet portlet-default">
   <div class="portlet-heading">
       <div class="portlet-title">
-         <h4>Katso työ</h4>
+         <h4>Asiakastiedot</h4>
       </div>
     <div class="clearfix"></div>
   </div>

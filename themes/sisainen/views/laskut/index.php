@@ -8,7 +8,7 @@
                     <div class="col-lg-12">
                         <div class="page-title">
                             <h1>
-                                Laskutus <a href="<?php echo Yii::app()->request->baseUrl.'/index.php/laskut/create'; ?>" data-toggle="tooltip" data-placement="right" title="Luo asiakas"><i class="fa fa-plus-square"></i></a>
+                                Laskutus <a href="<?php echo Yii::app()->request->baseUrl.'/index.php/laskut/create'; ?>" data-toggle="tooltip" data-placement="right" title="Luo uusi lasku"><i class="fa fa-plus-square"></i></a>
                             </h1>
                             <ol class="breadcrumb">
                                 <li><i class="fa fa-dashboard"></i>  <a href="<?php echo Yii::app()->request->baseUrl.'/index.php/site/index'; ?>">Etusivu</a>

@@ -45,7 +45,7 @@
 			}
 
 
-			$arr = array(
+			    $arr = array(
 				'id'=>$valueId,
 				'varaston_nimike'=>$data->varaston_nimike,
 				'sarakkeen_nimi'=>$data->sarakkeen_nimi,
@@ -55,12 +55,20 @@
 				'varaston_nimike_id'=>$data->id,
 				'tr_rivi'=>$tr_rivi,
 				'tuotteen_ryhman_nimike'=>$tuotteen_ryhman_nimike,
-			);
+			    );
+
+
 
 			$array = array();
 			$checkAlasveto = explode(":", $data->sarakkeen_nimi);
-			if(isset($checkAlasveto[1])) $array = explode(";", $checkAlasveto[1]);
-			if(is_array($array) and count($array) > 0 )
+			$yksikko = false;
+			if(isset($checkAlasveto[1])) 
+			{
+				$array = explode(";", $checkAlasveto[1]);
+				$yksikko = true;
+			}
+
+			if(is_array($array) and count($array) > 0)
 			{
 				echo '<div class="form-group">';
 				echo '<label for="recipient-name" class="form-control-label">'.$checkAlasveto[0].'</label>';
@@ -72,9 +80,7 @@
 
 			} else {
 
-
-			if($data->sarakkeen_tyyppi == 3)
-			{
+			   if($data->sarakkeen_tyyppi == 3 ) {
 
 /*
 				$ekaKuva = '';
@@ -104,6 +110,7 @@
 
 $this->widget('application.extensions.Slider.Slider',array(
 'items'=>$arr,
+
 'options'=>array(
 'speed'=>'3000',
 ),
@@ -127,7 +134,13 @@ $this->widget('application.extensions.Slider.Slider',array(
 				<input type="hidden" class="form-control" name="fileLomake[thisId]" value="'.$valueId.'">
 				<input type="hidden" class="form-control" name="fileLomake[tr_rivi]" value="'.$tr_rivi.'">
 			</div>';
-			} else {
+
+
+
+
+			  } 
+
+
 				echo '<div class="form-group">';
 				echo '<label for="recipient-name" class="form-control-label">'.$data->sarakkeen_nimi.':</label>';
 				echo '<input type="text" class="form-control" name="VarastoRakenne[sarakkeen_nimi][]" value="'.$value.'">';
@@ -135,7 +148,6 @@ $this->widget('application.extensions.Slider.Slider',array(
 			}
 
 
-			}
 
 				echo '<textarea class="form-control" name="VarastoOtsikkot[arr][]" style="display:none">'.json_encode($arr).'</textarea>';
 		}

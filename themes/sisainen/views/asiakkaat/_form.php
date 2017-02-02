@@ -237,7 +237,7 @@ if(!isset($model->id))
 	<br>
 
 	<div class="buttons">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Valmis' : 'Tallenna', array('class' => 'btn btn-default btn-lg')); ?>
+		<?php echo CHtml::submitButton($model->isNewRecord ? 'Valmis' : 'Tallenna', array('class' => 'btn btn-default btn-md')); ?>
 	</div>
 
 <?php $this->endWidget(); ?>

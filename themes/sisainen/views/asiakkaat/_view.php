@@ -11,9 +11,22 @@ if($data->tyyppi == 1) $nimike = $data->yhteyshenkilo;
 		<?php echo CHtml::link('<i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 110%"></i>', 
 				array('update', 'id'=>$data->id), 
 				array(
+					'class'=>'btn btn-default btn-md', 
 					'data-toggle'=>'tooltip', 
 					'data-placement'=>'top', 
 					'title'=>Yii::t('main', 'Muokkaa') 
+				)
+			); 
+		?>
+
+		<?php echo CHtml::link('<i class="fa fa-trash-o" aria-hidden="true" style="font-size: 110%"></i>', 
+				array('delete', 'id'=>$data->id), 
+				array(
+					'class'=>'btn btn-default btn-md', 
+					'data-toggle'=>'tooltip', 
+					'data-placement'=>'top', 
+					'title'=>Yii::t('main', 'Poista') 
+
 				)
 			); 
 		?>
