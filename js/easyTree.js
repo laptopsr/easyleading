@@ -190,7 +190,7 @@
                         $(easyTree).find('.alert .alert-content .confirm').on('click', function () {
                             $(selected).find(' ul ').remove();
                             if($(selected).parent('ul').find(' > li').length <= 1) {
-                                $(selected).parents('li').removeClass('parent_li').find(' > span > span').removeClass('fa fa-folder-open').addClass('fa fa-file');
+                                $(selected).parents('li').removeClass('parent_li').find(' > span > span').removeClass('fa-folder-open').addClass('fa fa-file');
                                 $(selected).parent('ul').remove();
                             }
                             $(selected).remove();
@@ -208,13 +208,13 @@
                     $(this).attr('title', options.i18n.expandTip)
                         .find(' > span.glyphicon')
                         .addClass('fa fa-folder')
-                        .removeClass('fa fa-folder-open');
+                        .removeClass('fa-folder-open');
                 } else {
                     children.show('fast');
                     $(this).attr('title', options.i18n.collapseTip)
                         .find(' > span.glyphicon')
                         .addClass('fa fa-folder-open')
-                        .removeClass('fa fa-folder');
+                        .removeClass('fa-folder');
                 }
                 e.stopPropagation();
             });

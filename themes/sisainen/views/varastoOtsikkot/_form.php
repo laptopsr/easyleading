@@ -92,7 +92,8 @@
 		$list = array(
 			1=>Yii::t('main', 'Tekstinä'), 
 			2=>Yii::t('main', 'Numerona'), 
-			3=>Yii::t('main', 'Valokuva')
+			3=>Yii::t('main', 'Valokuva'),
+			4=>Yii::t('main', 'Alasvetovaliko')
 		);
         	echo $form->dropDownList($model, 'sarakkeen_tyyppi', $list,
 		array('class'=>'form-control'));	
@@ -134,7 +135,7 @@
 </div><!-- form -->
 
 	<div class="buttons">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Luo' : 'Tallenna', array('class'=>'submit btn btn-default')); ?>
+		<?php echo CHtml::submitButton($model->isNewRecord ? 'Luo' : 'Tallenna', array('class'=>'submit btn btn-default submitRakenne')); ?>
 	</div>
 
 <?php $this->endWidget(); ?>
@@ -161,6 +162,18 @@ $('#olemassa').change(function(){
 	$('#VarastoOtsikkot_varaston_nimike').attr('readonly','yes').val(thisVal);
 });
 
+$('.submitRakenne').click(function(){
+	var tyyppi = $('#VarastoOtsikkot_sarakkeen_tyyppi option:selected').val();
+	var sarakkeen_nimi = $('#VarastoOtsikkot_sarakkeen_nimi').val();
+
+	if(( sarakkeen_nimi.indexOf(":") > -1 ) && (tyyppi != '4'))
+	{
+		alert('Kaksoispiste merkki sopisi vain Alasvetovalikkon tyyppille Sarakkeen tyyppi alla');
+		return false;
+	}
+
+
+});
 
 });
 </script>

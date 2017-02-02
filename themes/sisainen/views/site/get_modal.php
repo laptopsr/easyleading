@@ -2,6 +2,9 @@
 
 ?>
 
+
+
+
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -45,7 +48,7 @@
 			}
 
 
-			    $arr = array(
+			$arr = array(
 				'id'=>$valueId,
 				'varaston_nimike'=>$data->varaston_nimike,
 				'sarakkeen_nimi'=>$data->sarakkeen_nimi,
@@ -55,14 +58,14 @@
 				'varaston_nimike_id'=>$data->id,
 				'tr_rivi'=>$tr_rivi,
 				'tuotteen_ryhman_nimike'=>$tuotteen_ryhman_nimike,
-			    );
+			);
 
 
 
 			$array = array();
 			$checkAlasveto = explode(":", $data->sarakkeen_nimi);
 			$yksikko = false;
-			if(isset($checkAlasveto[1])) 
+			if($data->sarakkeen_tyyppi == 4 and isset($checkAlasveto[1])) 
 			{
 				$array = explode(";", $checkAlasveto[1]);
 				$yksikko = true;
@@ -72,7 +75,8 @@
 			{
 				echo '<div class="form-group">';
 				echo '<label for="recipient-name" class="form-control-label">'.$checkAlasveto[0].'</label>';
-				echo '<select class="form-control" name="VarastoRakenne[sarakkeen_nimi][]">';
+				echo '<select class="form-control" name="VarastoOtsikkot[sarakkeen_nimi]['.$data->sarakkeen_nimi.']">';
+				echo '<option value="'.$value.'">'.$value.'</option>';
 				foreach($array as $val)
 				echo '<option value="'.$val.'">'.$val.'</option>';
 				echo '</select>';
@@ -80,71 +84,56 @@
 
 			} else {
 
-			   if($data->sarakkeen_tyyppi == 3 ) {
+			 	if($data->sarakkeen_tyyppi == 3 ) 
+				{
 
-/*
-				$ekaKuva = '';
+
 				if(is_array(json_decode($value, true)))
 				{
 					$kuvat = json_decode($value, true);
 
-
 					echo '<div class="row">';
+					echo '<div class="slider1">';
+
 					foreach($kuvat as $item)
 					{
 					echo '
-					 <div class="col-sm-4">
-					  <span class="openModalImage">
-						<img src="../../'.$nextPath.'/'.$item.'" class="img-thumbnail">
-					  </span>
-					 </div>
+						<div class="slide"><img src="../../'.$nextPath.'/'.$item.'" class="img-thumbnail" /></div>
+
 					';
 					}
-					echo '</div><br>';
-
-					$arr = array();
-					foreach($kuvat as $item)
-					{
-					$arr['../../'.$nextPath.'/'.$item] = $item;
-					}
-
-$this->widget('application.extensions.Slider.Slider',array(
-'items'=>$arr,
-
-'options'=>array(
-'speed'=>'3000',
-),
-));
+					echo '</div></div><br>';
 
 
 				}
-*/
-
-
-			echo '
-			<div class="form-group">
-				<label>'.$data->sarakkeen_nimi.'</label>
-				<input type="file" class="form-control" name="fileToUpload[]" multiple id="fileToUpload" data-toggle="tooltip" data-placement="top" title="Kun haluat valita monta kuvaa käytä CTRL ja hiiri. Ensimmäinen kuva tule tauluun">
-				<input type="hidden" class="form-control" name="fileLomake[varaston_nimike]" value="'.$data->varaston_nimike.'">
-				<input type="hidden" class="form-control" name="fileLomake[tuotteen_ryhman_nimike]" value="'.$tuotteen_ryhman_nimike.'">
-				<input type="hidden" class="form-control" name="fileLomake[sarakkeen_nimi]" value="'.$data->sarakkeen_nimi.'">
-				<input type="hidden" class="form-control" name="fileLomake[sarakkeen_tyyppi]" value="'.$data->sarakkeen_tyyppi.'">
-				<input type="hidden" class="form-control" name="fileLomake[position]" value="'.$data->position.'">
-				<input type="hidden" class="form-control" name="fileLomake[sum]" value="'.$data->sum.'">
-				<input type="hidden" class="form-control" name="fileLomake[thisId]" value="'.$valueId.'">
-				<input type="hidden" class="form-control" name="fileLomake[tr_rivi]" value="'.$tr_rivi.'">
-			</div>';
 
 
 
+				echo '
+				<div class="form-group">
+					<label>'.$data->sarakkeen_nimi.'</label>
+					<input type="file" class="form-control" name="fileToUpload[]" multiple id="fileToUpload" data-toggle="tooltip" data-placement="top" title="Kun haluat valita monta kuvaa käytä CTRL ja hiiri. Ensimmäinen kuva tule tauluun">
+					<input type="hidden" class="form-control" name="fileLomake[varaston_nimike]" value="'.$data->varaston_nimike.'">
+					<input type="hidden" class="form-control" name="fileLomake[tuotteen_ryhman_nimike]" value="'.$tuotteen_ryhman_nimike.'">
+					<input type="hidden" class="form-control" name="fileLomake[sarakkeen_nimi]" value="'.$data->sarakkeen_nimi.'">
+					<input type="hidden" class="form-control" name="fileLomake[sarakkeen_tyyppi]" value="'.$data->sarakkeen_tyyppi.'">
+					<input type="hidden" class="form-control" name="fileLomake[position]" value="'.$data->position.'">
+					<input type="hidden" class="form-control" name="fileLomake[sum]" value="'.$data->sum.'">
+					<input type="hidden" class="form-control" name="fileLomake[thisId]" value="'.$valueId.'">
+					<input type="hidden" class="form-control" name="fileLomake[tr_rivi]" value="'.$tr_rivi.'">
+				</div>';
 
-			  } 
+
+
+
+			  	} else {
 
 
 				echo '<div class="form-group">';
 				echo '<label for="recipient-name" class="form-control-label">'.$data->sarakkeen_nimi.':</label>';
-				echo '<input type="text" class="form-control" name="VarastoRakenne[sarakkeen_nimi][]" value="'.$value.'">';
+				echo '<input type="text" class="form-control" name="VarastoOtsikkot[sarakkeen_nimi]['.$data->sarakkeen_nimi.']" value="'.$value.'">';
 				echo '</div>';
+				}
 			}
 
 
@@ -164,4 +153,15 @@ $this->widget('application.extensions.Slider.Slider',array(
       </div>
     </div>
   </div>
+
+<script>
+$(document).ready(function(){
+  $('.slider1').bxSlider({
+    slideWidth: 300,
+    minSlides: 2,
+    maxSlides: 3,
+    slideMargin: 10
+  });
+});
+</script>
 

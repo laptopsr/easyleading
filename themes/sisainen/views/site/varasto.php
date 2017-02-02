@@ -3,6 +3,10 @@
 /* @var $dataProvider CActiveDataProvider */
 ?>
 
+    <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/bxslider/jquery.bxslider.js" type="text/javascript"></script>
+    <link href="<?php echo Yii::app()->request->baseUrl; ?>/js/bxslider/jquery.bxslider.css" rel="stylesheet" type="text/css" />
+
+
                 <!-- begin PAGE TITLE ROW -->
                 <div class="row">
                     <div class="col-lg-12">
@@ -293,6 +297,13 @@ $(document).ready(function(){
 	</thead>
 	<tbody>
 
+	<?php
+	$criteria = new CDbCriteria;
+	$criteria->order = " position ASC ";
+	$criteria->condition = " varaston_nimike='".$varasto->varaston_nimike."' AND naytetaan_taulussa=1 ";
+	$varastoOtsikkot = VarastoOtsikkot::model()->findAll($criteria);
+	?>
+
 	<?php 
 	$nextPath = "uploaded/varasto/yritys_".Yii::app()->getModule('user')->user()->profile->getAttribute('yid');
 	$this->widget('zii.widgets.CListView', array(
@@ -335,7 +346,7 @@ $(document).ready(function(){
 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery.dataTables.min.js"></script>
 */?>
 
-<div id="showres" class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div id="showres" class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 
 
 <script type="text/javascript">
@@ -434,7 +445,7 @@ $(document).ready(function(){
 	   data: { backLinkID : backLinkID, varaston_nimike : varaston_nimike, tr_rivi : tr_rivi, tuotteen_ryhman_nimike : tuotteen_ryhman_nimike },
            success: function(data){
 		data=JSON.parse(data);
-		console.log(data);
+		//console.log(data);
 		$('#showres').modal().html(data);
               },
 	   error:function(data){

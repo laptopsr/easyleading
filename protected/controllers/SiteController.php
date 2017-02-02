@@ -324,19 +324,36 @@ class SiteController extends Controller
 							var_dump($v->getErrors());
 							exit;
 						}
+
 				}
 
 			}
 			//  Onko kuva -->
 
 
+			/*
+			echo '<pre>';
+			print_r($_POST);
+			echo '</pre>';
+			exit;
+			*/
 
-			foreach($_POST['VarastoOtsikkot']['sarakkeen_nimi'] as $key=>$value)
+			foreach($_POST['VarastoOtsikkot']['arr'] as $key=>$value)
 			{
+				$arr = json_decode($value, true);
+				if($arr['sarakkeen_tyyppi'] == 3)
+				continue;
 
-				if(empty($value)) $value = 0;
-				$arr = json_decode($_POST['VarastoOtsikkot']['arr'][$key], true);
+				$value = $_POST['VarastoOtsikkot']['sarakkeen_nimi'][$arr['sarakkeen_nimi']];
 
+				/*
+				echo '<pre>';
+				print_r($arr);
+				echo '</pre>';
+				exit;
+				*/
+
+			
 				$v = new VarastoRakenne;
 				$v->attributes=$arr;
 				$v->value=$value;
@@ -473,12 +490,12 @@ class SiteController extends Controller
 	{
 
 
-		
+		/*
 		echo '<pre>';
 		print_r($_POST);
 		echo '</pre>';
 		exit;
-		
+		*/
 		
 
 			// <-- Onko kuva
@@ -517,14 +534,43 @@ class SiteController extends Controller
 							var_dump($v->getErrors());
 							exit;
 						}
+
 				}
 
 			}
 			//  Onko kuva -->
 
 			
-			if(isset($_POST['VarastoRakenne']['sarakkeen_nimi']))
+			if(isset($_POST['VarastoOtsikkot']['arr']))
 			{
+
+			foreach($_POST['VarastoOtsikkot']['arr'] as $key=>$value)
+			{
+				$arr = json_decode($value, true);
+				if($arr['sarakkeen_tyyppi'] == 3)
+				continue;
+
+				$model = VarastoRakenne::model()->findByPk($arr['id']);
+				if(isset($model->id)) {
+					$v = $model;
+				} else {
+					$v = new VarastoRakenne;
+				}
+
+				$value = $_POST['VarastoOtsikkot']['sarakkeen_nimi'][$arr['sarakkeen_nimi']];
+
+			
+				$v->attributes=$arr;
+				$v->value=$value;
+				$v->tuotteen_ryhman_nimike=$arr['tuotteen_ryhman_nimike'];
+				$v->tr_rivi=$arr['tr_rivi'];
+				if(!$v->save()){
+					var_dump($v->getErrors());
+					exit;
+				}
+			}
+
+/*
 			  foreach($_POST['VarastoRakenne']['sarakkeen_nimi'] as $key=>$value)
 			  {
 
@@ -553,6 +599,7 @@ class SiteController extends Controller
 				}
 
 			  }
+*/
 			}
 				$this->redirect(array('varasto', 'id'=>$_POST['backLinkID']));
 				//echo json_encode('ok');

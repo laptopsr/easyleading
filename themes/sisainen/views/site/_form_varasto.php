@@ -53,7 +53,6 @@
 			$tyyppi = 'file';
 
 		$arr = array(
-				'yid'=>$data->yid,
 				'varaston_nimike'=>$data->varaston_nimike,
 				'sarakkeen_nimi'=>$data->sarakkeen_nimi,
 				'sarakkeen_tyyppi'=>$data->sarakkeen_tyyppi,
@@ -72,7 +71,7 @@
 			<div class="">
 				<label>'.$checkAlasveto[0].'</label>';
 
-				echo '<select class="form-control" name="VarastoRakenne[sarakkeen_nimi][]">';
+				echo '<select class="form-control" name="VarastoOtsikkot[sarakkeen_nimi]['.$data->sarakkeen_nimi.']">';
 				foreach($array as $val)
 				echo '<option value="'.$val.'">'.$val.'</option>';
 				echo '</select>';
@@ -98,7 +97,7 @@
 			echo '
 			<div class="">
 				<label>'.$data->sarakkeen_nimi.'</label>
-				<input type="'.$tyyppi.'" class="form-control" name="VarastoOtsikkot[sarakkeen_nimi][]">
+				<input type="'.$tyyppi.'" class="form-control" name="VarastoOtsikkot[sarakkeen_nimi]['.$data->sarakkeen_nimi.']">
 			</div>';
 			}
 		}

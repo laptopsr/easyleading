@@ -64,6 +64,7 @@ a:focus {
 /* Use these to cuztomize the background color of a div. These are used along with tiles, or any other div you want to customize. */
 
 /* Roman */
+.link { cursor: pointer }
 span.required{
 	color: red;
 }
