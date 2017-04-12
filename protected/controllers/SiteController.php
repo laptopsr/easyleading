@@ -43,7 +43,7 @@ class SiteController extends Controller
                 		'expression'=>"Yii::app()->controller->VarastonOmmistaja()",
 			),
 			array('allow', 
-				'actions'=>array('varaston_poisto', 'keyup_updater', 'getModal', 'saveModal', 'annaKaikkiKuvat', 'tuotanto', 'oma_kansio', 'foldertree'),
+				'actions'=>array('varaston_poisto', 'keyup_updater', 'getModal', 'saveModal', 'annaKaikkiKuvat', 'tuotanto', 'oma_kansio', 'foldertree', 'projektit'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -90,6 +90,11 @@ class SiteController extends Controller
 
 	}
 
+
+	public function actionProjektit()
+	{
+		$this->render('projektit');
+	}
 
 	public function actionFoldertree()
 	{
