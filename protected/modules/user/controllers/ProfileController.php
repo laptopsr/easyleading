@@ -21,6 +21,18 @@ class ProfileController extends Controller
 	    ));
 	}
 
+	// <-- Teematus
+        public function init()
+        {
+
+		if(Yii::app()->user->isGuest){
+                        Yii::app()->theme = 'classic';
+                } elseif(!Yii::app()->user->isGuest) {
+                        Yii::app()->theme = 'sisainen';
+                }
+                parent::init();
+        }
+	//     Teematus -->
 
 	/**
 	 * Updates a particular model.

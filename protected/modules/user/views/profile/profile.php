@@ -26,13 +26,38 @@ $this->menu=array(
 </div>
 <?php endif; ?>
 
-<div class="row">
- <div class="col-sm-4">
 
 
-   <div class="panel panel-primary">
-     <div class="panel-heading"><i class="fa fa-user"></i> Profiili</div>
-     <div class="panel-body">
+
+                <!-- begin PAGE TITLE ROW -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="page-title">
+                            <h1>
+                                Profiili 
+                            </h1>
+                            <ol class="breadcrumb">
+                                <li><i class="fa fa-dashboard"></i>  <a href="<?php echo Yii::app()->request->baseUrl.'/index.php/site/index'; ?>">Etusivu</a>
+                                </li>
+                                <li class="active">profiili</li>
+                            </ol>
+                        </div>
+                    </div>
+                    <!-- /.col-lg-12 -->
+                </div>
+                <!-- /.row -->
+                <!-- end PAGE TITLE ROW -->
+
+
+
+<div class="portlet portlet-default">
+  <div class="portlet-heading">
+      <div class="portlet-title">
+         <h4>Profiili</h4>
+      </div>
+    <div class="clearfix"></div>
+  </div>
+  <div class="portlet-body">
 
   <div class="table-responsive">
   <table class="table table-hover">
@@ -78,39 +103,38 @@ $this->menu=array(
   </table>
   </div>
 
-	<div class="row">
-	 <div class="col-sm-12">
-		<?php echo CHtml::link('Muokkaa profiilia', Yii::app()->request->baseUrl.'/index.php/user/profile/edit', array('class'=>'btn btn-primary')); ?>
-	
-	 </div>
+	<br>
+	<div class="">
+		<?php echo CHtml::link('Muokkaa profiilia', Yii::app()->request->baseUrl.'/index.php/user/profile/edit', array('class'=>'btn btn-default')); ?>
 	</div>
 
-    </div>
-  </div>
 
-
-
-
+ </div>
 </div>
-</div>
+<!-- /.portlet -->
+
+
+
 
 
 <?php if(UserModule::isAdmin()) : ?>
-<div class="row">
- <div class="col-sm-4">
-   <div class="panel panel-primary">
-     <div class="panel-heading"><i class="fa fa-tasks"></i> Hallinta</div>
-     <div class="panel-body">
+<div class="portlet portlet-default">
+  <div class="portlet-heading">
+      <div class="portlet-title">
+         <h4>Hallinta</h4>
+      </div>
+    <div class="clearfix"></div>
+  </div>
+  <div class="portlet-body">
 	<?php 
 		if(UserModule::isAdmin())
-		echo CHtml::link('Hallitse profiileja',Yii::app()->request->baseUrl.'/index.php/user/admin',array('class'=>'btn btn-block btn-primary'));
-		echo CHtml::link('Listaa profiilit',Yii::app()->request->baseUrl.'/index.php/user',array('class'=>'btn btn-block btn-primary'));
+		echo CHtml::link('Hallitse profiileja',Yii::app()->request->baseUrl.'/index.php/user/admin',array('class'=>'btn btn-block btn-default'));
+		//echo CHtml::link('Listaa profiilit',Yii::app()->request->baseUrl.'/index.php/user',array('class'=>'btn btn-block btn-default'));
 
 	?>
-    </div>
-  </div>
  </div>
 </div>
+<!-- /.portlet -->
 <?php endif; ?>
 
 

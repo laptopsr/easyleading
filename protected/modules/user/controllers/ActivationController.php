@@ -5,6 +5,19 @@ class ActivationController extends Controller
 	public $defaultAction = 'activation';
 
 	
+	// <-- Teematus
+        public function init()
+        {
+
+		if(Yii::app()->user->isGuest){
+                        Yii::app()->theme = 'classic';
+                } elseif(!Yii::app()->user->isGuest) {
+                        Yii::app()->theme = 'sisainen';
+                }
+                parent::init();
+        }
+	//     Teematus -->
+
 	/**
 	 * Activation user account
 	 */

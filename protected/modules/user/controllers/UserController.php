@@ -28,11 +28,29 @@ class UserController extends Controller
 				'actions'=>array('index','view'),
 				'users'=>array('*'),
 			),
+			array('allow',  
+				'actions'=>array('create','update'),
+				'users'=>array('@'),
+			),
 			array('deny',  // deny all users
 				'users'=>array('*'),
 			),
 		);
 	}	
+
+
+	// <-- Teematus
+        public function init()
+        {
+
+		if(Yii::app()->user->isGuest){
+                        Yii::app()->theme = 'classic';
+                } elseif(!Yii::app()->user->isGuest) {
+                        Yii::app()->theme = 'sisainen';
+                }
+                parent::init();
+        }
+	//     Teematus -->
 
 	/**
 	 * Displays a particular model.
@@ -45,16 +63,86 @@ class UserController extends Controller
 		));
 	}
 
+	public function actionCreate()
+	{
+		$model=new User;
+		$profile=new Profile;
+		$this->performAjaxValidation(array($model,$profile));
+
+		if(isset($_POST['User']))
+		{
+			$model->attributes=$_POST['User'];
+			$model->username = $_POST['User']['username'];
+			$model->email = $_POST['User']['email'];
+			$model->password = $_POST['User']['password'];
+			$model->status = $_POST['User']['status'];
+
+			$model->activkey=Yii::app()->controller->module->encrypting(microtime().$model->password);
+			$profile->attributes=$_POST['Profile'];
+			$profile->user_id=0;
+			if($model->validate()&&$profile->validate()) {
+				$model->password=Yii::app()->controller->module->encrypting($_POST['User']['password']);
+				if($model->save()) {
+					$profile->user_id=$model->id;
+					$profile->yid=Yii::app()->user->id;
+					$profile->save();
+				}
+				$this->redirect(array('//user'));
+			} else $profile->validate();
+		}
+
+		$this->render('create',array(
+			'model'=>$model,
+			'profile'=>$profile,
+		));
+	}
+
+
+	public function actionUpdate()
+	{
+		$model=$this->loadModel();
+		$profile=$model->profile;
+		$this->performAjaxValidation(array($model,$profile));
+		if(isset($_POST['User']))
+		{
+			$model->attributes=$_POST['User'];
+			$model->username = $_POST['User']['username'];
+			$model->email = $_POST['User']['email'];
+			$model->status = $_POST['User']['status'];
+
+			$profile->attributes=$_POST['Profile'];
+			if($model->validate()&&$profile->validate()) {
+				$old_password = User::model()->notsafe()->findByPk($model->id);
+				if (!empty($_POST['User']['password']) and $old_password->password!=$_POST['User']['password']) {
+					$model->password=Yii::app()->controller->module->encrypting($_POST['User']['password']);
+					$model->activkey=Yii::app()->controller->module->encrypting(microtime().$_POST['User']['password']);
+				}
+				$model->save();
+				$profile->save();
+				$this->redirect(array('//user'));
+			} else $profile->validate();
+		}
+
+		$this->render('update',array(
+			'model'=>$model,
+			'profile'=>$profile,
+		));
+	}
+
 	/**
 	 * Lists all models.
 	 */
 	public function actionIndex()
 	{
+
+	        $criteria=new CDbCriteria;
+		$criteria->condition="
+			status > '".User::STATUS_BANNED."'
+			AND yid='".Yii::app()->user->id."'
+		";
+
 		$dataProvider=new CActiveDataProvider('User', array(
-			'criteria'=>array(
-		        'condition'=>'status>'.User::STATUS_BANNED,
-		    ),
-				
+			'criteria'=>$criteria,
 			'pagination'=>array(
 				'pageSize'=>Yii::app()->controller->module->user_page_size,
 			),
@@ -98,4 +186,13 @@ class UserController extends Controller
 		}
 		return $this->_model;
 	}
+
+    protected function performAjaxValidation($validate)
+    {
+        if(isset($_POST['ajax']) && $_POST['ajax']==='user-form')
+        {
+            echo CActiveForm::validate($validate);
+            Yii::app()->end();
+        }
+    }
 }

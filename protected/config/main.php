@@ -23,6 +23,10 @@
   $user = 'vetelfi_vetel';
   $pass = 'KristinA1';
 */
+  $db = 'easyleading';
+  $host = 'localhost';
+  $user = 'root';
+  $pass = '';
   }
 
 
@@ -38,9 +42,7 @@ return array(
         'application.components.*',
         'application.modules.user.models.*',
         'application.modules.user.components.*',
-	'application.extensions.carouFredSel.*',
-	//'application.extensions.EasySlider.*',
-
+	'ext.YiiMailer.YiiMailer',
 	),
 
     'modules'=>array(
@@ -160,18 +162,19 @@ return array(
                 'baseUrl'=>'js/',
                 'js'=>array(
 		    'jquery-1.11.2.min.js',
-		    'jquery-ui.min.js',
-		    'datepicker-fi.js',	
+		    //'jquery-ui.min.js',
+		    //'datepicker-fi.js',	
 		),
             ),
             'bootstrapJS'=>array(                       //set others js libraries
                 'baseUrl'=>'js/',
                 'js'=>array(
-		    'bootstrap355.min.js',
+		    'bootstrap.min.js',
 		    'bootstrap-slider.js',
 		    'bootstrap-filestyle.min.js',
 		    'bootstrap-select.js',
 		    'bootstrap-switch.js',
+		    'jquery.pulse.js',
 		    //'bootstrap-datepicker.js',
 		    //'bootstrap-datepicker.fi.js',
 		    'asetukset.js',
@@ -183,8 +186,8 @@ return array(
                 'baseUrl'=>'css/',
                 'css'=>array(  
 		    'jquery-ui.css',
-                    'bootstrap355.min.css',
-                    'bootstrap_custom_theme.min.css',
+                    'bootstrap.min.css',
+                    //'bootstrap_custom_theme.min.css',
                     'bootstrap-switch.css',
                     'bootstrap-select.min.css',
                     'bootstrap-slider.css',
@@ -258,5 +261,6 @@ return array(
 	'params'=>array(
 		// this is used in contact page
 		'adminEmail'=>'webmaster@example.com',
+		'site_host'=>$_SERVER['HTTP_HOST'],
 	),
 );

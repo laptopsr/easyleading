@@ -4,59 +4,24 @@ height: 100%;
 
 }
 
-
+/*
 #etusivu .painike{
-	border:3px rgba(0, 157, 218, 1) solid;
 	text-align: center;
 	border-radius: 25px;
 }
-
-
-
-
-@media screen and (max-width:480px){
-
-  #gogo.well, .container.container-fluid{
-	padding:0;
-	margin:0;
-  }
-  .form-inline input[type="radio"]{
-   	width: 50px;
-	height: 20px;
-	margin: auto;
-	position: relative;
-	background: #fff;
-	border: none;
-	border-radius: 2px;
-	-webkit-border-radius: 2px;
-	-moz-border-radius: 2px;
-  }
-  .modal-title h2{
-	font-size: 100%;
-  }
+.btn-primary{
+	border:3px rgba(0, 157, 218, 1) solid;
 }
-
-
-
-.modal-header, .modal-footer {
-    border-top:1px solid white;
-    border-left:1px solid white;
-    border-right:1px solid white;
-    text-align: left;
-    font-size: 23px;
-    color: white;
-    background: rgba(46,46,46,1);
-    border-bottom:0px;
-    white-space: normal;
+.btn-success{
+	border:3px rgba(92,184,92) solid;
 }
-
-.modal-header .close {
-    font-size: 200%;
-    line-height: 1;
-    color: red !important; 
-    opacity: 1;
-    text-shadow: 0 1px 0 #fff;
+.btn-warning{
+	border:3px rgba(92,184,92) solid;
 }
+*/
+
+
+
 
 
 .link{ cursor: pointer }

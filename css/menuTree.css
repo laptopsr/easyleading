@@ -1,0 +1,149 @@
+@charset "utf-8";
+
+ul.menuTreeCommands {
+    margin: 0 0 0 10px;
+    padding: 0;
+}
+
+.menuTreeCommands li.spacer{
+   padding: 0 0 0 0;
+}
+
+.menuTreeCommands li {
+    display: inline;
+    margin: 0 5px 0 0;
+}
+
+.menuTreeCommands a
+{
+	font-size: 0.7em;
+	color: #000;
+	text-decoration: none;
+	padding: 2px 5px;
+	border: 1px solid #ccc;  
+	letter-spacing: 0;
+}
+
+.menuTreeCommands a:hover {
+    background-color: #ffdab9;
+    text-decoration: none;
+}
+
+
+.menuTree
+{
+    /* You can allow the font from your main style sheet to be 
+        inherited here. */
+    clear: both;
+	margin: 0 20px 0 0;
+	padding: 10px 0px 10px 0;
+}
+
+.menuTree li {
+	list-style-type: none;
+	line-height: 1.5em;
+	/* Uncomment the white-space declaration to force text in nodes on one line */
+	/* white-space: nowrap; */
+}
+
+
+/* Menus bellow the first level */
+.menuTree li ul {
+	margin-left: 7px;
+	padding: 0px;
+}
+
+/* Start: For IE 6 */
+.menuTree li a {
+	background-color: transparent; 
+	color: #000;
+	font-size: 1em;
+	margin-left: 7px;
+	padding: 0 3px 0 3px;
+	text-decoration: none; 
+    /* For IE */
+	height: 1.5em;
+}
+
+.menuTree li.selected a  {
+    font-weight: bold;
+}
+
+.menuTree li a:hover  {
+    padding: 0 2px 0 2px;
+    border: 1px solid #808080;
+    background-color: #fdf5e6;
+}
+/* End: For IE 6
+
+/* Start: Tweaks For Modern Browsers like Firefox */
+/* Remarks: these rely on settings for IE 6 above */
+
+/* Removes the dotted line on focus in Firefox
+but only for mouse events. Keeps them for keyboard events
+http://sonspring.com/journal/removing-dotted-links */
+a:focus
+{
+    outline: none;
+}
+
+.menuTree>li a {
+    background-color: transparent;
+	margin-left: 0;
+	padding: 0 3px 0 17px;
+}
+
+.menuTree>li a:hover {
+    background-color: transparent; 
+    border: 0;
+}
+
+.menuTree>li a span {
+    padding: 0 3px;
+}
+
+.menuTree>li a:hover span {
+    margin-left: 15px;
+    padding: 0 2px;
+    border: 1px solid #808080;
+    background-color: #fdf5e6;
+}
+/* End: Tweaks For Modern Browsers like Firefox */
+
+
+
+/*  You might like to differentiate the actuator.
+    An actuator is the node you click to expand or collapse a sub menu 
+.menuTree li a.actuator {
+    
+}
+
+.menuTree li a.actuator:hover {
+
+} */
+
+
+.menuTree li.parent
+{
+   background: url(images/menuTree/expanded.gif) no-repeat 5px 0.35em;
+}
+
+.menuTree.colorGuides li, .menuTree.colorGuides li.parent {
+    background-color: #ffd35f;
+}
+
+.menuTree.colorGuides li.parent li  {
+    background-color: #ffe59f;
+}
+
+.menuTree.colorGuides li.parent li li{
+    background-color:  #fff2cf;
+} 
+
+.menuTree.colorGuides li.parent li li li {
+    background-color:  #fffbef;
+} 
+
+.menuTree.colorGuides li.parent li li li li {
+    background-color:  #fff;
+} 
